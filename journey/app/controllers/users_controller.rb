@@ -30,7 +30,6 @@ class UsersController < Clearance::UsersController
         local = pr.phone_local.to_s.gsub(/\D/, "")  # nur Ziffern
         pr.phone = "+#{code}#{local}" if code.present? && local.present?
       end
-      # <<<
 
       if @user.save
         redirect_to Clearance.configuration.redirect_url, notice: "Account created."
