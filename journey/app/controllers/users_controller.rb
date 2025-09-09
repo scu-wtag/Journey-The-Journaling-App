@@ -2,7 +2,7 @@ class UsersController < Clearance::UsersController
   before_action :redirect_signed_in, only: [:new, :create]
 
   def new
-    @user = user_from_params
+    @user = User.new
     @user.build_profile unless @user.profile
   end
 
