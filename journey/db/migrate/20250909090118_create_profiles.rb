@@ -5,7 +5,7 @@ class CreateProfiles < ActiveRecord::Migration[8.0]
       t.string :phone_country_code
       t.string :phone_local
       t.string :phone
-      t.date :bday
+      t.date :birthday
       t.string :country
       t.string :hq
 
