@@ -8,8 +8,7 @@ class Ability
       can :manage, :all
     elsif user.role?("member")
       can :read, :all
-    else # guest
-      # guests have no special powers
+    else
     end
   end
 end

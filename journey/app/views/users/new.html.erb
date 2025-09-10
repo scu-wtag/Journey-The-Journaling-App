@@ -1,8 +1,8 @@
-<h1>Create your account</h1>
+<h1><%= t("users.new.title") %></h1>
 
 <% if @user.errors.any? %>
   <div style="color:#b00">
-    <p><strong>Could not create account:</strong></p>
+    <p><strong><%= t("users.new.create_failed") %></strong></p>
     <ul>
       <% @user.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
     </ul>
@@ -10,71 +10,74 @@
 <% end %>
 
 <%= form_with model: @user, url: users_path, method: :post, data: { turbo: false } do |f| %>
-  <!-- Required fields -->
   <p>
-    <%= f.label :email %><br>
+    <%= f.label :email, t("users.new.fields.email") %><br>
     <%= f.email_field :email, required: true, autocomplete: "username" %>
   </p>
 
   <p>
-    <%= f.label :name %><br>
+    <%= f.label :name, t("users.new.fields.name") %><br>
     <%= f.text_field :name, required: true, autocomplete: "name" %>
   </p>
 
   <p>
-    <%= f.label :password %><br>
+    <%= f.label :password, t("users.new.fields.password") %><br>
     <%= f.password_field :password, required: true, autocomplete: "new-password" %>
   </p>
 
   <p>
-    <%= f.label :password_confirmation, "Repeat password" %><br>
+    <%= f.label :password_confirmation, t("users.new.fields.password_confirmation") %><br>
     <%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
   </p>
 
-    <%= f.fields_for :profile do |p| %>
+  <%= f.fields_for :profile do |p| %>
     <fieldset style="border:0; padding:0; margin-top:1rem">
-        <legend style="font-weight:600">Optional</legend>
+      <legend style="font-weight:600"><%= t("users.new.optional_legend") %></legend>
 
-        <div class="field">
-        <span class="label">Phone</span>
+      <div class="field">
+        <span class="label"><%= t("users.new.phone") %></span>
         <div class="phone-row">
-            <%= p.select :phone_country_code,
-            options_for_select([
-                ['🇨🇭 +41 Switzerland', '41'],
-                ['🇩🇪 +49 Germany',     '49'],
-                ['🇦🇹 +43 Austria',     '43'],
-                ['──────────', '---'],
-                ['🇬🇧 +44 United Kingdom', '44'],
-                ['🇺🇸 +1 United States',   '1'],
-                ['🇯🇵 +81 Japan',          '81'],
-                ['🇦🇺 +61 Australia',      '61']
-            ], selected: p.object&.phone_country_code || '41'),
-            {}, class: "phone-dial" %>
+          <%= p.select :phone_country_code,
+                options_for_select(
+                  [
+                    [t("users.new.phone_countries.ch"), "41"],
+                    [t("users.new.phone_countries.de"), "49"],
+                    [t("users.new.phone_countries.at"), "43"],
+                    [t("users.new.phone_countries.sep"), "---"],
+                    [t("users.new.phone_countries.uk"), "44"],
+                    [t("users.new.phone_countries.us"), "1"],
+                    [t("users.new.phone_countries.jp"), "81"],
+                    [t("users.new.phone_countries.au"), "61"]
+                  ],
+                  selected: p.object&.phone_country_code || "41"
+                ),
+                {}, class: "phone-dial" %>
 
-            <%= p.telephone_field :phone_local,
-                placeholder: "79 123 45 67",
+          <%= p.telephone_field :phone_local,
+                placeholder: t("users.new.placeholders.phone_local"),
                 inputmode: "tel",
                 pattern: "^[0-9][0-9\\s\\-]{5,17}$",
                 class: "phone-number" %>
         </div>
-        <%= p.hidden_field :phone %> 
-        </div>
+        <%= p.hidden_field :phone %>
+      </div>
 
-        <p>
-        <%= p.label :bday, "Date of birth" %><br>
+      <p>
+        <%= p.label :bday, t("users.new.bday") %><br>
         <%= p.date_field :bday %>
-        </p>
+      </p>
 
-        <p>
-        <%= p.label :country %><br>
-        <%= p.text_field :country, placeholder: "CH" %>
-        </p>
+      <p>
+        <%= p.label :country, t("users.new.country") %><br>
+        <%= p.text_field :country, placeholder: t("users.new.placeholders.country") %>
+      </p>
 
-        <p>
-        <%= p.label :hq, "Headquarters" %><br>
-        <%= p.text_field :hq, placeholder: "Zürich" %>
-        </p>
+      <p>
+        <%= p.label :hq, t("users.new.hq") %><br>
+        <%= p.text_field :hq, placeholder: t("users.new.placeholders.hq") %>
+      </p>
     </fieldset>
-    <% end %>
-  <p><%= f.submit "Sign Up" %></p>
+  <% end %>
+
+  <p><%= f.submit t("users.new.submit") %></p>
 <% end %>
