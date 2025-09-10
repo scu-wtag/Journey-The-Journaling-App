@@ -1,7 +1,7 @@
 class CreateUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :users do |t|
-      t.string  :email,              null: false
+      t.string  :email, null: false
       t.string  :encrypted_password, null: false
       t.string  :confirmation_token
       t.string  :remember_token,     null: false
