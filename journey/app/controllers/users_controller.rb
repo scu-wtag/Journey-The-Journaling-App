@@ -24,7 +24,7 @@ class UsersController < Clearance::UsersController
     if @user.save
       redirect_to Clearance.configuration.redirect_url, notice: t("users.create.success")
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unauthorized
     end
   end
 
