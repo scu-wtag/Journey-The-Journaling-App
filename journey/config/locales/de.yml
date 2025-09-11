@@ -28,8 +28,9 @@ de:
         us: "🇺🇸 +1 Vereinigte Staaten"
         jp: "🇯🇵 +81 Japan"
         au: "🇦🇺 +61 Australien"
-    create:
-      success: "Konto erstellt. Willkommen bei Journey!"
+      create:
+        success: "Konto erstellt. Willkommen bei Journey!"
+        failed:  "Konto konnte nicht erstellt werden. Bitte Formular prüfen."
   errors:
     messages:
       mismatch: "stimmt nicht mit der Bestätigung überein"

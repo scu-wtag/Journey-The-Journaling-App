@@ -16,9 +16,9 @@ RSpec.describe User, type: :model do
 
   describe "enums" do
     it do
-      is_expected.to define_enum_for(:role)
-        .with_values(guest: 0, member: 1, admin: 2)
-        .backed_by_column_of_type(:integer)
+      is_expected.to define_enum_for(:role).
+        with_values(guest: 0, member: 1, admin: 2).
+        backed_by_column_of_type(:integer)
     end
 
     it "defaults role to member" do

@@ -1,15 +1,4 @@
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+inherit_from:
+  - https://raw.githubusercontent.com/wtag/default-configs/master/rubocop-default-config-ruby2.6.yml
 
-Enabled: true
-
-AllCops:
-  NewCops: enable
-  Exclude:
-    - 'db/schema.rb'
-    - 'node_modules/**/*'
-
-Layout/LineLength:
-  Max: 100
-
-Metrics/MethodLength:
-  Max: 15

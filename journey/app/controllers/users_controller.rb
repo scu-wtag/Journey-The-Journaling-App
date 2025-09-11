@@ -1,57 +1,90 @@
 class UsersController < Clearance::UsersController
-  before_action :redirect_signed_in, only: [ :new, :create ]
+  before_action :redirect_signed_in, only: %i(new create)
+  before_action :build_user,         only: :new
+  before_action :prepare_user,       only: :create
 
-  def new
-    @user = User.new
-    @user.build_profile unless @user.profile
-  end
+  def new; end
 
   def create
-    @user = user_from_params
+    check_password_confirmation
+    normalize_phone!(@user.profile)
 
-    if params[:user][:password_confirmation].present? &&
-       params[:user][:password] != params[:user][:password_confirmation]
-      @user.errors.add(:password, :mismatch)
-      return render :new, status: :unprocessable_entity
-    end
+    return render_new_error   if @user.errors.any?
+    return handle_success     if @user.save
 
-    if (pr = @user.profile)
-      code  = pr.phone_country_code.to_s.strip
-      local = pr.phone_local.to_s.gsub(/\D/, "")
-      pr.phone = "+#{code}#{local}" if code.present? && local.present?
-    end
-
-    if @user.save
-      redirect_to Clearance.configuration.redirect_url, notice: t("users.create.success")
-    else
-      render :new, status: :unauthorized
-    end
+    handle_failure
   end
 
   private
 
-  def user_from_params
-    attrs    = user_params.to_h
-    email    = attrs.delete("email")
-    password = attrs.delete("password")
-    name     = attrs.delete("name")
-    attrs.delete("password_confirmation")
+  def build_user
+    @user = User.new
+    @user.build_profile unless @user.profile
+  end
 
-    Clearance.configuration.user_model.new(attrs).tap do |user|
-      user.email    = email
-      user.password = password
-      user.name     = name
-    end
+  def prepare_user
+    @user = user_from_params
+  end
+
+  def check_password_confirmation
+    return unless password_confirmation_mismatch?
+    add_password_mismatch_error
+  end
+
+  def password_confirmation_mismatch?
+    pwd  = params.dig(:user, :password)
+    conf = params.dig(:user, :password_confirmation)
+    conf.present? && pwd != conf
+  end
+
+  def add_password_mismatch_error
+    @user.errors.add(:password, :mismatch)
+  end
+
+  def normalize_phone!(profile)
+    return unless profile
+    code  = profile.phone_country_code.to_s.strip
+    local = profile.phone_local.to_s.gsub(/\D/, '')
+    profile.phone = "+#{code}#{local}" if code.present? && local.present?
+  end
+
+  def handle_success
+    redirect_to Clearance.configuration.redirect_url,
+                notice: t('users.create.success')
+  end
+
+  def handle_failure
+    flash.now[:alert] = t('users.create.failed', default: '')
+    render_new_invalid
+  end
+
+  def render_new_error
+    render :new, status: :unprocessable_content
+  end
+
+  def render_new_invalid
+    render :new, status: :unprocessable_content
+  end
+
+  def user_from_params
+    p = user_params
+    User.new(
+      email:  p[:email],
+      password: p[:password],
+      name:   p[:name],
+      profile_attributes: p[:profile_attributes],
+    )
   end
 
   def user_params
     params.fetch(:user, {}).permit(
       :email, :password, :password_confirmation, :name,
-      profile_attributes: [ :phone_country_code, :phone_local, :phone, :bday, :country, :hq ]
+      profile_attributes: %i(phone_country_code phone_local phone bday country hq)
     )
   end
 
+
   def redirect_signed_in
-    redirect_to dashboard_path if signed_in?
+    redirect_to root_path if signed_in?
   end
 end

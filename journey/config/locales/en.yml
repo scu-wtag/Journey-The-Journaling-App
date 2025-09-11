@@ -30,6 +30,7 @@ en:
         au: "🇦🇺 +61 Australia"
     create:
       success: "Account created. Have fun with Journey!"
+      failed:  "Could not create the account. Please check the form."
   errors:
     messages:
       mismatch: "does not match the confirmation"
