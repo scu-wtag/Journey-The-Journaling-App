@@ -57,3 +57,21 @@ en:
       required_note: "* indicates required fields"
       submit: Sign Up
       title: Create your account
+    create:
+      success: "Account created. Have fun with Journey!"
+      failed:  "Could not create the account. Please check the form."
+  errors:
+    messages:
+      mismatch: "does not match the confirmation"
+  home:
+    show:
+      title: "Journey"
+      subtitle: "Placeholder home. Only Sign Up is in scope."
+  sessions:
+    new:
+      title: "Sign in"
+      email: "Email"
+      password: "Password"
+      sign_up: "Sign up"
+      sign_in: "Sign in"
+      alert: "Invalid email or password"
