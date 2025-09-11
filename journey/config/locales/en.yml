@@ -11,7 +11,7 @@ en:
         password_confirmation: "Repeat password"
       optional_legend: "Optional"
       phone: "Phone"
-      bday: "Date of birth"
+      birthday: "Date of birth"
       country: "Country"
       hq: "Headquarters"
       submit: "Sign Up"

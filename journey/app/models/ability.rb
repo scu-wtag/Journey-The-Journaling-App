@@ -8,7 +8,6 @@ class Ability
       can :manage, :all
     elsif user.role?(:member)
       can :read, :all
-    else
     end
   end
 end

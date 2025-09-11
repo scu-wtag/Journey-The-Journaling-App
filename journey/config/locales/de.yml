@@ -11,7 +11,7 @@ de:
         password_confirmation: "Passwort wiederholen"
       optional_legend: "Optional"
       phone: "Telefon"
-      bday: "Geburtsdatum"
+      birthday: "Geburtsdatum"
       country: "Land"
       hq: "Hauptsitz"
       submit: "Registrieren"
@@ -28,7 +28,7 @@ de:
         us: "🇺🇸 +1 Vereinigte Staaten"
         jp: "🇯🇵 +81 Japan"
         au: "🇦🇺 +61 Australien"
-      create:
+    create:
         success: "Konto erstellt. Willkommen bei Journey!"
         failed:  "Konto konnte nicht erstellt werden. Bitte Formular prüfen."
   errors:
