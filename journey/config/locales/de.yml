@@ -38,3 +38,11 @@ de:
     show:
       title: "Journey"
       subtitle: "Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang."
+  sessions:
+    new:
+      title: "Anmelden"
+      email: "E-Mail"
+      password: "Passwort"
+      sign_up: "Registrieren"
+      sign_in: "Anmelden"
+      alert: "Ungültige E-Mail oder Passwort"
