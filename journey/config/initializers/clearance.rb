@@ -3,3 +3,4 @@ Clearance.configure do |config|
   config.redirect_url = '/'
   config.allow_sign_up = true
 end
+
