@@ -8,6 +8,21 @@
       <div style="color:#b00"><%= t("sessions.new.alert") %></div>
     <% end %>
 
-    <%= render "form" %>
+    <%= form_for :session, url: session_path, html: { class: "form" }, data: { turbo: false } do |f| %>
+      <label class="field">
+        <span class="label"><%= t("sessions.new.email") %></span>
+        <%= f.email_field :email, required: true, autocomplete: "username" %>
+      </label>
+
+      <label class="field">
+        <span class="label"><%= t("sessions.new.password") %></span>
+        <%= f.password_field :password, required: true, autocomplete: "current-password" %>
+      </label>
+
+      <div class="actions">
+        <%= link_to t("sessions.new.sign_up"), sign_up_path, class: "link small" %>
+        <button class="btn" type="submit"><%= t("sessions.new.sign_in") %></button>
+      </div>
+    <% end %>
   </section>
 </main>

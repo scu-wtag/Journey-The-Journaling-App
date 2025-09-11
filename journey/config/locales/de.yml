@@ -48,3 +48,12 @@ de:
         phone_local: 79 123 45 67
       submit: Registrieren
       title: Konto erstellen
+
+  sessions:
+    new:
+      title: "Anmelden"
+      email: "E-Mail"
+      password: "Passwort"
+      sign_up: "Registrieren"
+      sign_in: "Anmelden"
+      alert: "Ungültige E-Mail oder Passwort"

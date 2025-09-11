@@ -48,3 +48,12 @@ en:
         phone_local: 79 123 45 67
       submit: Sign Up
       title: Create your account
+
+  sessions:
+    new:
+      title: "Sign in"
+      email: "Email"
+      password: "Password"
+      sign_up: "Sign up"
+      sign_in: "Sign in"
+      alert: "Invalid email or password"
