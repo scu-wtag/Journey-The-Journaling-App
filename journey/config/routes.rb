@@ -15,9 +15,7 @@ Rails.application.routes.draw do
 
   root 'home#show'
 
-  # Sign up
-  get  'signup', to: 'users#new', as: :sign_up
-  post 'users',  to: 'users#create'
+  post 'users', to: 'users#create'
 
     resource :session, only: %i(create destroy)
     get '/login', to: 'sessions#new', as: :sign_in
@@ -26,6 +24,7 @@ Rails.application.routes.draw do
 
     resources :passwords, only: %i(new create), controller: 'clearance/passwords'
     resource :password, only: %i(edit update), controller: 'clearance/passwords'
+  post 'session', to: 'sessions#create'
 
     resource :profile, only: %i(show edit update)
 

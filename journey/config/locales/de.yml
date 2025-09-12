@@ -57,3 +57,29 @@ de:
       sign_up: "Registrieren"
       sign_in: "Anmelden"
       alert: "Ungültige E-Mail oder Passwort"
+  app:
+    name: "Journey"
+  sessions:
+    html_title: "Journey – Anmeldung"
+    heading: "Anmelden"
+    cta:
+      sign_in: "Anmelden"
+    fields:
+      email:
+        label: "E-Mail"
+        placeholder: "du@beispiel.de"
+      password:
+        label: "Passwort"
+        placeholder: "••••••••"
+    forgot_password: "Passwort vergessen?"
+    signup_prompt:
+      text: "Noch kein Konto?"
+      link: "Konto erstellen"
+    signed_in: "Erfolgreich angemeldet."
+    signed_out: "Abgemeldet."
+    invalid: "E-Mail oder Passwort ist falsch."
+  users:
+    already_have_account: "Schon einen Account?"
+    new:
+      hq: "Headquarters"
+      country: "Country"

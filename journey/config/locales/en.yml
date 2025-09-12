@@ -57,3 +57,29 @@ en:
       sign_up: "Sign up"
       sign_in: "Sign in"
       alert: "Invalid email or password"
+  app:
+    name: "Journey"
+  sessions:
+    html_title: "Journey – Login"
+    heading: "Login"
+    cta:
+      sign_in: "Sign in"
+    fields:
+      email:
+        label: "Email"
+        placeholder: "you@example.com"
+      password:
+        label: "Password"
+        placeholder: "••••••••"
+    forgot_password: "Forgot password?"
+    signup_prompt:
+      text: "Don't have an account?"
+      link: "Create one"
+    signed_in: "Signed in successfully."
+    signed_out: "Signed out."
+    invalid: "Invalid email or password."
+  users:
+    already_have_account: "Already have an account?"
+    new:
+      hq: "Headquarters"
+      country: "Country"
