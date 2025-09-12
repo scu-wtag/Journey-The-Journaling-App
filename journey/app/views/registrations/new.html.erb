@@ -1,13 +1,65 @@
-<h1><%= t("users.new.title") %></h1>
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= t("users.new.title") %></title>
 
-<% if @user.errors.any? %>
-  <div style="color:#b00">
-    <p><strong><%= t("users.create.failed") %></strong></p>
-    <ul>
-      <% @user.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
-    </ul>
-  </div>
-<% end %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  <%= javascript_import_module_tag "application" %>
+</head>
+<body>
+  <h1><%= t("app.name") %></h1>
+
+  <h2><%= t("users.new.title") %></h2>
+  <p><%= t("users.new.required_note") %></p>
+
+  <%= form_with model: @user, url: sign_up_path, method: :post do |f| %>
+    <label>
+      <%= t("users.new.fields.email") %> *
+      <%= f.email_field :email, required: true, autocomplete: "username", placeholder: "you@example.com" %>
+    </label>
+    <br />
+
+    <label>
+      <%= t("users.new.fields.password") %> *
+      <%= f.password_field :password, required: true, autocomplete: "new-password" %>
+    </label>
+    <br />
+
+    <label>
+      <%= t("users.new.fields.password_confirmation") %> *
+      <%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
+    </label>
+    <br />
+
+    <label>
+      <%= t("users.new.phone") %>
+      <%= f.text_field :profile_phone_local, autocomplete: "tel", placeholder: t("users.new.placeholders.phone_local") %>
+    </label>
+    <br />
+
+    <label>
+      <%= t("users.new.birthday") %>
+      <%= f.date_field :profile_birthday %>
+    </label>
+    <br />
+
+    <label>
+      <%= t("users.new.country") %>
+      <%= f.text_field :profile_country, placeholder: t("users.new.placeholders.country") %>
+    </label>
+    <br />
+
+    <label>
+      <%= t("users.new.hq") %>
+      <%= f.text_field :profile_hq, placeholder: t("users.new.placeholders.hq") %>
+    </label>
+    <br />
+
+    <button type="submit"><%= t("users.new.submit") %></button>
+  <% end %>
 
 <%= form_with model: @user, url: registrations_path, data: { turbo: false } do |f| %>
   <p>
