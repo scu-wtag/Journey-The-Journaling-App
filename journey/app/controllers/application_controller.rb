@@ -1,10 +1,8 @@
-# app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   include Clearance::Controller
 
   before_action :set_locale
 
-  # Diese DSL ist optional (kommt aus einem Gem). Nur anwenden, wenn vorhanden.
   allow_browser versions: :modern if respond_to?(:allow_browser)
 
   private

@@ -69,7 +69,6 @@ class UsersController < Clearance::UsersController
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
 
-  # Diese drei als normale Methoden, nicht als "endless methods":
   def render_new_error
     render :new, status: :unprocessable_content
   end
