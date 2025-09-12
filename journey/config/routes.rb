@@ -15,6 +15,12 @@ Rails.application.routes.draw do
     resource :profile, only: %i(show edit update)
     resources :users, only: %i(new create)
 
+    post 'users', to: 'users#create'
+
+    post 'session', to: 'sessions#create'
+
+    resource :profile, only: %i(show edit update)
+
     root 'home#show'
   end
 end
