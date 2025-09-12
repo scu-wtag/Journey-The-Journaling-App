@@ -122,6 +122,10 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    importmap-rails (2.2.2)
+      actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      railties (>= 6.0.0)
     io-console (0.8.1)
     irb (1.15.2)
       pp (>= 0.6.0)
@@ -175,6 +179,10 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.4.0)
+    propshaft (1.2.1)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
     psych (5.2.6)
       date
       stringio
@@ -312,6 +320,8 @@ DEPENDENCIES
   cancancan (~> 3.6)
   clearance (~> 2.6)
   debug
+  importmap-rails
+  propshaft
   puma (>= 5.0)
   rails (~> 8.0.2, >= 8.0.2.1)
   rspec-rails

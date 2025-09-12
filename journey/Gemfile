@@ -19,6 +19,10 @@ gem 'bootsnap', require: false
 gem 'brakeman', require: false
 gem 'debug', platforms: %i(mri windows), require: 'debug/prelude'
 
+gem 'importmap-rails'
+
+gem 'propshaft'
+
 # Linting
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false

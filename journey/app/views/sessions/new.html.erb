@@ -1,28 +1,54 @@
-<main class="screen">
-  <h1 class="app-title">Journey</h1>
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= t("sessions.html_title") %></title>
 
-  <section class="card" aria-labelledby="login-title">
-    <h2 id="login-title" class="card-title"><%= t("sessions.new.title") %></h2>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+</head>
+<body>
+  <main class="screen">
+    <h1 class="app-title"><%= t("app.name") %></h1>
 
-    <% if flash[:alert].present? %>
-      <div style="color:#b00"><%= t("sessions.new.alert") %></div>
-    <% end %>
+    <section class="card" aria-labelledby="login-title">
+      <h2 id="login-title" class="card-title"><%= t("sessions.heading") %></h2>
 
-    <%= form_for :session, url: session_path, html: { class: "form" }, data: { turbo: false } do |f| %>
-      <label class="field">
-        <span class="label"><%= t("sessions.new.email") %></span>
-        <%= f.email_field :email, required: true, autocomplete: "username" %>
-      </label>
+      <% if flash[:alert].present? %>
+        <p class="info"><%= flash[:alert] %></p>
+      <% end %>
+      <% if flash[:notice].present? %>
+        <p class="info"><%= flash[:notice] %></p>
+      <% end %>
 
-      <label class="field">
-        <span class="label"><%= t("sessions.new.password") %></span>
-        <%= f.password_field :password, required: true, autocomplete: "current-password" %>
-      </label>
+      <%= form_with url: sign_in_path, scope: :session, method: :post, data: { turbo: false }, class: "form" do |f| %>
+        <label class="field">
+          <span class="label">
+            <%= t("sessions.fields.email.label") %>
+            <span aria-hidden="true" class="req">*</span>
+          </span>
+          <%= f.email_field :email, required: true, autocomplete: "username", placeholder: t("sessions.fields.email.placeholder") %>
+        </label>
 
-      <div class="actions">
-        <%= link_to t("sessions.new.sign_up"), sign_up_path, class: "link small" %>
-        <button class="btn" type="submit"><%= t("sessions.new.sign_in") %></button>
-      </div>
-    <% end %>
-  </section>
-</main>
+        <label class="field">
+          <span class="label">
+            <%= t("sessions.fields.password.label") %>
+            <span aria-hidden="true" class="req">*</span>
+          </span>
+          <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: t("sessions.fields.password.placeholder") %>
+        </label>
+
+        <div class="actions">
+          <%= link_to t("sessions.forgot_password"), "#", class: "link small" %>
+          <button class="btn" type="submit"><%= t("sessions.cta.sign_in") %></button>
+        </div>
+      <% end %>
+
+      <p class="muted">
+        <%= t("sessions.signup_prompt.text") %>
+        <%= link_to t("sessions.signup_prompt.link"), sign_up_path, class: "link" %>
+      </p>
+    </section>
+  </main>
+</body>
+</html>
