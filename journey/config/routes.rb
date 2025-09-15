@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   root 'home#show'
 
   get  'signup', to: 'users#new', as: :sign_up
-  post   'session', to: 'sessions#create'
+  post 'session', to: 'sessions#create'
 
   resource :profile, only: %i(show edit update)
 end
