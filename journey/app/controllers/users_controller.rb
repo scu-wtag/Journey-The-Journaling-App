@@ -82,6 +82,6 @@ class UsersController < Clearance::UsersController
 
   def handle_failure
     flash.now[:alert] = t('users.create.failed', default: '')
-    render :new, status: :unprocessable_content
+    render :new, status: : unauthorized
   end
 end
