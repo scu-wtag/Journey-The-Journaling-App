@@ -1,7 +1,7 @@
 class UsersController < Clearance::UsersController
   before_action :require_signed_out, only: %i(new create)
-  before_action :build_user,         only: :new
-  before_action :prepare_user,       only: :create
+  before_action :build_user, only: :new
+  before_action :prepare_user, only: :create
 
   def new; end
 
