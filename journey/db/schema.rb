@@ -18,7 +18,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_134542) do
     t.string "phone"
     t.date "birthday"
     t.string "country"
-    t.string "hq"
+    t.string "headquarters"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"

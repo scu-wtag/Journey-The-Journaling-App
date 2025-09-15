@@ -1,7 +1,7 @@
 class UsersController < Clearance::UsersController
-  before_action :require_signed_out, only: %i(new create)
-  before_action :build_user, only: :new
-  before_action :prepare_user, only: :create
+  prepend_before_action :require_signed_out, only: %i(new create)
+  before_action :build_user,         only: :new
+  before_action :prepare_user,       only: :create
 
   def new; end
 
@@ -18,7 +18,9 @@ class UsersController < Clearance::UsersController
   private
 
   def require_signed_out
-    redirect_to root_path if signed_in?
+    return unless signed_in?
+
+    redirect_to root_path and return
   end
 
   def build_user
@@ -41,7 +43,7 @@ class UsersController < Clearance::UsersController
   def user_params
     params.fetch(:user, {}).permit(
       :email, :password, :password_confirmation, :name,
-      profile_attributes: %i(phone_country_code phone_local phone birthday country hq)
+      profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters)
     )
   end
 
@@ -74,10 +76,7 @@ class UsersController < Clearance::UsersController
   end
 
   def handle_success
-    redirect_to(
-      Clearance.configuration.redirect_url,
-      notice: t('users.create.success'),
-    )
+    redirect_to Clearance.configuration.redirect_url, notice: t('users.create.success')
   end
 
   def handle_failure

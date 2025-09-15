@@ -13,12 +13,12 @@ en:
       phone: "Phone"
       birthday: "Date of birth"
       country: "Country"
-      hq: "Headquarters"
+      headquarters: "Headquarters"
       submit: "Sign Up"
       placeholders:
         phone_local: "79 123 45 67"
         country: "CH"
-        hq: "Zurich"
+        headquarters: "Zurich"
       phone_countries:
         ch: "🇨🇭 +41 Switzerland"
         de: "🇩🇪 +49 Germany"
