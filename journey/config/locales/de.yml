@@ -1,0 +1,40 @@
+de:
+  users:
+    new:
+      title: "Konto erstellen"
+      create_failed: "Konto konnte nicht erstellt werden:"
+      required_note: "* Pflichtfelder"
+      fields:
+        email: "E-Mail"
+        name: "Name"
+        password: "Passwort"
+        password_confirmation: "Passwort wiederholen"
+      optional_legend: "Optional"
+      phone: "Telefon"
+      birthday: "Geburtsdatum"
+      country: "Land"
+      headquarters: "Hauptsitz"
+      submit: "Registrieren"
+      placeholders:
+        phone_local: "79 123 45 67"
+        country: "CH"
+        headquarters: "Zürich"
+      phone_countries:
+        ch: "🇨🇭 +41 Schweiz"
+        de: "🇩🇪 +49 Deutschland"
+        at: "🇦🇹 +43 Österreich"
+        sep: "──────────"
+        uk: "🇬🇧 +44 Vereinigtes Königreich"
+        us: "🇺🇸 +1 Vereinigte Staaten"
+        jp: "🇯🇵 +81 Japan"
+        au: "🇦🇺 +61 Australien"
+    create:
+        success: "Konto erstellt. Willkommen bei Journey!"
+        failed:  "Konto konnte nicht erstellt werden. Bitte Formular prüfen."
+  errors:
+    messages:
+      mismatch: "stimmt nicht mit der Bestätigung überein"
+  home:
+    show:
+      title: "Journey"
+      subtitle: "Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang."
