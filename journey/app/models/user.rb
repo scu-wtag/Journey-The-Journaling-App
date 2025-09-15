@@ -3,10 +3,8 @@ class User < ApplicationRecord
 
   has_one :profile, dependent: :destroy, inverse_of: :user
 
-  # war ohne update_only –> Spec verlangt update_only: true
   accepts_nested_attributes_for :profile, update_only: true
 
-  # damit die Team-Tests und SessionsController#url_after_create funktionieren:
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
 
