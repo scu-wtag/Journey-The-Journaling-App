@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
-  ruby '3.3.0'
-
+ruby '3.4.5'
+gem 'pg', '>= 1.5', '< 2.0'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.0.2', '>= 8.0.2.1'
-gem 'sqlite3', '>= 2.1'
 
 gem 'cancancan', '~> 3.6'
 gem 'clearance', '~> 2.6'
@@ -26,7 +25,6 @@ group :development do
 end
 
 group :test do
-  gem 'cancan', require: false
   gem 'database_cleaner-active_record'
   gem 'factory_bot_rails'
 end
