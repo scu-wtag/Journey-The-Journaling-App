@@ -1,9 +1,6 @@
 source 'https://rubygems.org'
-begin
-  ruby File.read('.ruby-version').strip
-rescue StandardError
-  '3.3.0'
-end
+
+  ruby '3.3.0'
 
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.0.2', '>= 8.0.2.1'
