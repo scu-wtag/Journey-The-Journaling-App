@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, controller: 'users', only: %i(new create)
+  resources :users, only: %i[new create]
   post '/signup', to: 'users#create'
 
   resource :session, controller: 'sessions', only: %i(create destroy)
