@@ -1,4 +1,3 @@
-# app/controllers/registrations_controller.rb
 class RegistrationsController < Clearance::UsersController
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create

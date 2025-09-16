@@ -1,4 +1,3 @@
-# spec/requests/sessions_spec.rb
 require "rails_helper"
 
 RSpec.describe "Sessions", type: :request do

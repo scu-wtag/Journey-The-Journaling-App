@@ -1,4 +1,3 @@
-# spec/requests/registrations_spec.rb
 RSpec.describe "Registrations", type: :request do
   it "creates a user" do
     post registrations_path, params: { user: { email: "a@b.ch", password: "secret123", name: "Test" } }

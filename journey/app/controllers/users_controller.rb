@@ -1,4 +1,3 @@
-# app/controllers/users_controller.rb
 class UsersController < ApplicationController
   prepend_before_action :require_signed_out, only: %i[new create]
   before_action :build_user,  only: :new
@@ -21,7 +20,7 @@ class UsersController < ApplicationController
   def require_signed_out
     return unless signed_in?
     redirect_to root_path(locale: (I18n.locale || I18n.default_locale))
-    return  # wichtig: nach Redirect sofort abbrechen
+    return
   end
 
   def build_user
