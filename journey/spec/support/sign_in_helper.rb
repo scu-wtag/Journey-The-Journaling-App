@@ -6,7 +6,3 @@ module SignInHelpers
     user
   end
 end
-
-RSpec.configure do |config|
-  config.include SignInHelpers, type: :request
-end

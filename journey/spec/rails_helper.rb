@@ -1,3 +1,4 @@
+# spec/rails_helper.rb
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
@@ -11,6 +12,7 @@ rescue ActiveRecord::PendingMigrationError => error
   abort error.to_s.strip
 end
 
+# Require support files (e.g. custom matchers, macros, helpers)
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
@@ -18,6 +20,10 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.include FactoryBot::Syntax::Methods
   config.filter_rails_from_backtrace!
+
+  # Make sign_in! available in request specs
+  config.include SignInHelpers, type: :request
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
