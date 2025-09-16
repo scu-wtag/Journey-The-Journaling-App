@@ -73,4 +73,13 @@ class RegistrationsController < Clearance::UsersController
     flash.now[:alert] = t('users.create.failed', default: '')
     render :new, status: :unprocessable_content
   end
+
+  prepend_before_action :require_signed_out, only: %i[new create]
+
+  private
+
+  def require_signed_out
+    redirect_to root_path(locale: I18n.locale) if signed_in?
+  end
 end
+
