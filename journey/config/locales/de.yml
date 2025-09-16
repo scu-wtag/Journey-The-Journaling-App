@@ -47,4 +47,9 @@ de:
       sign_up: "Registrieren"
       sign_in: "Anmelden"
       alert: "Ungültige E-Mail oder Passwort"
-      
+  sessions:
+    new:
+      title: "Login"
+      alert: "Falsches Passwort oder E-mail"
+    form:
+      submit: "Einloggen"

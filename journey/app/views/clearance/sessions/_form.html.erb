@@ -1,0 +1,23 @@
+<%= form_with scope: :session, url: session_path, data: { turbo: false } do |form| %>
+  <% if flash[:alert].present? %>
+    <p class="info" style="color:#b00;"><%= flash[:alert] %></p>
+  <% end %>
+
+  <div class="text-field email optional session_email">
+    <%= form.label :email %>
+    <%= form.email_field :email,
+          value: params.dig(:session, :email),
+          autofocus: true,
+          autocomplete: "username" %>
+  </div>
+
+  <div class="password-field password optional session_password">
+    <%= form.label :password %>
+    <%= form.password_field :password,
+          autocomplete: "current-password" %>
+  </div>
+
+  <div class="submit-field">
+    <%= form.submit t(".submit") %>
+  </div>
+<% end %>

@@ -13,7 +13,7 @@ rescue ActiveRecord::PendingMigrationError => error
 end
 
 # Require support files (e.g. custom matchers, macros, helpers)
-Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
