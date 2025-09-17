@@ -15,5 +15,4 @@ class SessionsController < Clearance::SessionsController
   def url_after_create
     root_path(locale: I18n.locale || I18n.default_locale)
   end
-
 end

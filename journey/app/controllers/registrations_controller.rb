@@ -73,12 +73,9 @@ class RegistrationsController < Clearance::UsersController
     render :new, status: :unprocessable_content
   end
 
-  prepend_before_action :require_signed_out, only: %i[new create]
-
-  private
+  prepend_before_action :require_signed_out, only: %i(new create)
 
   def require_signed_out
     redirect_to root_path(locale: I18n.locale) if signed_in?
   end
 end
-

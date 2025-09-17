@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  prepend_before_action :require_signed_out, only: %i[new create]
-  before_action :build_user,  only: :new
+  prepend_before_action :require_signed_out, only: %i(new create)
+  before_action :build_user, only: :new
   before_action :prepare_user, only: :create
 
   def new; end
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     normalize_phone!(@user.profile)
 
     return render_new_error if @user.errors.any?
-    return handle_success   if @user.save
+    return handle_success if @user.save
 
     handle_failure
   end
@@ -19,8 +19,9 @@ class UsersController < ApplicationController
 
   def require_signed_out
     return unless signed_in?
-    redirect_to root_path(locale: (I18n.locale || I18n.default_locale))
-    return
+
+    redirect_to root_path(locale: I18n.locale || I18n.default_locale)
+    nil
   end
 
   def build_user
@@ -43,19 +44,20 @@ class UsersController < ApplicationController
   def user_params
     params.fetch(:user, {}).permit(
       :email, :password, :password_confirmation, :name,
-      profile_attributes: %i[phone_country_code phone_local phone birthday country headquarters]
+      profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters)
     )
   end
 
   def check_password_confirmation
-    pwd  = params.dig(:user, :password)
+    pwd = params.dig(:user, :password)
     conf = params.dig(:user, :password_confirmation)
     @user.errors.add(:password, :mismatch) if conf.present? && pwd != conf
   end
 
   def normalize_phone!(profile)
     return unless profile
-    code  = profile.phone_country_code.to_s.strip
+
+    code = profile.phone_country_code.to_s.strip
     local = profile.phone_local.to_s.gsub(/\D/, '')
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
