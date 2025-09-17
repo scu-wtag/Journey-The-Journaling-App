@@ -1,5 +1,4 @@
-class UsersController < ApplicationController
-  prepend_before_action :require_signed_out, only: %i(new create)
+class RegistrationsController < Clearance::UsersController
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create
 
@@ -17,13 +16,6 @@ class UsersController < ApplicationController
 
   private
 
-  def require_signed_out
-    return unless signed_in?
-
-    redirect_to root_path(locale: I18n.locale || I18n.default_locale)
-    nil
-  end
-
   def build_user
     @user = User.new
     @user.build_profile unless @user.profile
@@ -35,10 +27,7 @@ class UsersController < ApplicationController
   end
 
   def user_from_params
-    p = user_params
-    attrs = { email: p[:email], password: p[:password], name: p[:name] }
-    attrs[:profile_attributes] = p[:profile_attributes] if p[:profile_attributes].present?
-    User.new(attrs)
+    User.new(user_params)
   end
 
   def user_params
@@ -49,9 +38,15 @@ class UsersController < ApplicationController
   end
 
   def check_password_confirmation
+    return unless password_confirmation_mismatch?
+
+    @user.errors.add(:password, :mismatch)
+  end
+
+  def password_confirmation_mismatch?
     pwd = params.dig(:user, :password)
     conf = params.dig(:user, :password_confirmation)
-    @user.errors.add(:password, :mismatch) if conf.present? && pwd != conf
+    conf.present? && pwd != conf
   end
 
   def normalize_phone!(profile)
@@ -73,5 +68,11 @@ class UsersController < ApplicationController
   def handle_failure
     flash.now[:alert] = t('users.create.failed', default: '')
     render :new, status: :unprocessable_content
+  end
+
+  prepend_before_action :require_signed_out, only: %i(new create)
+
+  def require_signed_out
+    redirect_to root_path(locale: I18n.locale) if signed_in?
   end
 end

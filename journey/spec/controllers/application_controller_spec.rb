@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# Use an anonymous controller to exercise ApplicationController behavior
 RSpec.describe ApplicationController, type: :controller do
   controller do
     def index
@@ -9,7 +8,6 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   before do
-    # Define a route to the anonymous action
     routes.draw { get 'anonymous' => 'anonymous#index' }
     allow(I18n).to receive(:available_locales).and_return(%i(en de))
     I18n.default_locale = :en

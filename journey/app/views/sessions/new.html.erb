@@ -1,0 +1,13 @@
+<main class="screen">
+  <h1 class="app-title">Journey</h1>
+
+  <section class="card" aria-labelledby="login-title">
+    <h2 id="login-title" class="card-title"><%= t("sessions.new.title") %></h2>
+
+    <% if flash[:alert].present? %>
+      <div style="color:#b00"><%= t("sessions.new.alert") %></div>
+    <% end %>
+
+    <%= render "form" %>
+  </section>
+</main>

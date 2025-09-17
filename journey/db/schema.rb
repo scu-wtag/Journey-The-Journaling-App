@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_11_134542) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_16_070926) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "team_id", null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role"], name: "index_memberships_on_role"
+    t.index ["team_id"], name: "index_memberships_on_team_id"
+    t.index ["user_id", "team_id"], name: "index_memberships_on_user_id_and_team_id", unique: true
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "phone_country_code"
@@ -38,7 +53,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_134542) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_teams_on_name", unique: true
+    t.index ["name"], name: "index_teams_on_name"
   end
 
   create_table "users", force: :cascade do |t|
@@ -58,8 +73,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_134542) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "memberships", "teams"
+  add_foreign_key "memberships", "users"
   add_foreign_key "profiles", "users"
-  add_foreign_key "team_memberships", "teams"
   add_foreign_key "team_memberships", "users"
-  add_foreign_key "users", "teams", column: "last_team_id"
 end

@@ -1,40 +1,50 @@
+---
 de:
-  users:
+  clearance:
+    sessions:
+      form:
+        submit: Submit
+  home:
+    show:
+      subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
+      title: Journey
+  sessions:
+    create:
+      invalid: Leider ist etwas schiefgelaufen, versuche es nochmals.
+      success: Du hast dich erfolgreich angemeldet. Viel spass mit Journey!
+    form:
+      submit: Einloggen
     new:
-      title: "Konto erstellen"
-      create_failed: "Konto konnte nicht erstellt werden:"
-      required_note: "* Pflichtfelder"
+      alert: Falsches Passwort oder E-mail
+      title: Login
+  users:
+    create:
+      failed: Konto konnte nicht erstellt werden. Bitte Formular prüfen.
+      success: Konto erstellt. Willkommen bei Journey!
+    new:
+      birthday: Geburtsdatum
+      country: Land
+      create_failed: 'Konto konnte nicht erstellt werden:'
       fields:
-        email: "E-Mail"
-        name: "Name"
-        password: "Passwort"
-        password_confirmation: "Passwort wiederholen"
-      optional_legend: "Optional"
-      phone: "Telefon"
-      birthday: "Geburtsdatum"
-      country: "Land"
-      headquarters: "Hauptsitz"
-      submit: "Registrieren"
-      placeholders:
-        phone_local: "79 123 45 67"
-        country: "CH"
-        headquarters: "Zürich"
+        email: E-Mail
+        name: Name
+        password: Passwort
+        password_confirmation: Passwort wiederholen
+      headquarters: Hauptsitz
+      optional_legend: Optional
+      phone: Telefon
       phone_countries:
+        at: "🇦🇹 +43 Österreich"
+        au: "🇦🇺 +61 Australien"
         ch: "🇨🇭 +41 Schweiz"
         de: "🇩🇪 +49 Deutschland"
-        at: "🇦🇹 +43 Österreich"
+        jp: "🇯🇵 +81 Japan"
         sep: "──────────"
         uk: "🇬🇧 +44 Vereinigtes Königreich"
         us: "🇺🇸 +1 Vereinigte Staaten"
-        jp: "🇯🇵 +81 Japan"
-        au: "🇦🇺 +61 Australien"
-    create:
-        success: "Konto erstellt. Willkommen bei Journey!"
-        failed:  "Konto konnte nicht erstellt werden. Bitte Formular prüfen."
-  errors:
-    messages:
-      mismatch: "stimmt nicht mit der Bestätigung überein"
-  home:
-    show:
-      title: "Journey"
-      subtitle: "Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang."
+      placeholders:
+        country: CH
+        headquarters: Zürich
+        phone_local: 79 123 45 67
+      submit: Registrieren
+      title: Konto erstellen

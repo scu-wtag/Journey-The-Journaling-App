@@ -1,5 +1,28 @@
 inherit_from:
   - https://raw.githubusercontent.com/wtag/default-configs/master/rubocop-default-config-ruby2.6.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+    - Include
+
+require:
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+
+Naming/PredicatePrefix:
+  Enabled: true
+
+Layout/ExtraSpacing:
+  Enabled: true
+  AllowForAlignment: false
+
+Layout/ArgumentAlignment:
+  Enabled: true
+
 Metrics/BlockLength:
   Exclude:
     - 'db/**/*'
+    

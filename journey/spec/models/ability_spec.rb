@@ -25,7 +25,6 @@ RSpec.describe Ability do
     let(:user) { nil }
 
     it 'has no abilities by default' do
-      # No explicit permissions set for guests in Ability
       expect(ability.can?(:read, :anything)).to be(false)
       expect(ability.can?(:manage, :all)).to be(false)
     end

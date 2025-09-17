@@ -1,11 +1,16 @@
 class User < ApplicationRecord
   include Clearance::User
 
-  has_one :profile, dependent: :destroy
-  accepts_nested_attributes_for :profile
+  has_one :profile, dependent: :destroy, inverse_of: :user
 
-  validates :name,  presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
+  accepts_nested_attributes_for :profile, update_only: true
+
+  has_many :memberships, dependent: :destroy
+  has_many :teams, through: :memberships
+
+  validates :name, presence: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false },
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
 
   enum :role, { guest: 0, member: 1, admin: 2 }, default: :member
 

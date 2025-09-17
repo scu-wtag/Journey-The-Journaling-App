@@ -1,7 +1,6 @@
-# spec/requests/users_request_spec.rb
 require 'rails_helper'
 
-RSpec.describe 'Users', type: :request do
+RSpec.describe UsersController, type: :request do
   let(:redirect_url) { '/dashboard' }
 
   before do
@@ -35,13 +34,9 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'creates a user and redirects with notice' do
-      expect do
-        post users_path, params: valid_params
-      end.to change(User, :count).by(1)
-
+      expect { post users_path, params: valid_params }.to change(User, :count).by(1)
       expect(response).to redirect_to(redirect_url)
       follow_redirect!
-
       user = User.find_by(email: 'new@example.com')
       expect(user).to be_present
       expect(user.profile.phone).to eq('+41791234567')
@@ -49,22 +44,14 @@ RSpec.describe 'Users', type: :request do
 
     it 'adds mismatch error and re-renders when confirmation differs' do
       params = valid_params.deep_merge(user: { password_confirmation: 'WRONG' })
-
-      expect do
-        post users_path, params: params
-      end.not_to change(User, :count)
-
+      expect { post users_path, params: params }.not_to change(User, :count)
       expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include('password')
     end
 
     it 're-renders with unprocessable_content when validations fail' do
       bad = valid_params.deep_merge(user: { email: '' })
-
-      expect do
-        post users_path, params: bad
-      end.not_to change(User, :count)
-
+      expect { post users_path, params: bad }.not_to change(User, :count)
       expect(response).to have_http_status(:unprocessable_content)
     end
   end

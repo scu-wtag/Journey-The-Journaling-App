@@ -8,7 +8,6 @@ class CreateProfiles < ActiveRecord::Migration[8.0]
       t.date :birthday
       t.string :country
       t.string :headquarters
-
       t.timestamps
     end
   end
