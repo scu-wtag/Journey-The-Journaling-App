@@ -27,10 +27,7 @@ class RegistrationsController < Clearance::UsersController
   end
 
   def user_from_params
-    p = user_params
-    attrs = { email: p[:email], password: p[:password], name: p[:name] }
-    attrs[:profile_attributes] = p[:profile_attributes] if p[:profile_attributes].present?
-    User.new(attrs)
+    User.new(user_params)
   end
 
   def user_params
