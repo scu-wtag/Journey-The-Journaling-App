@@ -1,4 +1,6 @@
-RSpec.describe 'Registrations', type: :request do
+require 'rails_helper'
+
+RSpec.describe RegistrationsController, type: :request do
   it 'creates a user' do
     post registrations_path, params: { user: { email: 'a@b.ch', password: 'secret123', name: 'Test' } }
     expect(User.count).to eq(1)

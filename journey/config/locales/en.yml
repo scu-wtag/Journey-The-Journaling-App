@@ -1,55 +1,47 @@
+---
 en:
-  users:
+  clearance:
+    sessions:
+      form:
+        submit: Submit
+  home:
+    show:
+      subtitle: Placeholder home. Only Sign Up is in scope.
+      title: Journey
+  sessions:
+    form:
+      submit: Sign in
     new:
-      title: "Create your account"
-      create_failed: "Could not create account:"
-      required_note: "* indicates required fields"
+      alert: Invalid email or password
+      title: Sign in
+  users:
+    create:
+      failed: Could not create the account. Please check the form.
+      success: Account created. Have fun with Journey!
+    new:
+      birthday: Date of birth
+      country: Country
+      create_failed: 'Could not create account:'
       fields:
-        email: "Email"
-        name: "Name"
-        password: "Password"
-        password_confirmation: "Repeat password"
-      optional_legend: "Optional"
-      phone: "Phone"
-      birthday: "Date of birth"
-      country: "Country"
-      headquarters: "Headquarters"
-      submit: "Sign Up"
-      placeholders:
-        phone_local: "79 123 45 67"
-        country: "CH"
-        headquarters: "Zurich"
+        email: Email
+        name: Name
+        password: Password
+        password_confirmation: Repeat password
+      headquarters: Headquarters
+      optional_legend: Optional
+      phone: Phone
       phone_countries:
+        at: "🇦🇹 +43 Austria"
+        au: "🇦🇺 +61 Australia"
         ch: "🇨🇭 +41 Switzerland"
         de: "🇩🇪 +49 Germany"
-        at: "🇦🇹 +43 Austria"
+        jp: "🇯🇵 +81 Japan"
         sep: "──────────"
         uk: "🇬🇧 +44 United Kingdom"
         us: "🇺🇸 +1 United States"
-        jp: "🇯🇵 +81 Japan"
-        au: "🇦🇺 +61 Australia"
-    create:
-      success: "Account created. Have fun with Journey!"
-      failed:  "Could not create the account. Please check the form."
-  errors:
-    messages:
-      mismatch: "does not match the confirmation"
-  home:
-    show:
-      title: "Journey"
-      subtitle: "Placeholder home. Only Sign Up is in scope."
-  sessions:
-    new:
-      title: "Sign in"
-      email: "Email"
-      password: "Password"
-      sign_up: "Sign up"
-      sign_in: "Sign in"
-      alert: "Invalid email or password"
-  sessions:
-    new:
-      title: "Sign in"
-      alert: "Invalid email or password"
-    form:
-      submit: "Sign in"
-      
+      placeholders:
+        country: CH
+        headquarters: Zurich
+        phone_local: 79 123 45 67
+      submit: Sign Up
+      title: Create your account

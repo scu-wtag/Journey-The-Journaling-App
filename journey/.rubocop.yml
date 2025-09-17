@@ -1,34 +1,20 @@
 inherit_from:
   - https://raw.githubusercontent.com/wtag/default-configs/master/rubocop-default-config-ruby2.6.yml
-  - https://raw.githubusercontent.com/wtag/default-configs/master/rubocop-default-config-ruby2-6.yml
 
-# Stelle sicher, dass Merges korrekt passieren (besonders bei Exclude-Listen)
 inherit_mode:
   merge:
     - Exclude
     - Include
 
-# Lade Rails-Cops (Rubocop hat dir das vorgeschlagen)
 require:
   - rubocop-rails
 
 AllCops:
   NewCops: enable
-  # Optional: TargetRubyVersion an Projekt anpassen
-  # TargetRubyVersion: 3.2
 
-# Veraltete Cop-Namen lokal korrigieren (einige Base-Configs sind alt)
 Naming/PredicatePrefix:
   Enabled: true
 
-# Die hier sind in neueren RuboCop-Versionen nicht mehr erlaubt—also NICHT benutzen:
-# - ExcludedMethods
-# - IgnoredMethods
-# Stattdessen, falls nötig:
-# AllowedMethods: []
-# AllowedPatterns: []
-
-# Erzwinge striktes Spacing (damit 't.date   :birthday' als offense zählt)
 Layout/ExtraSpacing:
   Enabled: true
   AllowForAlignment: false
@@ -37,6 +23,6 @@ Layout/ArgumentAlignment:
   Enabled: true
 
 Metrics/BlockLength:
-  # Beispiel: DB-Migrationen weiterhin ausschließen (wie bei dir)
   Exclude:
     - 'db/**/*'
+    
