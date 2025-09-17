@@ -9,6 +9,9 @@ de:
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
   sessions:
+    create:
+      invalid: Leider ist etwas schiefgelaufen, versuche es nochmals.
+      success: Du hast dich erfolgreich angemeldet. Viel spass mit Journey!
     form:
       submit: Einloggen
     new:

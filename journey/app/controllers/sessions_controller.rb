@@ -1,9 +1,17 @@
 class SessionsController < Clearance::SessionsController
   def create
-    super
-  ensure
-    flash.now[:email] = params.dig(:session, :email)
-    flash.now[:password] = params.dig(:session, :password)
+    creds = params.expect(session: %i(email password))
+    @email = creds[:email]
+
+    user = User.find_by(email: creds[:email])
+
+    if user&.authenticated?(creds[:password])
+      sign_in user
+      redirect_to root_path(locale: I18n.locale), notice: t('.success')
+    else
+      flash.now[:alert] = t('.invalid')
+      render :new, status: :unauthorized
+    end
   end
 
   private

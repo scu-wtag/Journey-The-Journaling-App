@@ -9,6 +9,9 @@ en:
       subtitle: Placeholder home. Only Sign Up is in scope.
       title: Journey
   sessions:
+    create:
+      invalid: Something went wrong, try again.
+      success: You have successfully logged in. Have fun with Journey!
     form:
       submit: Sign in
     new:
