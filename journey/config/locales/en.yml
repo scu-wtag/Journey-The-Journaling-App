@@ -53,14 +53,14 @@ en:
       optional_legend: Optional
       phone: Phone
       phone_countries:
-        at: "🇦🇹 +43 Austria"
-        au: "🇦🇺 +61 Australia"
-        ch: "🇨🇭 +41 Switzerland"
-        de: "🇩🇪 +49 Germany"
-        jp: "🇯🇵 +81 Japan"
+        at: "+43 Austria"
+        au: "+61 Australia"
+        ch: "+41 Switzerland"
+        de: "+49 Germany"
+        jp: "+81 Japan"
         sep: "──────────"
-        uk: "🇬🇧 +44 United Kingdom"
-        us: "🇺🇸 +1 United States"
+        uk: "+44 United Kingdom"
+        us: "+1 United States"
       placeholders:
         country: CH
         headquarters: Zurich
