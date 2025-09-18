@@ -2,7 +2,7 @@
 
 <% if @user.errors.any? %>
   <div style="color:#b00">
-    <p><strong><%= t("users.new.create_failed") %></strong></p>
+    <p><strong><%= t("users.create.failed") %></strong></p>
     <ul>
       <% @user.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
     </ul>
@@ -79,5 +79,5 @@
     </fieldset>
   <% end %>
 
-  <p><%= f.submit t("users.new.submit") %></p>
+  <p><%= f.submit t("sessions.new.sign_in") %></p>
 <% end %>

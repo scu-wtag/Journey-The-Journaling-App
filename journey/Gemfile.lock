@@ -134,6 +134,10 @@ GEM
       reline
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    importmap-rails (2.2.2)
+      actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      railties (>= 6.0.0)
     i18n-tasks (1.0.15)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
@@ -206,6 +210,11 @@ GEM
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
+    prism (1.4.0)
+    propshaft (1.2.1)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
     prism (1.5.1)
     psych (5.2.6)
       date
@@ -344,6 +353,8 @@ DEPENDENCIES
   clearance (~> 2.6)
   database_cleaner-active_record
   debug
+  importmap-rails
+  propshaft
   factory_bot_rails
   i18n-tasks (~> 1.0.15)
   pg (>= 1.5, < 2.0)

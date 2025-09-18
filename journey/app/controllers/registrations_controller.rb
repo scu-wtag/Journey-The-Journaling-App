@@ -27,26 +27,24 @@ class RegistrationsController < Clearance::UsersController
   end
 
   def user_from_params
-    User.new(user_params)
+    attrs = params.expect(
+      user: [:email, :password, :name,
+             { profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters) },],
+    )
+    User.new(attrs)
   end
 
   def user_params
-    params.fetch(:user, {}).permit(
-      :email, :password, :password_confirmation, :name,
-      profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters)
-    )
+    params.expect(user: [:email, :password, :name,
+                         { profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters) },])
   end
 
   def check_password_confirmation
-    return unless password_confirmation_mismatch?
+    password = params.dig(:user, :password)
+    conformation = params.dig(:user, :password_confirmation)
+    return if conf.blank? || password == conformation
 
     @user.errors.add(:password, :mismatch)
-  end
-
-  def password_confirmation_mismatch?
-    pwd = params.dig(:user, :password)
-    conf = params.dig(:user, :password_confirmation)
-    conf.present? && pwd != conf
   end
 
   def normalize_phone!(profile)
@@ -71,7 +69,6 @@ class RegistrationsController < Clearance::UsersController
   end
 
   prepend_before_action :require_signed_out, only: %i(new create)
-
   def require_signed_out
     redirect_to root_path(locale: I18n.locale) if signed_in?
   end
