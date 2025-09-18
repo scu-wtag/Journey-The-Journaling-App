@@ -2,29 +2,19 @@
 de:
   app:
     name: Journey
-  clearance:
-    sessions:
-      form:
-        submit: Anmelden
   home:
     show:
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
   sessions:
-    cta:
-      sign_in: Anmelden
     errors:
       wrong_email_or_password: E-Mail oder Passwort ist falsch.
     fields:
       email:
-        label: E-Mail
         placeholder: du@beispiel.de
       password:
-        label: Passwort
         placeholder: "••••••••"
     forgot_password: Passwort vergessen?
-    form:
-      submit: Anmelden
     heading: Anmelden
     html_title: Journey – Anmeldung
     new:
@@ -43,7 +33,6 @@ de:
     new:
       birthday: Geburtsdatum
       country: Land
-      create_failed: 'Konto konnte nicht erstellt werden:'
       fields:
         email: E-Mail
         name: Name
@@ -53,14 +42,14 @@ de:
       optional_legend: Optional
       phone: Telefon
       phone_countries:
-        at: "🇦🇹 +43 Österreich"
-        au: "🇦🇺 +61 Australien"
-        ch: "🇨🇭 +41 Schweiz"
-        de: "🇩🇪 +49 Deutschland"
-        jp: "🇯🇵 +81 Japan"
+        at: "+43 Österreich"
+        au: "+61 Australien"
+        ch: "+41 Schweiz"
+        de: "+49 Deutschland"
+        jp: "+81 Japan"
         sep: "──────────"
-        uk: "🇬🇧 +44 Vereinigtes Königreich"
-        us: "🇺🇸 +1 Vereinigte Staaten"
+        uk: "+44 Vereinigtes Königreich"
+        us: "+1 Vereinigte Staaten"
       placeholders:
         country: CH
         headquarters: Zürich

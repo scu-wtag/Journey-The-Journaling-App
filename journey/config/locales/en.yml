@@ -2,29 +2,19 @@
 en:
   app:
     name: Journey
-  clearance:
-    sessions:
-      form:
-        submit: Sign in
   home:
     show:
-      subtitle: Placeholder homepage. Currently only registration is available.
+      subtitle: Placeholder homepage.
       title: Journey
   sessions:
-    cta:
-      sign_in: Sign in
     errors:
       wrong_email_or_password: Email or password is incorrect.
     fields:
       email:
-        label: Email
         placeholder: you@example.com
       password:
-        label: Password
         placeholder: "••••••••"
     forgot_password: Forgot password?
-    form:
-      submit: Sign in
     heading: Sign in
     html_title: Journey – Sign in
     new:
@@ -43,7 +33,6 @@ en:
     new:
       birthday: Date of birth
       country: Country
-      create_failed: 'Account could not be created:'
       fields:
         email: Email
         name: Name
@@ -66,5 +55,5 @@ en:
         headquarters: Zurich
         phone_local: 555 123 456
       required_note: "* indicates required fields"
-      submit: Sign up
+      submit: Sign Up
       title: Create your account

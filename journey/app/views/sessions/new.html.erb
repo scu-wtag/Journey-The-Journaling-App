@@ -24,7 +24,7 @@
       <%= form_with model: @session, url: sign_in_path, scope: :session, method: :post, data: { turbo: false }, class: "form" do |f| %>
         <label class="field">
           <span class="label">
-            <%= t("sessions.fields.email.label") %>
+            <%= t("users.new.fields.email") %>
             <span aria-hidden="true" class="req">*</span>
           </span>
           <%= f.email_field :email,
@@ -35,7 +35,7 @@
 
         <label class="field">
           <span class="label">
-            <%= t("sessions.fields.password.label") %>
+            <%= t("users.new.fields.password") %>
             <span aria-hidden="true" class="req">*</span>
           </span>
           <%= f.password_field :password,
@@ -46,7 +46,7 @@
 
         <div class="actions">
           <%= link_to t("sessions.forgot_password"), "#", class: "link small" %>
-          <button class="btn" type="submit"><%= t("sessions.cta.sign_in") %></button>
+          <button class="btn" type="submit"><%= t("sessions.new.sign_in") %></button>
         </div>
       <% end %>
 
