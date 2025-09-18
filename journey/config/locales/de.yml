@@ -28,7 +28,9 @@ de:
     heading: Anmelden
     html_title: Journey – Anmeldung
     new:
+      alert: Falsches Passwort oder E-Mail
       sign_in: Anmelden
+      title: Login
     signup_prompt:
       link: Konto erstellen
       text: Noch kein Konto?
@@ -40,17 +42,29 @@ de:
       success: Konto erfolgreich erstellt.
     new:
       birthday: Geburtsdatum
-      country: Country
+      country: Land
+      create_failed: 'Konto konnte nicht erstellt werden:'
       fields:
         email: E-Mail
+        name: Name
         password: Passwort
         password_confirmation: Passwort wiederholen
-      hq: Headquarters
+      headquarters: Hauptsitz
+      optional_legend: Optional
       phone: Telefon
+      phone_countries:
+        at: "🇦🇹 +43 Österreich"
+        au: "🇦🇺 +61 Australien"
+        ch: "🇨🇭 +41 Schweiz"
+        de: "🇩🇪 +49 Deutschland"
+        jp: "🇯🇵 +81 Japan"
+        sep: "──────────"
+        uk: "🇬🇧 +44 Vereinigtes Königreich"
+        us: "🇺🇸 +1 Vereinigte Staaten"
       placeholders:
         country: CH
-        hq: Hauptsitz
+        headquarters: Zürich
         phone_local: 79 123 45 67
       required_note: "* Pflichtfelder"
       submit: Registrieren
-      title: Erstelle dein Konto
+      title: Konto erstellen

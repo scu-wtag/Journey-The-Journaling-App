@@ -5,16 +5,16 @@ en:
   clearance:
     sessions:
       form:
-        submit: Submit
+        submit: Sign in
   home:
     show:
-      subtitle: Placeholder home. Only Sign Up is in scope.
+      subtitle: Placeholder homepage. Currently only registration is available.
       title: Journey
   sessions:
     cta:
       sign_in: Sign in
     errors:
-      wrong_email_or_password: Email or password is wrong.
+      wrong_email_or_password: Email or password is incorrect.
     fields:
       email:
         label: Email
@@ -25,32 +25,46 @@ en:
     forgot_password: Forgot password?
     form:
       submit: Sign in
-    heading: Login
-    html_title: Journey – Login
+    heading: Sign in
+    html_title: Journey – Sign in
     new:
+      alert: Wrong password or email
       sign_in: Sign in
+      title: Login
     signup_prompt:
-      link: Create one
-      text: Don't have an account?
-    success: Signed in successfully.
+      link: Create account
+      text: No account yet?
+    success: Successfully signed in.
   users:
     already_have_account: Already have an account?
     create:
-      failed: Account could not be created. Please check the errors below.
-      success: Account created successfully.
+      failed: Account could not be created. Please check the form.
+      success: Account successfully created.
     new:
       birthday: Date of birth
       country: Country
+      create_failed: 'Account could not be created:'
       fields:
         email: Email
+        name: Name
         password: Password
-        password_confirmation: Confirm password
-      hq: Headquarters
+        password_confirmation: Repeat password
+      headquarters: Headquarters
+      optional_legend: Optional
       phone: Phone
+      phone_countries:
+        at: "🇦🇹 +43 Austria"
+        au: "🇦🇺 +61 Australia"
+        ch: "🇨🇭 +41 Switzerland"
+        de: "🇩🇪 +49 Germany"
+        jp: "🇯🇵 +81 Japan"
+        sep: "──────────"
+        uk: "🇬🇧 +44 United Kingdom"
+        us: "🇺🇸 +1 United States"
       placeholders:
         country: CH
-        hq: Headquarters
-        phone_local: 79 123 45 67
+        headquarters: Zurich
+        phone_local: 555 123 456
       required_note: "* indicates required fields"
       submit: Sign up
       title: Create your account
