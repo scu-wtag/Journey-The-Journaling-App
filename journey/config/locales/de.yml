@@ -1,85 +1,56 @@
 ---
 de:
+  app:
+    name: Journey
   clearance:
     sessions:
       form:
-        submit: Submit
+        submit: Anmelden
   home:
     show:
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
   sessions:
-    create:
-      invalid: Leider ist etwas schiefgelaufen, versuche es nochmals.
-      success: Du hast dich erfolgreich angemeldet. Viel spass mit Journey!
-    form:
-      submit: Einloggen
-    new:
-      alert: Falsches Passwort oder E-mail
-      title: Login
-  users:
-    create:
-      failed: Konto konnte nicht erstellt werden. Bitte Formular prüfen.
-      success: Konto erstellt. Willkommen bei Journey!
-    new:
-      birthday: Geburtsdatum
-      country: Land
-      create_failed: 'Konto konnte nicht erstellt werden:'
-      fields:
-        email: E-Mail
-        name: Name
-        password: Passwort
-        password_confirmation: Passwort wiederholen
-      headquarters: Hauptsitz
-      optional_legend: Optional
-      phone: Telefon
-      phone_countries:
-        at: "🇦🇹 +43 Österreich"
-        au: "🇦🇺 +61 Australien"
-        ch: "🇨🇭 +41 Schweiz"
-        de: "🇩🇪 +49 Deutschland"
-        jp: "🇯🇵 +81 Japan"
-        sep: "──────────"
-        uk: "🇬🇧 +44 Vereinigtes Königreich"
-        us: "🇺🇸 +1 Vereinigte Staaten"
-      placeholders:
-        country: CH
-        headquarters: Zürich
-        phone_local: 79 123 45 67
-      submit: Registrieren
-      title: Konto erstellen
-
-  sessions:
-    new:
-      title: "Anmelden"
-      email: "E-Mail"
-      password: "Passwort"
-      sign_up: "Registrieren"
-      sign_in: "Anmelden"
-      alert: "Ungültige E-Mail oder Passwort"
-  app:
-    name: "Journey"
-  sessions:
-    html_title: "Journey – Anmeldung"
-    heading: "Anmelden"
     cta:
-      sign_in: "Anmelden"
+      sign_in: Anmelden
+    errors:
+      wrong_email_or_password: E-Mail oder Passwort ist falsch.
     fields:
       email:
-        label: "E-Mail"
-        placeholder: "du@beispiel.de"
+        label: E-Mail
+        placeholder: du@beispiel.de
       password:
-        label: "Passwort"
+        label: Passwort
         placeholder: "••••••••"
-    forgot_password: "Passwort vergessen?"
-    signup_prompt:
-      text: "Noch kein Konto?"
-      link: "Konto erstellen"
-    signed_in: "Erfolgreich angemeldet."
-    signed_out: "Abgemeldet."
-    invalid: "E-Mail oder Passwort ist falsch."
-  users:
-    already_have_account: "Schon einen Account?"
+    forgot_password: Passwort vergessen?
+    form:
+      submit: Anmelden
+    heading: Anmelden
+    html_title: Journey – Anmeldung
     new:
-      hq: "Headquarters"
-      country: "Country"
+      sign_in: Anmelden
+    signup_prompt:
+      link: Konto erstellen
+      text: Noch kein Konto?
+    success: Erfolgreich angemeldet.
+  users:
+    already_have_account: Schon einen Account?
+    create:
+      failed: Konto konnte nicht erstellt werden. Bitte Eingaben prüfen.
+      success: Konto erfolgreich erstellt.
+    new:
+      birthday: Geburtsdatum
+      country: Country
+      fields:
+        email: E-Mail
+        password: Passwort
+        password_confirmation: Passwort wiederholen
+      hq: Headquarters
+      phone: Telefon
+      placeholders:
+        country: CH
+        hq: Hauptsitz
+        phone_local: 79 123 45 67
+      required_note: "* Pflichtfelder"
+      submit: Registrieren
+      title: Erstelle dein Konto

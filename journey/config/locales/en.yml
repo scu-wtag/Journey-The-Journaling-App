@@ -1,5 +1,7 @@
 ---
 en:
+  app:
+    name: Journey
   clearance:
     sessions:
       form:
@@ -9,77 +11,46 @@ en:
       subtitle: Placeholder home. Only Sign Up is in scope.
       title: Journey
   sessions:
-    create:
-      invalid: Something went wrong, try again.
-      success: You have successfully logged in. Have fun with Journey!
+    cta:
+      sign_in: Sign in
+    errors:
+      wrong_email_or_password: Email or password is wrong.
+    fields:
+      email:
+        label: Email
+        placeholder: you@example.com
+      password:
+        label: Password
+        placeholder: "••••••••"
+    forgot_password: Forgot password?
     form:
       submit: Sign in
+    heading: Login
+    html_title: Journey – Login
     new:
-      alert: Invalid email or password
-      title: Sign in
+      sign_in: Sign in
+    signup_prompt:
+      link: Create one
+      text: Don't have an account?
+    success: Signed in successfully.
   users:
+    already_have_account: Already have an account?
     create:
-      failed: Could not create the account. Please check the form.
-      success: Account created. Have fun with Journey!
+      failed: Account could not be created. Please check the errors below.
+      success: Account created successfully.
     new:
       birthday: Date of birth
       country: Country
-      create_failed: 'Could not create account:'
       fields:
         email: Email
-        name: Name
         password: Password
-        password_confirmation: Repeat password
-      headquarters: Headquarters
-      optional_legend: Optional
+        password_confirmation: Confirm password
+      hq: Headquarters
       phone: Phone
-      phone_countries:
-        at: "🇦🇹 +43 Austria"
-        au: "🇦🇺 +61 Australia"
-        ch: "🇨🇭 +41 Switzerland"
-        de: "🇩🇪 +49 Germany"
-        jp: "🇯🇵 +81 Japan"
-        sep: "──────────"
-        uk: "🇬🇧 +44 United Kingdom"
-        us: "🇺🇸 +1 United States"
       placeholders:
         country: CH
-        headquarters: Zurich
+        hq: Headquarters
         phone_local: 79 123 45 67
-      submit: Sign Up
+      required_note: "* indicates required fields"
+      submit: Sign up
       title: Create your account
-
-  sessions:
-    new:
-      title: "Sign in"
-      email: "Email"
-      password: "Password"
-      sign_up: "Sign up"
-      sign_in: "Sign in"
-      alert: "Invalid email or password"
-  app:
-    name: "Journey"
-  sessions:
-    html_title: "Journey – Login"
-    heading: "Login"
-    cta:
-      sign_in: "Sign in"
-    fields:
-      email:
-        label: "Email"
-        placeholder: "you@example.com"
-      password:
-        label: "Password"
-        placeholder: "••••••••"
-    forgot_password: "Forgot password?"
-    signup_prompt:
-      text: "Don't have an account?"
-      link: "Create one"
-    signed_in: "Signed in successfully."
-    signed_out: "Signed out."
-    invalid: "Invalid email or password."
-  users:
-    already_have_account: "Already have an account?"
-    new:
-      hq: "Headquarters"
-      country: "Country"

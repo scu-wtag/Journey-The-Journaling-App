@@ -14,20 +14,23 @@
     <section class="card" aria-labelledby="login-title">
       <h2 id="login-title" class="card-title"><%= t("sessions.heading") %></h2>
 
+      <%# nur EIN Alert oben %>
       <% if flash[:alert].present? %>
-        <p class="info"><%= flash[:alert] %></p>
-      <% end %>
-      <% if flash[:notice].present? %>
-        <p class="info"><%= flash[:notice] %></p>
+        <p class="info error" role="alert"><%= flash[:alert] %></p>
+      <% elsif flash[:notice].present? %>
+        <p class="info" role="status"><%= flash[:notice] %></p>
       <% end %>
 
-      <%= form_with url: sign_in_path, scope: :session, method: :post, data: { turbo: false }, class: "form" do |f| %>
+      <%= form_with model: @session, url: sign_in_path, scope: :session, method: :post, data: { turbo: false }, class: "form" do |f| %>
         <label class="field">
           <span class="label">
             <%= t("sessions.fields.email.label") %>
             <span aria-hidden="true" class="req">*</span>
           </span>
-          <%= f.email_field :email, required: true, autocomplete: "username", placeholder: t("sessions.fields.email.placeholder") %>
+          <%= f.email_field :email,
+                required: true,
+                autocomplete: "username",
+                placeholder: t("sessions.fields.email.placeholder") %>
         </label>
 
         <label class="field">
@@ -35,7 +38,10 @@
             <%= t("sessions.fields.password.label") %>
             <span aria-hidden="true" class="req">*</span>
           </span>
-          <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: t("sessions.fields.password.placeholder") %>
+          <%= f.password_field :password,
+                required: true,
+                autocomplete: "current-password",
+                placeholder: t("sessions.fields.password.placeholder") %>
         </label>
 
         <div class="actions">
