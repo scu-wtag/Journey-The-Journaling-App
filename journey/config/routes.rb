@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   scope '(:locale)', locale: /en|de/ do
     resources :registrations, only: %i(new create)
-    get  '/signup', to: 'users#new', as: :sign_up
+    get '/signup', to: 'users#new', as: :sign_up
     post '/signup', to: 'users#create'
 
     resource :session, only: %i(create destroy), controller: 'sessions'
