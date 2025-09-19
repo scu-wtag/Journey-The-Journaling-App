@@ -20,7 +20,8 @@ en:
     new:
       alert: Wrong password or email
       sign_in: Sign in
-      title: Login
+    sign_out: Successfully signed out.
+    sign_out: Successfully signed out.
     signup_prompt:
       link: Create account
       text: No account yet?
@@ -57,47 +58,3 @@ en:
       required_note: "indicates required fields"
       submit: Sign Up
       title: Create your account
-    create:
-      success: "Account created. Have fun with Journey!"
-      failed:  "Could not create the account. Please check the form."
-  errors:
-    messages:
-      mismatch: "does not match the confirmation"
-  home:
-    show:
-      title: "Journey"
-      subtitle: "Placeholder home. Only Sign Up is in scope."
-  sessions:
-    new:
-      title: "Sign in"
-      email: "Email"
-      password: "Password"
-      sign_up: "Sign up"
-      sign_in: "Sign in"
-      alert: "Invalid email or password"
-  app:
-    name: "Journey"
-  sessions:
-    html_title: "Journey – Login"
-    heading: "Login"
-    cta:
-      sign_in: "Sign in"
-    fields:
-      email:
-        label: "Email"
-        placeholder: "you@example.com"
-      password:
-        label: "Password"
-        placeholder: "••••••••"
-    forgot_password: "Forgot password?"
-    signup_prompt:
-      text: "Don't have an account?"
-      link: "Create one"
-    signed_in: "Signed in successfully."
-    signed_out: "Signed out."
-    invalid: "Invalid email or password."
-  users:
-    already_have_account: "Already have an account?"
-    new:
-      hq: "Headquarters"
-      country: "Country"

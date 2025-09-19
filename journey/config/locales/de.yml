@@ -21,6 +21,7 @@ de:
       alert: Falsches Passwort oder E-Mail
       sign_in: Anmelden
     sign_out: Erfolgreich abgemeldet.
+    sign_out: Erfolgreich abgemeldet.
     signup_prompt:
       link: Konto erstellen
       text: Noch kein Konto?
@@ -56,47 +57,3 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-    create:
-        success: "Konto erstellt. Willkommen bei Journey!"
-        failed:  "Konto konnte nicht erstellt werden. Bitte Formular prüfen."
-  errors:
-    messages:
-      mismatch: "stimmt nicht mit der Bestätigung überein"
-  home:
-    show:
-      title: "Journey"
-      subtitle: "Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang."
-  sessions:
-    new:
-      title: "Anmelden"
-      email: "E-Mail"
-      password: "Passwort"
-      sign_up: "Registrieren"
-      sign_in: "Anmelden"
-      alert: "Ungültige E-Mail oder Passwort"
-  app:
-    name: "Journey"
-  sessions:
-    html_title: "Journey – Anmeldung"
-    heading: "Anmelden"
-    cta:
-      sign_in: "Anmelden"
-    fields:
-      email:
-        label: "E-Mail"
-        placeholder: "du@beispiel.de"
-      password:
-        label: "Passwort"
-        placeholder: "••••••••"
-    forgot_password: "Passwort vergessen?"
-    signup_prompt:
-      text: "Noch kein Konto?"
-      link: "Konto erstellen"
-    signed_in: "Erfolgreich angemeldet."
-    signed_out: "Abgemeldet."
-    invalid: "E-Mail oder Passwort ist falsch."
-  users:
-    already_have_account: "Schon einen Account?"
-    new:
-      hq: "Headquarters"
-      country: "Country"

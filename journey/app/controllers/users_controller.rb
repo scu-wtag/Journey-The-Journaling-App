@@ -9,8 +9,9 @@ class UsersController < Clearance::UsersController
     check_password_confirmation
     normalize_phone!(@user.profile)
 
-    @user.errors.add(:email, :taken) if @user.email.present? &&
-                                        User.exists?(email: @user.email.to_s.downcase)
+    if @user.email.present? && User.exists?(email: @user.email.to_s.downcase)
+      @user.errors.add(:email, :taken)
+    end
 
     return render_new_error if @user.errors.any?
     return handle_success if @user.save
@@ -22,7 +23,6 @@ class UsersController < Clearance::UsersController
 
   def require_signed_out
     return unless signed_in?
-
     redirect_to root_path(locale: params[:locale] || I18n.locale || I18n.default_locale)
   end
 
@@ -56,6 +56,11 @@ class UsersController < Clearance::UsersController
     raw.to_h.symbolize_keys.slice(*allowed)
   end
 
+  def sanitize_profile_attrs(raw)
+    allowed = Profile.attribute_names.map(&:to_sym)
+    raw.to_h.symbolize_keys.slice(*allowed)
+  end
+
   def user_params
     params.fetch(:user, {}).permit(
       :email, :password, :password_confirmation, :name,
@@ -77,6 +82,11 @@ class UsersController < Clearance::UsersController
 
   def add_password_mismatch_error
     @user.errors.add(:password, :mismatch)
+    confirmation.present? && password != confirmation
+  end
+
+  def add_password_mismatch_error
+    @user.errors.add(:password, :mismatch)
   end
 
   def normalize_phone!(profile)
@@ -88,7 +98,7 @@ class UsersController < Clearance::UsersController
   end
 
   def render_new_error
-    flash.now[:alert] = t('users.create.failed', default: '')
+    flash.now[:alert] = t("users.create.failed", default: "")
     render :new, status: :unprocessable_content
   end
 
@@ -100,7 +110,7 @@ class UsersController < Clearance::UsersController
   end
 
   def handle_failure
-    flash.now[:alert] = t('users.create.failed', default: '')
+    flash.now[:alert] = t("users.create.failed", default: "")
     render :new, status: :unprocessable_content
   end
 end
