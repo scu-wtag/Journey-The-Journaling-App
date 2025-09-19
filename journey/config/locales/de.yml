@@ -13,7 +13,7 @@ de:
       email:
         placeholder: du@beispiel.de
       password:
-        placeholder: "••••••••"
+        placeholder: "*******"
     forgot_password: Passwort vergessen?
     heading: Anmelden
     html_title: Journey – Anmeldung

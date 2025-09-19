@@ -13,7 +13,7 @@ en:
       email:
         placeholder: you@example.com
       password:
-        placeholder: "••••••••"
+        placeholder: "*******"
     forgot_password: Forgot password?
     heading: Sign in
     html_title: Journey – Sign in
