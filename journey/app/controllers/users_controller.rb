@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   def check_password_confirmation
     password = params.dig(:user, :password)
     confirmation = params.dig(:user, :password_confirmation)
-    @user.errors.add(:password, :mismatch) if conf.present? && password != confirmation
+    @user.errors.add(:password, :mismatch) if confirmation.present? && password != confirmation
   end
 
   def normalize_phone!(profile)
