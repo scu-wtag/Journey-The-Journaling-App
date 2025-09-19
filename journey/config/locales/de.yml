@@ -53,6 +53,6 @@ de:
         country: CH
         headquarters: Zürich
         phone_local: 79 123 45 67
-      required_note: "Pflichtfelder"
+      required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
