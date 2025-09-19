@@ -53,6 +53,6 @@ en:
         country: CH
         headquarters: Zurich
         phone_local: 555 123 456
-      required_note: "indicates required fields"
+      required_note: indicates required fields
       submit: Sign Up
       title: Create your account
