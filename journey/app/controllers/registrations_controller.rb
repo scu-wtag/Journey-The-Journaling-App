@@ -2,14 +2,16 @@ class RegistrationsController < Clearance::UsersController
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create
 
-  def new; end
+  def new
+    render "users/new"
+  end
 
   def create
     check_password_confirmation
     normalize_phone!(@user.profile)
 
     return render_new_error if @user.errors.any?
-    return handle_success if @user.save
+    return handle_success   if @user.save
 
     handle_failure
   end
@@ -52,7 +54,7 @@ class RegistrationsController < Clearance::UsersController
   end
 
   def render_new_error
-    render :new, status: :unprocessable_content
+    render "users/new", status: :unprocessable_entity
   end
 
   def handle_success
@@ -61,11 +63,12 @@ class RegistrationsController < Clearance::UsersController
 
   def handle_failure
     flash.now[:alert] = t('users.create.failed', default: '')
-    render :new, status: :unprocessable_content
+    render "users/new", status: :unprocessable_entity
   end
 
   prepend_before_action :require_signed_out, only: %i(new create)
   def require_signed_out
-    redirect_to root_path(locale: I18n.locale) if signed_in?
+    return unless signed_in?
+    redirect_to root_path(locale: params[:locale] || I18n.locale || I18n.default_locale)
   end
 end

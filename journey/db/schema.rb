@@ -31,11 +31,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_070926) do
     t.string "phone_country_code"
     t.string "phone_local"
     t.string "phone"
-    t.date "birthday"
     t.string "country"
     t.string "headquarters"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "birthday"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -66,6 +66,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_070926) do
     t.string "name"
     t.integer "role", default: 1, null: false
     t.integer "last_team_id"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["last_team_id"], name: "index_users_on_last_team_id"

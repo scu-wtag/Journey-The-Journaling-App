@@ -1,18 +1,19 @@
 class SessionsController < Clearance::SessionsController
-  def new
-    @session = SessionForm.new(email: params.dig(:session, :email))
-  end
-
   def create
-    @session = SessionForm.new(session_params)
+    @user = authenticate(params)
 
-    if (user = @session.authenticate)
-      sign_in user
-      redirect_to root_path, notice: t('sessions.success')
+    if @user
+      sign_in @user
+      redirect_to url_after_create, notice: t("sessions.success", default: t("sessions.success", default: ""))
     else
-      flash.now[:alert] = t('sessions.errors.wrong_email_or_password')
+      flash.now[:alert] = t("users.create.failed", default: t("sessions.new.alert"))
       render :new, status: :unprocessable_content
     end
+  end
+
+  def destroy
+    sign_out
+    redirect_to url_after_destroy, notice: t("sessions.sign_out")
   end
 
   private
