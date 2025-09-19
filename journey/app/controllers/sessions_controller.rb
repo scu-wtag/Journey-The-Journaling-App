@@ -4,16 +4,16 @@ class SessionsController < Clearance::SessionsController
 
     if @user
       sign_in @user
-      redirect_to url_after_create, notice: t("sessions.success", default: t("sessions.success", default: ""))
+      redirect_to url_after_create, notice: t('sessions.success', default: t('sessions.success', default: ''))
     else
-      flash.now[:alert] = t("users.create.failed", default: t("sessions.new.alert"))
+      flash.now[:alert] = t('users.create.failed', default: t('sessions.new.alert'))
       render :new, status: :unprocessable_content
     end
   end
 
   def destroy
     sign_out
-    redirect_to url_after_destroy, notice: t("sessions.sign_out")
+    redirect_to url_after_destroy, notice: t('sessions.sign_out')
   end
 
   private

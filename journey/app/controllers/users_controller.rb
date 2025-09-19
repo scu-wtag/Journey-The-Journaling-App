@@ -1,7 +1,7 @@
 class UsersController < Clearance::UsersController
-  prepend_before_action :require_signed_out, only: %i[new create]
-  before_action :build_user,         only: :new
-  before_action :prepare_user,       only: :create
+  prepend_before_action :require_signed_out, only: %i(new create)
+  before_action :build_user, only: :new
+  before_action :prepare_user, only: :create
 
   def new; end
 
@@ -9,9 +9,7 @@ class UsersController < Clearance::UsersController
     check_password_confirmation
     normalize_phone!(@user.profile)
 
-    if @user.email.present? && User.exists?(email: @user.email.to_s.downcase)
-      @user.errors.add(:email, :taken)
-    end
+    @user.errors.add(:email, :taken) if @user.email.present? && User.exists?(email: @user.email.to_s.downcase)
 
     return render_new_error if @user.errors.any?
     return handle_success if @user.save
@@ -27,6 +25,7 @@ class UsersController < Clearance::UsersController
 
   def require_signed_out
     return unless signed_in?
+
     redirect_to root_path(locale: params[:locale] || I18n.locale || I18n.default_locale)
   end
 
@@ -43,9 +42,9 @@ class UsersController < Clearance::UsersController
   def user_from_params
     p = user_params
     attrs = {
-      email:    p[:email],
+      email: p[:email],
       password: p[:password],
-      name:     p[:name]
+      name: p[:name],
     }
 
     if p[:profile_attributes].present?
@@ -69,11 +68,12 @@ class UsersController < Clearance::UsersController
 
   def check_password_confirmation
     return unless password_confirmation_mismatch?
+
     add_password_mismatch_error
   end
 
   def password_confirmation_mismatch?
-    password  = params.dig(:user, :password)
+    password = params.dig(:user, :password)
     confirmation = params.dig(:user, :password_confirmation)
     @user.errors.add(:password, :mismatch) if confirmation.present? && password != confirmation
   end
@@ -87,19 +87,19 @@ class UsersController < Clearance::UsersController
   end
 
   def render_new_error
-    flash.now[:alert] = t("users.create.failed", default: "")
+    flash.now[:alert] = t('users.create.failed', default: '')
     render :new, status: :unprocessable_content
   end
 
   def handle_success
     redirect_to(
       Clearance.configuration.redirect_url,
-      notice: t("users.create.success"),
+      notice: t('users.create.success'),
     )
   end
 
   def handle_failure
-    flash.now[:alert] = t("users.create.failed", default: "")
+    flash.now[:alert] = t('users.create.failed', default: '')
     render :new, status: :unprocessable_content
   end
 end
