@@ -11,7 +11,7 @@ class RegistrationsController < Clearance::UsersController
     normalize_phone!(@user.profile)
 
     return render_new_error if @user.errors.any?
-    return handle_success   if @user.save
+    return handle_success if @user.save
 
     handle_failure
   end
@@ -56,7 +56,7 @@ class RegistrationsController < Clearance::UsersController
   end
 
   def render_new_error
-    render "users/new", status: :unprocessable_entity
+    render 'users/new', status: :unprocessable_entity
   end
 
   def handle_success

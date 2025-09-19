@@ -17,7 +17,7 @@ class SessionsController < Clearance::SessionsController
 
   def destroy
     sign_out
-    redirect_to url_after_destroy, notice: t("sessions.sign_out")
+    redirect_to url_after_destroy, notice: t('sessions.sign_out')
   end
 
   private
