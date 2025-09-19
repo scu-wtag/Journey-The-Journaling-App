@@ -7,7 +7,7 @@ RSpec.describe SessionsController, type: :request do
   describe "POST /login (sign in)" do
     it "logs the user in with valid credentials and redirects" do
       post login_path, params: { session: { email: user.email, password: password } }
-      expect(response).to redirect_to(root_path(locale: I18n.locale))
+      expect(response).to redirect_to(root_path(locale: I18n.default_locale))
       follow_redirect!
       expect(response).to have_http_status(:ok)
 

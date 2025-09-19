@@ -1,0 +1,103 @@
+<main class="screen">
+    <h1 class="app-title"><%= t("app.name") %></h1>
+      <section class="card" aria-labelledby="register-title">
+        <h2 id="register-title" class="card-title"><%= t("users.new.title") %></h2>
+        <p class="info"><span class="req">*</span> <%= t("users.new.required_note") %></p>
+
+        <% if @user.errors.any? %>
+          <div class="error-messages" style="color:#b00">
+            <% @user.errors.full_messages.each do |m| %>
+              <div><%= m %></div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= form_with model: @user, url: registrations_path, data: { turbo: false }, html: { class: "form", novalidate: true } do |f| %>
+          <label class="field">
+            <span class="label">
+              <%= t("users.new.fields.email") %>
+              <span aria-hidden="true" class="req">*</span>
+            </span>
+            <%= f.email_field :email, required: true, autocomplete: "username" %>
+          </label>
+
+          <label class="field">
+            <span class="label">
+              <%= t("users.new.fields.name") %>
+              <span aria-hidden="true" class="req">*</span>
+            </span>
+            <%= f.text_field :name, required: true, autocomplete: "name" %>
+          </label>
+
+          <label class="field">
+            <span class="label">
+              <%= t("users.new.fields.password") %>
+              <span aria-hidden="true" class="req">*</span>
+            </span>
+            <%= f.password_field :password, required: true, autocomplete: "new-password" %>
+          </label>
+
+          <label class="field">
+            <span class="label">
+              <%= t("users.new.fields.password_confirmation") %>
+              <span aria-hidden="true" class="req">*</span>
+            </span>
+            <%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
+          </label>
+
+          <%= f.fields_for :profile do |p| %>
+            <label class="field">
+              <span class="label"><%= t("users.new.phone") %></span>
+
+              <div class="input-row" role="group" aria-label="<%= t('users.new.phone') %>">
+                  <select id="dial" name="dial required">
+                  <option value="41" data-example="79 123 45 67" selected><%= t('users.new.phone_countries.ch') %></option>
+                  <option value="49" data-example="1512 3456789" selected><%= t('users.new.phone_countries.de') %></option>
+                  <option value="43" data-example="660 123456" selected><%= t('users.new.phone_countries.at') %></option>
+                  <option disabled><%= t('users.new.phone_countries.sep') %></option>
+                  <option value="44" data-example="7400 123456" selected><%= t('users.new.phone_countries.uk') %></option>
+                  <option value="1" data-example="415 555 2671" selected><%= t('users.new.phone_countries.us') %></option>
+                  <option value="81" data-example="70 1234 5678" selected><%= t('users.new.phone_countries.jp') %></option>
+                  <option value="61" data-example="412 345 678" selected><%= t('users.new.phone_countries.au') %></option>
+
+              <%= p.telephone_field :phone_local,
+                    placeholder: t("users.new.placeholders.phone_local"),
+                    inputmode: "tel",
+                    autocomplete: "tel-national",
+                    aria: { describedby: "phone-hint" },
+                    pattern: "^[0-9][0-9\\s\\-]{5,17}$",
+                    class: "phone-number",
+                    id: "phone" %>
+            </div>
+
+            <%= p.hidden_field :phone, id: "phone_e164" %>
+          </label>
+
+          <label class="field">
+            <span class="label"><%= t("users.new.birthday") %></span>
+            <%= p.date_field :birthday %>
+          </label>
+
+          <label class="field">
+            <span class="label"><%= t("users.new.country") %></span>
+            <%= p.text_field :country, placeholder: t("users.new.placeholders.country"), id: "country" %>
+          </label>
+
+          <label class="field">
+            <span class="label"><%= t("users.new.headquarters") %></span>
+            <%= p.text_field :headquarters, placeholder: t("users.new.placeholders.headquarters"), id: "hq" %>
+          </label>
+        <% end %>
+      
+        <div class="actions">
+          <button class="btn" type="submit"><%= t("users.new.submit", default: "Sign Up") %></button>
+        </div>
+      <% end %>
+
+      <p class="muted">
+        <%= t("users.already_have_account") %>
+        <%= link_to t("sessions.new.sign_in"), sign_in_path, class: "link" %>
+      </p>
+    </section>
+  </section>
+</main>
