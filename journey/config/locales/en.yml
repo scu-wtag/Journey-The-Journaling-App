@@ -8,7 +8,7 @@ en:
       title: Journey
   sessions:
     errors:
-      wrong_email_or_password: Email or password is incorrect.
+      invalid_credentials: Email or password is incorrect.
     fields:
       email:
         placeholder: you@example.com
