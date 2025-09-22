@@ -42,7 +42,7 @@ class RegistrationsController < Clearance::UsersController
   def check_password_confirmation
     password = params.dig(:user, :password)
     confirmation = params.dig(:user, :password_confirmation)
-    return if confirmation.blank? || password == confoîrmation
+    return if confirmation.blank? || password == confirmation
 
     @user.errors.add(:password, :mismatch)
   end
