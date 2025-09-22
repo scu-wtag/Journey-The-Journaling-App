@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :passwords, only: %i(new create), controller: 'clearance/passwords'
     resource :password, only: %i(edit update), controller: 'clearance/passwords'
     resource :profile, only: %i(show edit update)
-    resources :users, only: [:new, :create]
+    resources :users, only: %i(new create)
 
     root 'home#show'
   end

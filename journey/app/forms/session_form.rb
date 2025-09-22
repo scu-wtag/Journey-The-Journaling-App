@@ -10,10 +10,10 @@ class SessionForm
 
     user = User.find_by(email: email)
     authenticated = if user.respond_to?(:authenticate)
-           user.authenticate(password)
-         elsif user.respond_to?(:authenticated?)
-           user.authenticated?(password) && user
-         end
+                      user.authenticate(password)
+                    elsif user.respond_to?(:authenticated?)
+                      user.authenticated?(password) && user
+                    end
     errors.add(:base, I18n.t('sessions.errors.wrong_email_or_password')) unless authenticated
     authenticated
   end

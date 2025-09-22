@@ -1,0 +1,26 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 50% -10%, #1a102b 0%, var(--bg) 60%);
+  color: var(--text);
+  min-height: 10dvh;
+}
+
+.screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  gap: 18px;
+}
+
+.app-title {
+  margin: 0;
+  letter-spacing: .06em;
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 700;
+}
+
+.small { font-size: 14px; }
+.muted { color: var(--muted); margin-top: 14px; }
