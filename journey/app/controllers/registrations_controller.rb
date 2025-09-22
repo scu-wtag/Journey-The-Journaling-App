@@ -27,11 +27,7 @@ class RegistrationsController < Clearance::UsersController
   end
 
   def user_from_params
-    attrs = params.expect(
-      user: [:email, :password, :name,
-             { profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters) },],
-    )
-    User.new(attrs)
+    User.new(user_params)
   end
 
   def user_params
