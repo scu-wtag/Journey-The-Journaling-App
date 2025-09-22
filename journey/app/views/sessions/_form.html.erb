@@ -1,18 +1,23 @@
-<%= form_with scope: :session, url: session_path, data: { turbo: false } do |form| %>
-  <div class="text-field email optional session_email">
-    <%= form.label :email %>
+<%= form_with scope: :session, url: session_path, data: { turbo: false }, class: "form" do |form| %>
+  <div class="form__field">
+    <%= form.label :email, class: "form__label" %>
     <%= form.email_field :email,
           value: (@email || params.dig(:session, :email)),
           autofocus: true,
-          autocomplete: "username" %>
+          autocomplete: "username",
+          class: "form__input" %>
   </div>
 
-  <div class="password-field password optional session_password">
-    <%= form.label :password %>
-    <%= form.password_field :password, autocomplete: "current-password" %>
+  <div class="form__field">
+    <%= form.label :password, class: "form__label" %>
+    <%= form.password_field :password,
+          autocomplete: "current-password",
+          class: "form__input" %>
   </div>
 
-  <div class="submit-field">
-    <%= users.new.sign_in t %>
+  <div class="form__actions">
+    <button type="submit" class="form__btn">
+      <%= t("sessions.new.sign_in") %>
+    </button>
   </div>
 <% end %>
