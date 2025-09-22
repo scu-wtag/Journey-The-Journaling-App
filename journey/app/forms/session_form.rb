@@ -9,12 +9,12 @@ class SessionForm
     return nil unless valid?
 
     user = User.find_by(email: email)
-    ok = if user.respond_to?(:authenticate)
+    authenticated = if user.respond_to?(:authenticate)
            user.authenticate(password)
          elsif user.respond_to?(:authenticated?)
            user.authenticated?(password) && user
          end
-    errors.add(:base, I18n.t('sessions.errors.wrong_email_or_password')) unless ok
-    ok
+    errors.add(:base, I18n.t('sessions.errors.wrong_email_or_password')) unless authenticated
+    authenticated
   end
 end
