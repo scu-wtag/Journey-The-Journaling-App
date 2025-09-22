@@ -9,12 +9,8 @@ gem 'cancancan', '~> 3.6'
 gem 'clearance', '~> 2.6'
 
 gem 'dartsass-rails'
-gem 'database_cleaner-active_record', group: :test
 gem 'debug', platforms: %i(mri windows), require: 'debug/prelude'
 
-gem 'factory_bot_rails', group: :test
-
-gem 'i18n-tasks', '~> 1.0.15', group: :development
 gem 'importmap-rails'
 
 gem 'pg', '>= 1.5', '< 2.0'
@@ -22,10 +18,20 @@ gem 'propshaft'
 gem 'puma', '>= 5.0'
 
 gem 'rails', '~> 8.0.2', '>= 8.0.2.1'
-gem 'rspec-rails', groups: [:development, :test]
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 
-gem 'shoulda-matchers', groups: [:development, :test]
+group :development do
+  gem 'i18n-tasks', '~> 1.0.15'
+  gem 'web-console'
+end
 
-gem 'web-console', group: :development
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+end
+
+group :test do
+  gem 'database_cleaner-active_record'
+  gem 'factory_bot_rails'
+end
