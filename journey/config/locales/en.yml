@@ -18,6 +18,7 @@ en:
     heading: Sign in
     html_title: Journey – Sign in
     new:
+      title: Login
       alert: Wrong password or email
       sign_in: Sign in
     sign_out: Successfully signed out.
