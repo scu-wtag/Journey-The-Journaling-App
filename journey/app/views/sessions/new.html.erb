@@ -15,18 +15,26 @@
     <% end %>
 
     <%= form_with model: @session, url: sign_in_path, scope: :session, method: :post, data: { turbo: false }, class: "form" do |f| %>
-      <label class="field">
-        <span class="field__label">
-          <%= t("users.new.fields.email") %><span aria-hidden="true" class="req">*</span>
+      <label class="form__field">
+        <span class="form__label">
+          <%= t("users.new.fields.email") %><span aria-hidden="true" class="form__req">*</span>
         </span>
-        <%= f.email_field :email, required: true, autocomplete: "username", placeholder: t("sessions.fields.email.placeholder") %>
+        <%= f.email_field :email,
+              required: true,
+              autocomplete: "username",
+              placeholder: t("sessions.fields.email.placeholder"),
+              class: "form__input" %>
       </label>
 
-      <label class="field">
-        <span class="field__label">
-          <%= t("users.new.fields.password") %><span aria-hidden="true" class="req">*</span>
+      <label class="form__field">
+        <span class="form__label">
+          <%= t("users.new.fields.password") %><span aria-hidden="true" class="form__req">*</span>
         </span>
-        <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: t("sessions.fields.password.placeholder") %>
+        <%= f.password_field :password,
+              required: true,
+              autocomplete: "current-password",
+              placeholder: t("sessions.fields.password.placeholder"),
+              class: "form__input" %>
       </label>
 
       <div class="card__actions">
