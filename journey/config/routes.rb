@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'profiles/show'
+  get 'profiles/edit'
+  get 'profiles/update'
   scope '(:locale)', locale: /en|de/ do
     resources :users, only: %i(new create)
     get '/signup', to: 'users#new', as: :sign_up
@@ -12,6 +15,13 @@ Rails.application.routes.draw do
     resources :passwords, only: %i(new create), controller: 'clearance/passwords'
     resource :password, only: %i(edit update), controller: 'clearance/passwords'
 
+    resource :profile, only: %i(show edit update)
+
+    resource :profile, only: %i(show update)
+
+    namespace :settings do
+      resource :password, only: %i(show update)
+    end
     resource :profile, only: %i(show edit update)
 
     root 'home#show'

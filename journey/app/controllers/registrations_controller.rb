@@ -33,8 +33,10 @@ class RegistrationsController < Clearance::UsersController
   end
 
   def user_params
-    params.expect(user: [:email, :password, :name,
-                         { profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters) },])
+    params.fetch(:user, {}).permit(
+      :email, :password, :password_confirmation, :name,
+      profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters)
+    )
   end
 
   def check_password_confirmation
@@ -61,6 +63,7 @@ class RegistrationsController < Clearance::UsersController
 
   def handle_success
     redirect_to Clearance.configuration.redirect_url, notice: t('users.create.success')
+    sign_in @user
   end
 
   def handle_failure
