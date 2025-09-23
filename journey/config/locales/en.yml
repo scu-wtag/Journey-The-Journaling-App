@@ -20,7 +20,7 @@ en:
     new:
       alert: Wrong password or email
       sign_in: Sign in
-    sign_out: Successfully signed out.
+      title: Login
     signup_prompt:
       link: Create account
       text: No account yet?
@@ -39,6 +39,7 @@ en:
         password: Password
         password_confirmation: Repeat password
       headquarters: Headquarters
+      optional_legend: Optional
       phone: Phone
       phone_countries:
         at: "+43 Austria"
@@ -53,6 +54,7 @@ en:
         country: CH
         headquarters: Zurich
         phone_local: 555 123 456
-      required_note: indicates required fields
+      required_note: "indicates required fields"
       submit: Sign Up
       title: Create your account
+      
