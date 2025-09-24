@@ -10,7 +10,7 @@
     <p class="card__info"><span class="form__req">*</span> <%= t("users.new.required_note") %></p>
 
     <%= form_with model: @user,
-                  url: registrations_path,
+                  url: users_path,
                   data: { turbo: false },
                   html: { class: "form" } do |f| %>
 

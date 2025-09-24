@@ -9,16 +9,13 @@ class UsersController < Clearance::UsersController
     check_password_confirmation
     normalize_phone!(@user.profile)
 
-    @user.errors.add(:email, :taken) if @user.email.present? && User.exists?(email: @user.email.to_s.downcase)
+    @user.errors.add(:email, :taken) if @user.email.present? &&
+                                        User.exists?(email: @user.email.to_s.downcase)
 
     return render_new_error if @user.errors.any?
     return handle_success if @user.save
 
-    if @user.save
-      handle_success
-    else
-      handle_failure
-    end
+    handle_failure
   end
 
   private
@@ -75,7 +72,11 @@ class UsersController < Clearance::UsersController
   def password_confirmation_mismatch?
     password = params.dig(:user, :password)
     confirmation = params.dig(:user, :password_confirmation)
-    @user.errors.add(:password, :mismatch) if confirmation.present? && password != confirmation
+    confirmation.present? && password != confirmation
+  end
+
+  def add_password_mismatch_error
+    @user.errors.add(:password, :mismatch)
   end
 
   def normalize_phone!(profile)

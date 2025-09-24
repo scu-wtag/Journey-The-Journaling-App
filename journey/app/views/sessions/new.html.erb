@@ -14,7 +14,7 @@
       <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
     <% end %>
 
-    <%= form_with model: @session, url: sign_in_path, scope: :session, method: :post, data: { turbo: false }, class: "form" do |f| %>
+    <%= form_with url: sign_in_path, scope: :session, method: :post, data: { turbo: false } do |f| %>
       <label class="form__field">
         <span class="form__label">
           <%= t("users.new.fields.email") %><span aria-hidden="true" class="form__req">*</span>
@@ -22,6 +22,7 @@
         <%= f.email_field :email,
               required: true,
               autocomplete: "username",
+              value: params.dig(:session, :email),
               placeholder: t("sessions.fields.email.placeholder"),
               class: "form__input" %>
       </label>
@@ -38,7 +39,7 @@
       </label>
 
       <div class="card__actions">
-        <%= link_to t("sessions.forgot_password"), "#", class: "card__actions-link" %>
+        <%= link_to t("sessions.forgot_password"), new_password_path, class: "card__actions-link" %>
         <button class="card__actions-btn" type="submit"><%= t("sessions.new.sign_in") %></button>
       </div>
     <% end %>

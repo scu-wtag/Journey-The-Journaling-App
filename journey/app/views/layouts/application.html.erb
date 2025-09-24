@@ -5,6 +5,8 @@
     <%= yield :styles %>
     <%= javascript_importmap_tags %>
     <%= javascript_import_module_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
   </head>
 
   <body>
