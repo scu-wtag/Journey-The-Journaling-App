@@ -12,6 +12,7 @@ class ProfilesController < ApplicationController
 
   def update
     @profile = current_user.profile || current_user.build_profile
+
     if @profile.update(profile_params)
       redirect_to profile_path, notice: 'Profile updated'
     else
@@ -22,7 +23,14 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.expect(profile: %i(phone_country_code phone_local birthday country headquarters
-                              picture))
+    params.permit(
+      :phone_country_code,
+      :phone_local,
+      :birthday,
+      :country,
+      :headquarters,
+      :picture
+    )
   end
+
 end

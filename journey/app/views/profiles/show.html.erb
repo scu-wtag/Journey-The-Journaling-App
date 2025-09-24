@@ -1,116 +1,125 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/profiles/show" %>
+<% end %>
+
 <header class="navbar">
-  <%= link_to t("app.name"), root_path(locale: I18n.locale), class: "brand" %>
+  <%= link_to t("app.name"), root_path(locale: I18n.locale), class: "navbar__brand" %>
 </header>
 
 <main class="page">
-  <div class="container">
-    <h2 class="title">Profile</h2>
+  <div class="page__container">
+    <h2 class="page__title"><%= t("profiles.show.title") %></h2>
 
-    <div class="profile-head">
-      <div class="avatar">
-        <div class="frame">
-        <% if @profile.picture.attached? %>
-          <%= image_tag @profile.picture.variant(resize_to_fill: [200, 200]),
-            id: "avatarImg",
-            alt: "Profile picture",
-            style: "max-width:100%;max-height:100%;object-fit:cover;border-radius:14px;" %>
-              <% else %>
-                <img id="avatarImg"
-                  src="https://i.pravatar.cc/200?img=1"
-                  alt="Profile picture"
-                  style="max-width:100%;max-height:100%;object-fit:cover;border-radius:14px;" />
-                <% end %>
-              </div>
+    <section class="profile">
+      <div class="profile__head">
+        <div class="profile__avatar">
+          <div class="profile__frame">
+            <% if @profile.picture.attached? %>
+              <%= image_tag @profile.picture.variant(resize_to_fill: [200, 200]),
+                  alt: t("profiles.show.profile_picture_alt"),
+                  class: "profile__image",
+                  id: "avatarImg" %>
+            <% else %>
+              <img src="https://i.pravatar.cc/200?img=1"
+                   alt="<%= t('profiles.show.profile_picture_alt') %>"
+                   class="profile__image"
+                   id="avatarImg" />
+            <% end %>
+          </div>
 
-              <a href="#" class="edit-inline" id="editAvatar">edit</a>
+          <%= form_with model: @profile, url: profile_path, method: :patch,
+                        html: { multipart: true, class: "profile__form" } do |f| %>
 
-              <%= form_with model: @profile, url: profile_path, method: :patch, html: { multipart: true } do |f| %>
-              <%= f.file_field :picture, id: "avatarInput", accept: "image/*", style: "display:none;" %>
-            <div class="actions-top" style="margin-top:.5rem">
-              <%= f.submit "Upload", class: "btn btn-sm" %>
+            <%= f.file_field :picture,
+                  accept: "image/*",
+                  class: "profile__file",
+                  id: "avatarInput",
+                  style: "display:none;" %>
+
+            <button type="button" class="profile__edit" id="editAvatar"><%= t("common.edit") %></button>
+
+            <div class="profile__actions">
+              <%= f.submit t("common.upload"), class: "btn btn--sm" %>
             </div>
           <% end %>
         </div>
 
-        <div>
-        <h3 class="name" id="nameDisplay"><%= current_user.name %></h3>
-        <div class="kv-grid" id="details">
-          <div class="kv-item">
-            <span class="kv-label">Phone</span>
-            <div class="display editable" data-key="phone" data-type="text">
-              <%= @profile&.phone.presence || "-" %>
+        <div class="profile__meta">
+          <h3 class="profile__name" id="nameDisplay"><%= current_user.name %></h3>
+
+          <div class="profile__kv" id="details">
+            <div class="profile__kv-item">
+              <span class="profile__kv-label"><%= t("users.new.phone") %></span>
+              <div class="profile__kv-value" data-key="phone" data-type="text">
+                <%= @profile&.phone.presence || "-" %>
+              </div>
+            </div>
+
+            <div class="profile__kv-item">
+              <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
+              <div class="profile__kv-value" data-key="headquarters" data-type="text">
+                <%= @profile&.headquarters.presence || "-" %>
+              </div>
+            </div>
+
+            <div class="profile__kv-item">
+              <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
+              <div class="profile__kv-value" data-key="email" data-type="email">
+                <%= current_user.email %>
+              </div>
+            </div>
+
+            <div class="profile__kv-item">
+              <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
+              <div class="profile__kv-value" data-key="birthday" data-type="date">
+                <%= @profile&.birthday %>
+              </div>
             </div>
           </div>
 
-          <div class="kv-item">
-            <span class="kv-label">HQ</span>
-            <div class="display editable" data-key="hq" data-type="text">
-              <%= @profile&.headquarters.presence || "-" %>
-            </div>
+          <div class="profile__toolbar">
+            <button class="btn btn--sm" id="editBtn" type="button"><%= t("common.edit") %></button>
           </div>
 
-          <div class="kv-item">
-            <span class="kv-label">Email</span>
-            <div class="display editable" data-key="email" data-type="email">
-              <%= current_user.email %>
-            </div>
+          <div class="page__actions" id="saveBar" style="display:none;">
+            <button class="btn btn--sm" id="cancelBtn" type="button"><%= t("common.cancel") %></button>
+            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t("common.save") %></button>
           </div>
 
-          <div class="kv-item">
-            <span class="kv-label">Geburtsdatum</span>
-            <div class="display editable" data-key="dob" data-type="date">
-              <%= @profile&.birthday %>
-            </div>
-          </div>
-        </div>
-
-        <div class="actions-top">
-          <button class="btn btn-sm" id="editBtn" type="button">edit</button>
         </div>
       </div>
-    </div>
+    </section>
 
     <hr class="rule" />
-    <div class="settings">
-      <h3 class="title" style="font-size:16px;">Settings</h3>
 
-      <div class="kv">
-        <div class="kv-row">
-          <div class="kv-item">
-            <span class="kv-label">Preferred language</span>
-          </div>
-          <div class="kv-item">
-            <select class="input" id="langSelect">
-              <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>English</option>
-              <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>>Deutsch</option>
-              <option value="fr" <%= "selected" if I18n.locale.to_s == "fr" %>>Français</option>
-              <option value="it" <%= "selected" if I18n.locale.to_s == "it" %>>Italiano</option>
-            </select>
-          </div>
+    <section class="settings">
+      <h3 class="settings__title"><%= t("profiles.show.settings_title") %></h3>
+
+      <div class="settings__row">
+        <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
+        <div class="settings__control">
+          <select class="input" id="langSelect">
+            <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>English</option>
+            <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>>Deutsch</option>
+          </select>
         </div>
+      </div>
 
-        <div class="kv-row">
-          <div class="kv-item">
-            <span class="kv-label">Mode</span>
-          </div>
-          <div class="kv-item">
-            <div class="mode-toggle">
-              <span>Light</span>
-              <label class="toggle">
-                <input type="checkbox" id="themeToggle" />
-                <span class="slider" aria-hidden="true"></span>
-              </label>
-              <span>Dark</span>
-            </div>
+      <div class="settings__row">
+        <div class="settings__label"><%= t("profiles.show.mode") %></div>
+        <div class="settings__control">
+          <div class="mode-toggle">
+            <span><%= t("profiles.show.light") %></span>
+            <label class="toggle">
+              <input type="checkbox" id="themeToggle" />
+              <span class="toggle__slider" aria-hidden="true"></span>
+            </label>
+            <span><%= t("profiles.show.dark") %></span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="actions-bottom" id="saveBar" style="display:none;">
-      <button class="btn btn-sm" id="cancelBtn" type="button">cancel</button>
-      <button class="btn" id="saveBtn" type="button" style="min-width:120px;">save</button>
-    </div>
   </div>
 </main>
 
@@ -121,7 +130,6 @@
   const cancelBtn = document.getElementById('cancelBtn');
 
   const detailsContainer = document.getElementById('details');
-  const nameDisplay = document.getElementById('nameDisplay');
   const themeToggle = document.getElementById('themeToggle');
 
   let inputs = [];
@@ -147,7 +155,7 @@
 
   function toDisplay(input){
     const div = document.createElement('div');
-    div.className = 'display editable';
+    div.className = 'profile__kv-value';
     div.dataset.key  = input.dataset.key;
     if(input.type) div.dataset.type = input.type === 'text' ? 'text' : input.type;
     div.textContent = input.value.trim();
@@ -160,7 +168,7 @@
     originals.clear();
     inputs = [];
 
-    const editable = detailsContainer.querySelectorAll('.editable');
+    const editable = detailsContainer.querySelectorAll('.profile__kv-value');
     editable.forEach(el=>{
       originals.set(el.dataset.key, el.textContent.trim());
       const input = toInput(el);
@@ -180,7 +188,7 @@
       inputs.forEach(inp => {
         const key = inp.dataset.key;
         const disp = document.createElement('div');
-        disp.className = 'display editable';
+        disp.className = 'profile__kv-value';
         disp.dataset.key = key;
         disp.dataset.type = inp.type === 'text' ? 'text' : inp.type;
         disp.textContent = originals.get(key) ?? '';
@@ -192,9 +200,9 @@
     saveBar.style.display = 'none';
   }
 
-  editBtn.addEventListener('click', enterEditMode);
-  saveBtn.addEventListener('click', ()=>exitEditMode(true));
-  cancelBtn.addEventListener('click', ()=>exitEditMode(false));
+  editBtn?.addEventListener('click', enterEditMode);
+  saveBtn?.addEventListener('click', ()=>exitEditMode(true));
+  cancelBtn?.addEventListener('click', ()=>exitEditMode(false));
 
   const THEME_KEY = 'journey-theme';
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -210,75 +218,18 @@
     applyTheme(theme);
   })();
 
-  function getToggleCenter(){
-    const slider = document.querySelector('.slider');
-    if (!slider) return { x: window.innerWidth/2, y: window.innerHeight/2 };
-    const rect = slider.getBoundingClientRect();
-    return { x: Math.round(rect.left + rect.width/2), y: Math.round(rect.top + rect.height/2) };
-  }
+  themeToggle?.addEventListener('change', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const target  = current === 'dark' ? 'light' : 'dark';
+    applyTheme(target);
+    localStorage.setItem(THEME_KEY, target);
+  });
 
-  function circularRevealTo(targetTheme, fromX, fromY){
-    const dx = Math.max(fromX, window.innerWidth - fromX);
-    const dy = Math.max(fromY, window.innerHeight - fromY);
-    const endR = Math.hypot(dx, dy) + 40;
-
-    const overlay = document.createElement('div');
-    overlay.className = `theme-overlay target-${targetTheme}`;
-    overlay.style.setProperty('--cx', fromX + 'px');
-    overlay.style.setProperty('--cy', fromY + 'px');
-    overlay.style.setProperty('--rEnd', endR + 'px');
-    overlay.style.setProperty('--overlay-opacity', targetTheme === 'light' ? '0.92' : '0.96');
-
-    document.body.appendChild(overlay);
-    overlay.getBoundingClientRect();
-    overlay.classList.add('reveal-in');
-
-    const done = () => {
-      applyTheme(targetTheme);
-      localStorage.setItem(THEME_KEY, targetTheme);
-      overlay.remove();
-    };
-
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) { done(); return; }
-    overlay.addEventListener('animationend', done, { once: true });
-  }
-
-  if (themeToggle) {
-    themeToggle.addEventListener('change', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const target  = current === 'dark' ? 'light' : 'dark';
-      const { x, y } = getToggleCenter();
-      circularRevealTo(target, x, y);
-    });
-  }
-
-  const editAvatar = document.getElementById('editAvatar');
+  const editAvatar  = document.getElementById('editAvatar');
   const avatarInput = document.getElementById('avatarInput');
-  const avatarImg = document.getElementById('avatarImg');
-  const DEFAULT_AVATAR = "https://i.pravatar.cc/200?img=1";
 
-  if (editAvatar && avatarInput && avatarImg) {
-    editAvatar.addEventListener('click', (e)=>{
-      e.preventDefault();
-      avatarInput.click();
-    });
-
-    avatarInput.addEventListener('change', ()=>{
-      const file = avatarInput.files[0];
-      if(file){
-        const reader = new FileReader();
-        reader.onload = (e)=>{
-          avatarImg.src = e.target.result;
-          localStorage.setItem("profile-avatar", e.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    window.addEventListener("DOMContentLoaded", ()=>{
-      const saved = localStorage.getItem("profile-avatar");
-      avatarImg.src = saved || DEFAULT_AVATAR;
-    });
-  }
+  editAvatar?.addEventListener('click', (e)=>{
+    e.preventDefault();
+    avatarInput?.click();
+  });
 </script>

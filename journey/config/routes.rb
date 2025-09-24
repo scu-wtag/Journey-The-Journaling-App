@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'profiles/show'
   get 'profiles/edit'
   get 'profiles/update'
+  resource :profile, only: %i(show edit update)
   scope '(:locale)', locale: /en|de/ do
     resources :users, only: %i(new create)
     get '/signup', to: 'users#new', as: :sign_up
