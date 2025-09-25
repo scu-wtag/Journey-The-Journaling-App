@@ -28,7 +28,7 @@ en:
   users:
     already_have_account: Already have an account?
     create:
-      failed: Account could not be created. Please check the form.
+      failed: Passwords don't match.
       success: Account successfully created.
     new:
       birthday: Date of birth

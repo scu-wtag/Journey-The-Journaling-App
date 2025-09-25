@@ -9,6 +9,12 @@
     <h2 id="signup-title" class="card__title"><%= t("users.new.title") %></h2>
     <p class="card__info"><span class="form__req">*</span> <%= t("users.new.required_note") %></p>
 
+    <% if flash[:alert].present? %>
+      <p class="card__info card__info--error" role="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice].present? %>
+      <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
+    <% end %>
+
     <%= form_with model: @user,
                   url: users_path,
                   data: { turbo: false },
