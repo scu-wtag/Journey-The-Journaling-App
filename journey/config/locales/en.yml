@@ -1,30 +1,38 @@
 ---
 en:
-  clearance:
-    sessions:
-      form:
-        submit: Submit
+  app:
+    name: Journey
   home:
     show:
-      subtitle: Placeholder home. Only Sign Up is in scope.
+      subtitle: Placeholder homepage.
       title: Journey
   sessions:
-    create:
-      invalid: Something went wrong, try again.
-      success: You have successfully logged in. Have fun with Journey!
-    form:
-      submit: Sign in
+    errors:
+      invalid_credentials: Email or password is incorrect.
+    fields:
+      email:
+        placeholder: you@example.com
+      password:
+        placeholder: "*******"
+    forgot_password: Forgot password?
+    heading: Sign in
+    html_title: Journey – Sign in
     new:
-      alert: Invalid email or password
-      title: Sign in
+      alert: Wrong password or email
+      sign_in: Sign in
+      title: Login
+    signup_prompt:
+      link: Create account
+      text: No account yet?
+    success: Successfully signed in.
   users:
+    already_have_account: Already have an account?
     create:
-      failed: Could not create the account. Please check the form.
-      success: Account created. Have fun with Journey!
+      failed: Account could not be created. Please check the form.
+      success: Account successfully created.
     new:
       birthday: Date of birth
       country: Country
-      create_failed: 'Could not create account:'
       fields:
         email: Email
         name: Name
@@ -34,17 +42,18 @@ en:
       optional_legend: Optional
       phone: Phone
       phone_countries:
-        at: "🇦🇹 +43 Austria"
-        au: "🇦🇺 +61 Australia"
-        ch: "🇨🇭 +41 Switzerland"
-        de: "🇩🇪 +49 Germany"
-        jp: "🇯🇵 +81 Japan"
+        at: "+43 Austria"
+        au: "+61 Australia"
+        ch: "+41 Switzerland"
+        de: "+49 Germany"
+        jp: "+81 Japan"
         sep: "──────────"
-        uk: "🇬🇧 +44 United Kingdom"
-        us: "🇺🇸 +1 United States"
+        uk: "+44 United Kingdom"
+        us: "+1 United States"
       placeholders:
         country: CH
         headquarters: Zurich
-        phone_local: 79 123 45 67
+        phone_local: 555 123 456
+      required_note: "* indicates required fields"
       submit: Sign Up
       title: Create your account
