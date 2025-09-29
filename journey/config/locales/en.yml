@@ -30,6 +30,10 @@ en:
     create:
       failed: Passwords don't match.
       success: Account successfully created.
+    hq:
+      zrh: "Zurich"
+      dac: "Dhaka"
+      rem: "Remote"
     new:
       birthday: Date of birth
       country: Country

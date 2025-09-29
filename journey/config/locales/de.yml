@@ -30,6 +30,10 @@ de:
     create:
       failed: Konto konnte nicht erstellt werden. Bitte Eingaben prüfen.
       success: Konto erfolgreich erstellt.
+    hq:
+      zrh: "Zürich"
+      dac: "Dhaka"
+      rem: "Remote"
     new:
       birthday: Geburtsdatum
       country: Land

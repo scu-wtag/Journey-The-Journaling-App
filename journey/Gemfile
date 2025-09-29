@@ -7,6 +7,7 @@ gem 'brakeman', require: false
 
 gem 'cancancan', '~> 3.6'
 gem 'clearance', '~> 2.6'
+gem 'country_select'
 
 gem 'dartsass-rails'
 gem 'debug', platforms: %i(mri windows), require: 'debug/prelude'
