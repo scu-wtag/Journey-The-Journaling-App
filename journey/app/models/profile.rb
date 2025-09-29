@@ -1,5 +1,6 @@
 class Profile < ApplicationRecord
   belongs_to :user, inverse_of: :profile
+  validates :user_id, uniqueness: true
   has_one_attached :picture
   before_validation :compose_phone
 
@@ -11,19 +12,14 @@ class Profile < ApplicationRecord
     self.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
 
-  private
-
   def picture_type_and_size
     return unless picture.attached?
 
-    if picture.blob.byte_size > 5.megabytes
-      errors.add(:picture, "ist zu gross (max. 5 MB)")
-    end
+    errors.add(:picture, 'ist zu gross (max. 5 MB)') if picture.blob.byte_size > 5.megabytes
 
-    acceptable = %w[image/jpeg image/png image/webp image/avif]
-    unless acceptable.include?(picture.blob.content_type)
-      errors.add(:picture, "muss JPEG, PNG, WebP oder AVIF sein")
-    end
+    acceptable = %w(image/jpeg image/png image/webp image/avif)
+    return if acceptable.include?(picture.blob.content_type)
+
+    errors.add(:picture, 'muss JPEG, PNG, WebP oder AVIF sein')
   end
-
 end

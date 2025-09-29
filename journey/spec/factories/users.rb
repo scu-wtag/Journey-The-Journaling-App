@@ -5,6 +5,9 @@ FactoryBot.define do
     password { 'password123' }
     role { :member }
 
+    locale { 'en' }
+    theme { 'light' }
+
     trait :guest do
       role { :guest }
     end
@@ -17,8 +20,8 @@ FactoryBot.define do
       role { :admin }
     end
 
-    after(:build) do |user|
-      user.build_profile if user.profile.nil?
+    trait :with_profile do
+      after(:build) { |user| user.build_profile if user.profile.nil? }
     end
   end
 end

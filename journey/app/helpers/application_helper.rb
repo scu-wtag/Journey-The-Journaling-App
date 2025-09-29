@@ -1,11 +1,13 @@
 module ApplicationHelper
-  def field_errors_for(record, attr)
-    return '' unless record&.errors&.[](attr)&.any?
+  def error_for(record, attr)
+    errs = record&.errors
+    return '' unless errs && errs[attr].present?
 
-    content_tag :p, record.errors[attr].first, class: 'field-error', role: 'alert'
+    errs[attr].first
   end
 
-  def field_invalid?(record, attr)
-    record&.errors&.[](attr)&.any?
+  def has_error?(record, attr)
+    errs = record&.errors
+    errs && errs[attr].present?
   end
 end

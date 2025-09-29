@@ -7,6 +7,13 @@
 
   <section class="card" aria-labelledby="signup-title">
     <h2 id="signup-title" class="card__title"><%= t("users.new.title") %></h2>
+
+    <% if flash[:alert].present? %>
+      <p class="card__info card__info--error" role="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice].present? %>
+      <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
+    <% end %>
+
     <p class="card__info"><span class="form__req">*</span> <%= t("users.new.required_note") %></p>
 
     <%= form_with model: @user,
@@ -58,7 +65,7 @@
               class: "form__input" %>
       </label>
 
-      <%= f.fields_for :profile do |p| %>
+      <%= f.fields_for :profile_attributes do |p| %>
         <label class="form__field">
           <span class="form__label"><%= t("users.new.phone") %></span>
           <div class="form__input-row" role="group" aria-label="<%= t('users.new.phone') %>">
@@ -115,7 +122,6 @@
 
     <p class="card__note card__note--muted">
       <%= t("users.already_have_account") %>
-      <%= link_to t("sessions.new.title"), sign_in_path, class: "card__note-link" %>
-    </p>
+    <%= link_to t("sessions.new.title"), login_path, class: "card__note-link" %>    </p>
   </section>
 </main>

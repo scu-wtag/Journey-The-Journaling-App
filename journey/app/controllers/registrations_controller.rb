@@ -43,6 +43,7 @@ class RegistrationsController < Clearance::UsersController
     password = params.dig(:user, :password)
     confirmation = params.dig(:user, :password_confirmation)
     return if confirmation.blank? || password == confirmation
+
     confirmation = params.dig(:user, :password_confirmation)
     return if confirmation.blank? || password == confirmation
 
@@ -52,13 +53,16 @@ class RegistrationsController < Clearance::UsersController
   def normalize_phone!(profile)
     return unless profile
 
-    code = profile.phone_country_code.to_s.strip
-    local = profile.phone_local.to_s.gsub(/\D/, '')
+    code = (profile.phone_country_code.presence || params.dig(:user, :profile_attributes,
+                                                              :phone_country_code)).to_s.strip
+    local = (profile.phone_local.presence || params.dig(:user, :profile_attributes, :phone_local)).to_s.gsub(
+      /\D/, ''
+    )
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
 
   def render_new_error
-    render 'users/new', status: :unprocessable_entity
+    render 'users/new', status: :unprocessable_content
   end
 
   def handle_success
@@ -68,7 +72,7 @@ class RegistrationsController < Clearance::UsersController
 
   def handle_failure
     flash.now[:alert] = t('users.create.failed', default: '')
-    render 'users/new', status: :unprocessable_entity
+    render 'users/new', status: :unprocessable_content
   end
 
   prepend_before_action :require_signed_out, only: %i(new create)

@@ -8,16 +8,22 @@ class UsersController < Clearance::UsersController
   def create
     check_password_confirmation
     normalize_phone!(@user.profile)
-
-    @user.errors.add(:email, :taken) if @user.email.present? && User.exists?(email: @user.email.to_s.downcase)
+    flag_duplicate_email!
 
     return render_new_error if @user.errors.any?
+
     return handle_success if @user.save
 
     handle_failure
   end
 
   private
+
+  def flag_duplicate_email!
+    email = @user.email.to_s.strip.downcase
+    @user.email = email
+    @user.errors.add(:email, :taken) if email.present? && User.exists?(email: email)
+  end
 
   def require_signed_out
     return unless signed_in?
@@ -51,13 +57,22 @@ class UsersController < Clearance::UsersController
   end
 
   def sanitize_profile_attrs(raw)
-    allowed = Profile.attribute_names.map(&:to_sym)
+    virtual = %i(phone_country_code phone_local picture)
+    allowed = (Profile.attribute_names.map(&:to_sym) + virtual).uniq
     raw.to_h.symbolize_keys.slice(*allowed)
   end
 
-  def sanitize_profile_attrs(raw)
-    allowed = Profile.attribute_names.map(&:to_sym)
-    raw.to_h.symbolize_keys.slice(*allowed)
+  def user_from_params
+    p = user_params
+    attrs = {
+      email: p[:email].to_s.strip.downcase,
+      password: p[:password],
+      name: p[:name],
+    }
+    if p[:profile_attributes].present?
+      attrs[:profile_attributes] = sanitize_profile_attrs(p[:profile_attributes])
+    end
+    User.new(attrs)
   end
 
   def user_params
@@ -81,11 +96,6 @@ class UsersController < Clearance::UsersController
 
   def add_password_mismatch_error
     @user.errors.add(:password, :mismatch)
-    confirmation.present? && password != confirmation
-  end
-
-  def add_password_mismatch_error
-    @user.errors.add(:password, :mismatch)
   end
 
   def normalize_phone!(profile)
@@ -102,6 +112,7 @@ class UsersController < Clearance::UsersController
   end
 
   def handle_success
+    sign_in(@user)
     redirect_to(
       Clearance.configuration.redirect_url,
       notice: t('users.create.success'),

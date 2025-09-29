@@ -1,36 +1,77 @@
 class ProfilesController < ApplicationController
   before_action :require_login
+  before_action :ensure_profile!, only: %i(show edit update)
 
-  def show
-    @user = current_user
-    @profile = current_user.profile || current_user.build_profile
-  end
-
-  def edit
-    @profile = current_user.profile || current_user.build_profile
-  end
+  def show; end
+  def edit; end
 
   def update
-    @profile = current_user.profile || current_user.build_profile
+    ActiveRecord::Base.transaction do
+      update_user_if_needed
+      update_profile_if_needed
+    end
 
-    if @profile.update(profile_params)
-      redirect_to profile_path, notice: 'Profile updated'
-    else
-      render :edit, status: :unprocessable_entity
+    respond_to do |format|
+      format.html do
+        redirect_to profile_path(locale: I18n.locale),
+                    notice: t('.success', default: 'Profile updated')
+      end
+      format.json { head :no_content }
+    end
+  rescue ActiveRecord::RecordInvalid
+    respond_to do |format|
+      format.html do
+        flash.now[:alert] = t('.failed', default: 'Could not update profile')
+        render :edit, status: :unprocessable_entity
+      end
+      format.json { render json: { error: 'invalid' }, status: :unprocessable_entity }
     end
   end
 
   private
 
-  def profile_params
-    params.permit(
-      :phone_country_code,
-      :phone_local,
-      :birthday,
-      :country,
-      :headquarters,
-      :picture
-    )
+  def update_user_if_needed
+    raw = params[:user]
+    return if raw.blank?
+
+    current_user.update!(user_params)
+    set_prefs_cookies_from_params(raw)
   end
 
+  def set_prefs_cookies_from_params(raw)
+    cookies.permanent[:locale] = current_user.locale if raw.key?(:locale)
+    cookies.permanent[:theme] = current_user.theme if raw.key?(:theme)
+  end
+
+  def update_profile_if_needed
+    raw = params[:profile]
+    return if raw.blank?
+
+    apply_phone_params!(@profile, raw)
+    @profile.assign_attributes(profile_params)
+    @profile.save! if @profile.changed? || raw.key?(:picture)
+  end
+
+  def apply_phone_params!(profile, raw)
+    return unless raw.key?(:phone_country_code) || raw.key?(:phone_local)
+
+    code = raw[:phone_country_code].to_s.strip
+    local = raw[:phone_local].to_s.gsub(/\D/, '')
+
+    profile.phone_country_code = code
+    profile.phone_local = local
+    profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
+  end
+
+  def ensure_profile!
+    @profile = current_user.profile || current_user.create_profile!
+  end
+
+  def profile_params
+    params.fetch(:profile, {}).permit(:birthday, :country, :headquarters, :picture)
+  end
+
+  def user_params
+    params.expect(user: %i(email name theme locale))
+  end
 end

@@ -11,6 +11,7 @@ gem 'clearance', '~> 2.6'
 gem 'dartsass-rails'
 gem 'debug', platforms: %i(mri windows), require: 'debug/prelude'
 
+gem 'image_processing', '~> 1.2'
 gem 'importmap-rails'
 
 gem 'pg', '>= 1.5', '< 2.0'
@@ -20,6 +21,7 @@ gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.0.2', '>= 8.0.2.1'
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
+gem 'ruby-vips'
 
 group :development do
   gem 'i18n-tasks', '~> 1.0.15'

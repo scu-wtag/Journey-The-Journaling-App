@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_125927) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_25_124716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_125927) do
     t.string "headquarters"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_profiles_on_user_id"
+    t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
@@ -86,11 +86,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_125927) do
     t.integer "last_team_id"
     t.string "first_name"
     t.string "last_name"
+    t.string "locale", default: "en", null: false
+    t.string "theme", default: "light", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["last_team_id"], name: "index_users_on_last_team_id"
+    t.index ["locale"], name: "index_users_on_locale"
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
     t.index ["role"], name: "index_users_on_role"
+    t.index ["theme"], name: "index_users_on_theme"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

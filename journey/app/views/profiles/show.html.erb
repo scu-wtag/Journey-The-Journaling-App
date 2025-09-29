@@ -14,11 +14,11 @@
       <div class="profile__head">
         <div class="profile__avatar">
           <div class="profile__frame">
-            <% if @profile.picture.attached? %>
+            <% if @profile&.picture&.attached? %>
               <%= image_tag @profile.picture.variant(resize_to_fill: [200, 200]),
-                  alt: t("profiles.show.profile_picture_alt"),
-                  class: "profile__image",
-                  id: "avatarImg" %>
+                    alt: t("profiles.show.profile_picture_alt"),
+                    class: "profile__image",
+                    id: "avatarImg" %>
             <% else %>
               <img src="https://i.pravatar.cc/200?img=1"
                    alt="<%= t('profiles.show.profile_picture_alt') %>"
@@ -28,8 +28,7 @@
           </div>
 
           <%= form_with model: @profile, url: profile_path, method: :patch,
-                        html: { multipart: true, class: "profile__form" } do |f| %>
-
+                html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
             <%= f.file_field :picture,
                   accept: "image/*",
                   class: "profile__file",
@@ -37,45 +36,43 @@
                   style: "display:none;" %>
 
             <button type="button" class="profile__edit" id="editAvatar"><%= t("common.edit") %></button>
-
-            <div class="profile__actions">
-              <%= f.submit t("common.upload"), class: "btn btn--sm" %>
-            </div>
           <% end %>
         </div>
 
         <div class="profile__meta">
           <h3 class="profile__name" id="nameDisplay"><%= current_user.name %></h3>
 
-          <div class="profile__kv" id="details">
-            <div class="profile__kv-item">
-              <span class="profile__kv-label"><%= t("users.new.phone") %></span>
-              <div class="profile__kv-value" data-key="phone" data-type="text">
-                <%= @profile&.phone.presence || "-" %>
+          <%= form_with url: profile_path, method: :patch, id: "detailsForm", html: { class: "profile__details-form" } do %>
+            <div class="profile__kv" id="details">
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.phone") %></span>
+                <div class="profile__kv-value" data-key="phone" data-type="text" data-scope="profile">
+                  <%= @profile&.phone.presence || "-" %>
+                </div>
               </div>
-            </div>
 
-            <div class="profile__kv-item">
-              <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
-              <div class="profile__kv-value" data-key="headquarters" data-type="text">
-                <%= @profile&.headquarters.presence || "-" %>
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
+                <div class="profile__kv-value" data-key="headquarters" data-type="text" data-scope="profile">
+                  <%= @profile&.headquarters.presence || "-" %>
+                </div>
               </div>
-            </div>
 
-            <div class="profile__kv-item">
-              <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
-              <div class="profile__kv-value" data-key="email" data-type="email">
-                <%= current_user.email %>
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
+                <div class="profile__kv-value" data-key="email" data-type="email" data-scope="user">
+                  <%= current_user.email %>
+                </div>
               </div>
-            </div>
 
-            <div class="profile__kv-item">
-              <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
-              <div class="profile__kv-value" data-key="birthday" data-type="date">
-                <%= @profile&.birthday %>
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
+                <div class="profile__kv-value" data-key="birthday" data-type="date" data-scope="profile">
+                  <%= @profile&.birthday %>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
 
           <div class="profile__toolbar">
             <button class="btn btn--sm" id="editBtn" type="button"><%= t("common.edit") %></button>
@@ -85,7 +82,6 @@
             <button class="btn btn--sm" id="cancelBtn" type="button"><%= t("common.cancel") %></button>
             <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t("common.save") %></button>
           </div>
-
         </div>
       </div>
     </section>
@@ -129,25 +125,55 @@
   const saveBtn   = document.getElementById('saveBtn');
   const cancelBtn = document.getElementById('cancelBtn');
 
+  const detailsForm      = document.getElementById('detailsForm');
   const detailsContainer = document.getElementById('details');
-  const themeToggle = document.getElementById('themeToggle');
 
   let inputs = [];
   let originals = new Map();
 
   function toInput(el){
-    const type = el.dataset.type || 'text';
-    const key  = el.dataset.key;
-    const val  = el.textContent.trim();
+    const type  = el.dataset.type || 'text';
+    const key   = el.dataset.key;
+    const scope = el.dataset.scope || (key === 'email' ? 'user' : 'profile');
+    const val   = el.textContent.trim();
 
     const input = document.createElement('input');
     input.className = 'input';
     input.value = val;
     input.setAttribute('data-key', key);
+    input.setAttribute('data-scope', scope);
+    input.type = (type === 'date' || type === 'email') ? type : 'text';
 
-    if(type === 'date'){ input.type = 'date'; }
-    else if(type === 'email'){ input.type = 'email'; }
-    else { input.type = 'text'; }
+    input.name = scope === 'user' ? `user[${key}]` : `profile[${key}]`;
+
+    if (key === 'phone' && scope === 'profile') {
+      input.name = '';
+
+      const hiddenCode  = document.createElement('input');
+      hiddenCode.type   = 'hidden';
+      hiddenCode.name   = 'profile[phone_country_code]';
+
+      const hiddenLocal = document.createElement('input');
+      hiddenLocal.type  = 'hidden';
+      hiddenLocal.name  = 'profile[phone_local]';
+
+      function fillHiddenFrom(v){
+        const digitsOnly = (v || '').replace(/[^\d+]/g, '');
+        const m = digitsOnly.match(/^\+?(\d{1,4})?(\d{4,})$/);
+        if (m) {
+          hiddenCode.value  = (m[1] || '').replace(/\D/g, '');
+          hiddenLocal.value = (m[2] || '').replace(/\D/g, '');
+        } else {
+          hiddenCode.value  = '';
+          hiddenLocal.value = digitsOnly.replace(/\D/g, '');
+        }
+      }
+      fillHiddenFrom(val);
+      input.addEventListener('input', () => fillHiddenFrom(input.value));
+
+      detailsForm?.appendChild(hiddenCode);
+      detailsForm?.appendChild(hiddenLocal);
+    }
 
     el.replaceWith(input);
     return input;
@@ -156,9 +182,10 @@
   function toDisplay(input){
     const div = document.createElement('div');
     div.className = 'profile__kv-value';
-    div.dataset.key  = input.dataset.key;
-    if(input.type) div.dataset.type = input.type === 'text' ? 'text' : input.type;
-    div.textContent = input.value.trim();
+    div.dataset.key   = input.dataset.key;
+    div.dataset.scope = input.dataset.scope;
+    div.dataset.type  = input.type === 'text' ? 'text' : input.type;
+    div.textContent   = input.value.trim();
     input.replaceWith(div);
     return div;
   }
@@ -167,17 +194,15 @@
     if(inputs.length) return;
     originals.clear();
     inputs = [];
-
     const editable = detailsContainer.querySelectorAll('.profile__kv-value');
     editable.forEach(el=>{
-      originals.set(el.dataset.key, el.textContent.trim());
+      originals.set(`${el.dataset.scope}.${el.dataset.key}`, el.textContent.trim());
       const input = toInput(el);
       inputs.push(input);
     });
-
     editBtn.disabled = true;
     saveBar.style.display = 'flex';
-    if(inputs[0]) inputs[0].focus();
+    inputs[0]?.focus();
   }
 
   function exitEditMode(save){
@@ -186,12 +211,14 @@
       inputs.forEach(inp => toDisplay(inp));
     }else{
       inputs.forEach(inp => {
-        const key = inp.dataset.key;
-        const disp = document.createElement('div');
-        disp.className = 'profile__kv-value';
+        const key   = inp.dataset.key;
+        const scope = inp.dataset.scope;
+        const disp  = document.createElement('div');
+        disp.className   = 'profile__kv-value';
         disp.dataset.key = key;
-        disp.dataset.type = inp.type === 'text' ? 'text' : inp.type;
-        disp.textContent = originals.get(key) ?? '';
+        disp.dataset.scope = scope;
+        disp.dataset.type  = inp.type === 'text' ? 'text' : inp.type;
+        disp.textContent   = originals.get(`${scope}.${key}`) ?? '';
         inp.replaceWith(disp);
       });
     }
@@ -201,35 +228,78 @@
   }
 
   editBtn?.addEventListener('click', enterEditMode);
-  saveBtn?.addEventListener('click', ()=>exitEditMode(true));
-  cancelBtn?.addEventListener('click', ()=>exitEditMode(false));
+  saveBtn?.addEventListener('click', ()=> detailsForm?.requestSubmit());
+  cancelBtn?.addEventListener('click', ()=> exitEditMode(false));
 
-  const THEME_KEY = 'journey-theme';
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const langSelect = document.getElementById('langSelect');
+  langSelect?.addEventListener('change', async (e) => {
+    const locale = e.target.value;
 
-  function applyTheme(theme){
-    document.documentElement.setAttribute('data-theme', theme);
-    if (themeToggle) themeToggle.checked = (theme === 'dark');
-  }
+    await fetch("<%= profile_path %>", {
+      method: "PATCH",
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ user: { locale } })
+    });
 
-  (function initTheme(){
-    const stored = localStorage.getItem(THEME_KEY);
-    const theme = stored || (prefersDark ? 'dark' : 'light');
-    applyTheme(theme);
-  })();
-
-  themeToggle?.addEventListener('change', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'dark';
-    const target  = current === 'dark' ? 'light' : 'dark';
-    applyTheme(target);
-    localStorage.setItem(THEME_KEY, target);
+    const url = new URL(window.location.href);
+    url.searchParams.set('locale', locale);
+    window.location.assign(url.toString());
   });
 
-  const editAvatar  = document.getElementById('editAvatar');
-  const avatarInput = document.getElementById('avatarInput');
+  const THEME_KEY = 'journey-theme-<%= current_user.id %>'; 
+  const themeToggle = document.getElementById('themeToggle');
+
+  (function initTheme(){
+    const serverTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const stored = localStorage.getItem(THEME_KEY);
+    const theme = stored || serverTheme;
+    document.documentElement.setAttribute('data-theme', theme);
+    if (themeToggle) themeToggle.checked = (theme === 'dark');
+  })();
+
+  themeToggle?.addEventListener('change', async () => {
+    const targetTheme = themeToggle.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', targetTheme);
+    localStorage.setItem(THEME_KEY, targetTheme);
+    try {
+      await fetch("<%= profile_path %>", {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ user: { theme: targetTheme } })
+      });
+    } catch (_) { }
+  });
+
+  (function syncThemeToggle(){
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (themeToggle) themeToggle.checked = isDark;
+  })();
+
+  const editAvatar   = document.getElementById('editAvatar');
+  const avatarInput  = document.getElementById('avatarInput');
+  const avatarForm   = document.getElementById('avatarForm');
+  const avatarImg    = document.getElementById('avatarImg');
 
   editAvatar?.addEventListener('click', (e)=>{
     e.preventDefault();
     avatarInput?.click();
+  });
+
+  avatarInput?.addEventListener('change', (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { if (avatarImg) avatarImg.src = ev.target.result; };
+    reader.readAsDataURL(file);
+    editAvatar?.setAttribute('disabled', 'disabled');
+    avatarForm?.requestSubmit();
   });
 </script>

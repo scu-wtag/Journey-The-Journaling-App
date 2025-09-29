@@ -1,7 +1,6 @@
 module SignInHelpers
-  def sign_in!(user, password: 'secret123', locale: I18n.locale)
-    post login_path(locale: locale), params: { session: { email: user.email, password: password } }
-    follow_redirect! if respond_to?(:follow_redirect!)
-    user
+  def sign_in(user)
+    allow_any_instance_of(ApplicationController).to receive(:signed_in?).and_return(true)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
   end
 end
