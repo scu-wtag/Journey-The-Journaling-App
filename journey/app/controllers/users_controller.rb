@@ -36,7 +36,7 @@ class UsersController < Clearance::UsersController
     attrs = {
       email: params[:email],
       password: params[:password],
-      password_confirmation: params[:password_confirmation],  # ← add this
+      password_confirmation: params[:password_confirmation],
       name: params[:name],
     }
 
