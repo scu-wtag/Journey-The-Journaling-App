@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     get '/signup', to: 'users#new', as: :sign_up
     post '/signup', to: 'users#create'
 
-    resource :session, only: %i(new create destroy), controller: 'sessions'
+    resource :session, only: %i[new create destroy]
     get '/login', to: 'sessions#new', as: :sign_in
     post '/login', to: 'sessions#create'
     delete '/logout', to: 'sessions#destroy', as: :sign_out
