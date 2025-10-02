@@ -1,16 +1,12 @@
 class UsersController < Clearance::UsersController
-  prepend_before_action :require_signed_out, only: %i(new create)
+  prepend_before_action :require_signed_out, only: %i[new create]
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create
 
   def new; end
 
   def create
-    check_password_confirmation
     normalize_phone!(@user.profile)
-
-    @user.errors.add(:email, :taken) if @user.email.present? &&
-                                        User.exists?(email: @user.email.to_s.downcase)
 
     return render_new_error if @user.errors.any?
     return handle_success if @user.save
@@ -22,8 +18,7 @@ class UsersController < Clearance::UsersController
 
   def require_signed_out
     return unless signed_in?
-
-    redirect_to root_path(locale: params[:locale] || I18n.locale || I18n.default_locale)
+    redirect_to root_path
   end
 
   def build_user
@@ -41,6 +36,7 @@ class UsersController < Clearance::UsersController
     attrs = {
       email: params[:email],
       password: params[:password],
+      password_confirmation: params[:password_confirmation],  # ← add this
       name: params[:name],
     }
 
@@ -63,25 +59,8 @@ class UsersController < Clearance::UsersController
     )
   end
 
-  def check_password_confirmation
-    return unless password_confirmation_mismatch?
-
-    add_password_mismatch_error
-  end
-
-  def password_confirmation_mismatch?
-    password = params.dig(:user, :password)
-    confirmation = params.dig(:user, :password_confirmation)
-    confirmation.present? && password != confirmation
-  end
-
-  def add_password_mismatch_error
-    @user.errors.add(:password, :mismatch)
-  end
-
   def normalize_phone!(profile)
     return unless profile
-
     code = profile.phone_country_code.to_s.strip
     local = profile.phone_local.to_s.gsub(/\D/, '')
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
