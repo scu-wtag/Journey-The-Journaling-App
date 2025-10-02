@@ -37,15 +37,15 @@ class UsersController < Clearance::UsersController
   end
 
   def user_from_params
-    p = user_params
+    params = user_params
     attrs = {
-      email: p[:email],
-      password: p[:password],
-      name: p[:name],
+      email: params[:email],
+      password: params[:password],
+      name: params[:name],
     }
 
-    if p[:profile_attributes].present?
-      attrs[:profile_attributes] = sanitize_profile_attrs(p[:profile_attributes])
+    if params[:profile_attributes].present?
+      attrs[:profile_attributes] = sanitize_profile_attrs(params[:profile_attributes])
     end
 
     User.new(attrs)

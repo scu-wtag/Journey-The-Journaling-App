@@ -395,6 +395,7 @@ DEPENDENCIES
   brakeman
   cancancan (~> 3.6)
   clearance (~> 2.6)
+  countries
   country_select
   dartsass-rails
   database_cleaner-active_record
