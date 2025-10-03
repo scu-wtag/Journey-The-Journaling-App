@@ -16,6 +16,12 @@
 
     <p class="card__info"><span class="form__req">*</span> <%= t("users.new.required_note") %></p>
 
+    <% if flash[:alert].present? %>
+      <p class="card__info card__info--error" role="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice].present? %>
+      <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
+    <% end %>
+
     <%= form_with model: @user,
                   url: users_path,
                   data: { turbo: false },
@@ -68,22 +74,15 @@
       <%= f.fields_for :profile_attributes do |p| %>
         <label class="form__field">
           <span class="form__label"><%= t("users.new.phone") %></span>
+
           <div class="form__input-row" role="group" aria-label="<%= t('users.new.phone') %>">
             <%= p.select :phone_country_code,
                   options_for_select(
-                    [
-                      [t("users.new.phone_countries.ch"), "41"],
-                      [t("users.new.phone_countries.de"), "49"],
-                      [t("users.new.phone_countries.at"), "43"],
-                      [t("users.new.phone_countries.sep"), "---"],
-                      [t("users.new.phone_countries.uk"), "44"],
-                      [t("users.new.phone_countries.us"), "1"],
-                      [t("users.new.phone_countries.jp"), "81"],
-                      [t("users.new.phone_countries.au"), "61"]
-                    ],
-                    selected: p.object&.phone_country_code || "41"
+                    Profile.phone_country_options,
+                    p.object&.phone_country_code || "41"
                   ),
-                  {}, class: "form__dial" %>
+                  {},
+                  class: "form__dial" %>
 
             <%= p.telephone_field :phone_local,
                   inputmode: "tel",
@@ -92,6 +91,7 @@
                   placeholder: t("users.new.placeholders.phone_local"),
                   class: "form__input" %>
           </div>
+
           <%= p.hidden_field :phone %>
         </label>
 
@@ -102,16 +102,17 @@
 
         <label class="form__field">
           <span class="form__label"><%= t("users.new.country") %></span>
-          <%= p.text_field :country,
-                placeholder: t("users.new.placeholders.country"),
-                class: "form__input" %>
+          <%= p.country_select :country,
+                { priority_countries: %w[CH DE AT BD CA MU], include_blank: true },
+                { class: "form__input" } %>
         </label>
 
         <label class="form__field">
           <span class="form__label"><%= t("users.new.headquarters") %></span>
-          <%= p.text_field :headquarters,
-                placeholder: t("users.new.placeholders.headquarters"),
-                class: "form__input" %>
+          <%= p.select :headquarters,
+                options_for_select(Profile.headquarter_options, p.object&.headquarters),
+                { include_blank: true },
+                { class: "form__input" } %>
         </label>
       <% end %>
 

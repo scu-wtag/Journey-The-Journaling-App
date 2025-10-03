@@ -22,4 +22,9 @@ class Profile < ApplicationRecord
 
     errors.add(:picture, t('profile.update.wrong_filetype', default: ''))
   end
+  include ProfileOptions
+
+  belongs_to :user
+
+  HEADQUARTERS = %w[ZRH DAC REM].freeze
 end

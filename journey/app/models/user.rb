@@ -7,15 +7,18 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
 
-  enum :role, { guest: 0, member: 1, admin: 2 }, default: :member
+  attr_accessor :password_confirmation
 
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :locale, inclusion: { in: %w(en de) }
-  validates :theme, inclusion: { in: %w(light dark) }
+  validates :email,
+            presence: true,
+            uniqueness: { case_sensitive: false },
+            format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, confirmation: true, if: -> { password.present? }
 
-  before_validation :downcase_email
+  enum :role, { guest: 0, member: 1, admin: 2 }, default: :member
+
+  before_save :downcase_email
 
   private
 

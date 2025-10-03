@@ -1,12 +1,11 @@
 class UsersController < Clearance::UsersController
-  prepend_before_action :require_signed_out, only: %i(new create)
+  prepend_before_action :require_signed_out, only: %i[new create]
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create
 
   def new; end
 
   def create
-    check_password_confirmation
     normalize_phone!(@user.profile)
     flag_duplicate_email!
 
@@ -27,8 +26,7 @@ class UsersController < Clearance::UsersController
 
   def require_signed_out
     return unless signed_in?
-
-    redirect_to root_path(locale: params[:locale] || I18n.locale || I18n.default_locale)
+    redirect_to root_path
   end
 
   def build_user
@@ -42,15 +40,16 @@ class UsersController < Clearance::UsersController
   end
 
   def user_from_params
-    p = user_params
+    params = user_params
     attrs = {
-      email: p[:email],
-      password: p[:password],
-      name: p[:name],
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation],
+      name: params[:name],
     }
 
-    if p[:profile_attributes].present?
-      attrs[:profile_attributes] = sanitize_profile_attrs(p[:profile_attributes])
+    if params[:profile_attributes].present?
+      attrs[:profile_attributes] = sanitize_profile_attrs(params[:profile_attributes])
     end
 
     User.new(attrs)
@@ -82,25 +81,8 @@ class UsersController < Clearance::UsersController
     )
   end
 
-  def check_password_confirmation
-    return unless password_confirmation_mismatch?
-
-    add_password_mismatch_error
-  end
-
-  def password_confirmation_mismatch?
-    password = params.dig(:user, :password)
-    confirmation = params.dig(:user, :password_confirmation)
-    confirmation.present? && password != confirmation
-  end
-
-  def add_password_mismatch_error
-    @user.errors.add(:password, :mismatch)
-  end
-
   def normalize_phone!(profile)
     return unless profile
-
     code = profile.phone_country_code.to_s.strip
     local = profile.phone_local.to_s.gsub(/\D/, '')
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil

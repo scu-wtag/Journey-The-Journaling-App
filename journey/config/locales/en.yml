@@ -47,8 +47,12 @@ en:
   users:
     already_have_account: Already have an account?
     create:
-      failed: Passwords do not match.
+      failed: Passwords don't match.
       success: Account successfully created.
+    hq:
+      dac: Dhaka
+      rem: Remote
+      zrh: Zurich
     new:
       birthday: Date of birth
       country: Country
