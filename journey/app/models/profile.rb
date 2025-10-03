@@ -15,11 +15,11 @@ class Profile < ApplicationRecord
   def picture_type_and_size
     return unless picture.attached?
 
-    errors.add(:picture, 'ist zu gross (max. 5 MB)') if picture.blob.byte_size > 5.megabytes
+    errors.add(:picture, t('profile.update.failed', default: '')) if picture.blob.byte_size > 5.megabytes
 
     acceptable = %w(image/jpeg image/png image/webp image/avif)
     return if acceptable.include?(picture.blob.content_type)
 
-    errors.add(:picture, 'muss JPEG, PNG, WebP oder AVIF sein')
+    errors.add(:picture, t('profile.update.wrong_filetype', default: ''))
   end
 end
