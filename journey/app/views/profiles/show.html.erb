@@ -95,8 +95,8 @@
         <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
         <div class="settings__control">
           <select class="input" id="langSelect">
-            <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>English</option>
-            <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>>Deutsch</option>
+            <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>><%= t("profiles.language.english") %></option>
+            <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>><%= t("profiles.language.german") %></option>
           </select>
         </div>
       </div>
