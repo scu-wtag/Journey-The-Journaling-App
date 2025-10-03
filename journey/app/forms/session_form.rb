@@ -14,7 +14,7 @@ class SessionForm
                     elsif user.respond_to?(:authenticated?)
                       user.authenticated?(password) && user
                     end
-    errors.add(:base, I18n.t('sessions.errors.wrong_email_or_password')) unless authenticated
+    errors.add(:base, I18n.t('sessions.errors.invalid_credentials')) unless authenticated
     authenticated
   end
 end

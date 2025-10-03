@@ -76,3 +76,15 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
+  profiles:
+    update:
+      failed: Profile could not be updated
+      success: Successfully updated Profile
+    show:
+      dark: Dark
+      light: Light
+      mode: Mode
+      preferred_language: Preferred language
+      profile_picture_alt: Profile picture
+      settings_title: Settings
+      title: Profile      

@@ -76,3 +76,15 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
+  profiles:
+    update:
+      failed: Profil konnte nicht aktualisiert werden
+      success: Profil wurde erfolgreich aktualisiert
+    show:
+      dark: Dunkel
+      light: Hell
+      mode: Modus
+      preferred_language: Bevorzugte Sprache
+      profile_picture_alt: Profilbild
+      settings_title: Einstellungen
+      title: Profil
