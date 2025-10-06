@@ -1,0 +1,38 @@
+<%= form_with model: @journal_entry, html: { multipart: true } do |f| %>
+  <p>
+    <%= f.label :title, t("journal.form.title") %><br>
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= f.label :entry_date, t("journal.form.entry_date") %><br>
+    <%= f.date_field :entry_date %>
+  </p>
+
+  <p>
+    <%= f.label :time_from, t("journal.form.time_from") %><br>
+    <%= f.time_field :time_from %>
+  </p>
+
+  <p>
+    <%= f.label :time_to, t("journal.form.time_to") %><br>
+    <%= f.time_field :time_to %>
+  </p>
+
+  <p>
+    <%= f.label :body, t("journal.form.body") %><br>
+    <%= f.rich_text_area :body %>
+  </p>
+
+  <p>
+    <%= f.label :goals_for_tomorrow, t("journal.form.goals_for_tomorrow") %><br>
+    <%= f.rich_text_area :goals_for_tomorrow %>
+  </p>
+
+  <p>
+    <%= f.label :files, t("journal.form.files") %><br>
+    <%= f.file_field :files, multiple: true %>
+  </p>
+
+  <%= f.submit(@journal_entry.persisted? ? t("journal.form.save_changes") : t("journal.form.create")) %>
+<% end %>

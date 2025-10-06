@@ -1,0 +1,30 @@
+<h2><%= @journal_entry.title %></h2>
+
+<p>
+  <%= @journal_entry.entry_date %>
+  <%= @journal_entry.time_from&.strftime("%H:%M") %> - <%= @journal_entry.time_to&.strftime("%H:%M") %>
+</p>
+
+<h3><%= t("journal.show.notes") %></h3>
+<div><%= @journal_entry.body %></div>
+
+<h3><%= t("journal.show.goals_for_tomorrow") %></h3>
+<div><%= @journal_entry.goals_for_tomorrow %></div>
+
+<% if @journal_entry.files.attached? %>
+  <h3><%= t("journal.show.attachments") %></h3>
+  <ul>
+    <% @journal_entry.files.each do |file| %>
+      <li><%= link_to file.filename, url_for(file) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<p>
+  <%= link_to t("common.edit"), edit_journal_entry_path(@journal_entry) %> |
+  <%= link_to t("journal.show.back"), journal_entries_path %> |
+  <%= button_to t("journal.show.delete"),
+                @journal_entry,
+                method: :delete,
+                data: { confirm: t("journal.show.confirm_delete") } %>
+</p>

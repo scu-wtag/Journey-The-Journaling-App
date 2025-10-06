@@ -23,8 +23,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  private
-
   def ensure_profile!
     @profile = current_user.profile || current_user.create_profile!
   end

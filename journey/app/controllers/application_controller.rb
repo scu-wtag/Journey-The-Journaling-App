@@ -45,6 +45,12 @@ class ApplicationController < ActionController::Base
   end
 
   def browser_locale_from_header(avail)
+    languages = accept_language_values
+    direct = languages.detect { |l| l.to_s.presence_in(avail) }
+    direct || languages.map { |l| l[0, 2] }.detect { |code| code.to_s.presence_in(avail) }
+  end
+
+  def accept_language_values
     header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', '').to_s
     languages = header.split(',').map { |l| l.split(';').first.to_s }
     languages.detect { |l| l.presence_in(avail) } ||

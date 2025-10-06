@@ -76,10 +76,7 @@ class UsersController < Clearance::UsersController
 
   def handle_success
     sign_in(@user)
-    redirect_to(
-      Clearance.configuration.redirect_url,
-      notice: t('users.create.success'),
-    )
+    redirect_to(Clearance.configuration.redirect_url, notice: t('users.create.success'))
   end
 
   def handle_failure

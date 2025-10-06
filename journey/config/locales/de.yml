@@ -87,5 +87,38 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-    password:
-      update: Dein Passwort wurde erfolgreich aktualisiert
+  journal:
+    index:
+      title: Journal
+      new: Neuen Eintrag erstellen
+    new:
+      title: Neuen Journaleintrag erstellen
+    edit:
+      title: Journaleintrag bearbeiten
+    show:
+      notes: Notizen
+      goals_for_tomorrow: Ziele für morgen
+      attachments: Anhänge
+      back: Zurück zur Übersicht
+      delete: Löschen
+      confirm_delete: Willst du diesen Eintrag wirklich löschen?
+    form:
+      title: Titel
+      entry_date: Datum
+      time_from: Von
+      time_to: Bis
+      body: Notizen
+      goals_for_tomorrow: Ziele für morgen
+      files: Dateien
+      create: Erstellen
+      save_changes: Speichern
+    flash:
+      created: Eintrag erstellt
+      updated: Eintrag aktualisiert
+      deleted: Eintrag gelöscht
+      not_authorized: Nicht berechtigt
+  settings:
+    passwords:
+      update:
+        success: Dein Passwort wurde aktualisiert.
+        

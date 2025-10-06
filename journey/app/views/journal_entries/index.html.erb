@@ -1,0 +1,14 @@
+<h2><%= t("journal.index.title") %></h2>
+
+<p>
+  <%= link_to t("journal.index.new"), new_journal_entry_path %>
+</p>
+
+<ul>
+  <% @journal_entries.each do |e| %>
+    <li>
+      <%= link_to e.title, e %>
+      (<%= e.entry_date %>)
+    </li>
+  <% end %>
+</ul> 

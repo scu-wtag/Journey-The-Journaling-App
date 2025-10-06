@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include Clearance::User
 
+  attr_accessor :password_confirmation
+
   has_one :profile, dependent: :destroy, inverse_of: :user
   accepts_nested_attributes_for :profile, update_only: true
 
