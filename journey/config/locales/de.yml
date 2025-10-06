@@ -6,12 +6,14 @@ de:
     cancel: Abbrechen
     edit: Bearbeiten
     save: Speichern
-    upload: Hochladen
   home:
     show:
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
   profiles:
+    language:
+      english: Englisch
+      german: Deutsch
     show:
       dark: Dunkel
       light: Hell
@@ -20,6 +22,10 @@ de:
       profile_picture_alt: Profilbild
       settings_title: Einstellungen
       title: Profil
+    update:
+      failed: Profil konnte nicht aktualisiert werden
+      success: Profil wurde erfolgreich aktualisiert
+      wrong_filetype: Datei muss PEG, PNG, WebP oder AVIF sein
   sessions:
     errors:
       invalid_credentials: E-Mail oder Passwort ist falsch.
@@ -30,9 +36,7 @@ de:
         placeholder: "*******"
     forgot_password: Passwort vergessen?
     heading: Anmelden
-    html_title: Journey – Anmeldung
     new:
-      alert: Falsches Passwort oder E-Mail
       sign_in: Anmelden
       title: Anmeldung
     sign_out: Erfolgreich abgemeldet.
@@ -40,10 +44,6 @@ de:
       link: Konto erstellen
       text: Noch kein Konto?
     success: Erfolgreich angemeldet.
-  settings:
-    passwords:
-      update:
-        success: Dein Passwort wurde aktualisiert.
   users:
     already_have_account: Schon einen Account?
     create:
@@ -62,33 +62,9 @@ de:
         password: Passwort
         password_confirmation: Passwort wiederholen
       headquarters: Hauptsitz
-      optional_legend: Optional
       phone: Telefon
-      phone_countries:
-        at: "+43 Österreich"
-        au: "+61 Australien"
-        ch: "+41 Schweiz"
-        de: "+49 Deutschland"
-        jp: "+81 Japan"
-        sep: "──────────"
-        uk: "+44 Vereinigtes Königreich"
-        us: "+1 Vereinigte Staaten"
       placeholders:
-        country: CH
-        headquarters: Zürich
         phone_local: 79 123 45 67
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-  profiles:
-    update:
-      failed: Profil konnte nicht aktualisiert werden
-      success: Profil wurde erfolgreich aktualisiert
-    show:
-      dark: Dunkel
-      light: Hell
-      mode: Modus
-      preferred_language: Bevorzugte Sprache
-      profile_picture_alt: Profilbild
-      settings_title: Einstellungen
-      title: Profil

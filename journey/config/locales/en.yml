@@ -6,12 +6,14 @@ en:
     cancel: cancel
     edit: edit
     save: save
-    upload: Upload
   home:
     show:
       subtitle: Placeholder homepage.
       title: Journey
   profiles:
+    language:
+      english: English
+      german: German
     show:
       dark: Dark
       light: Light
@@ -20,6 +22,10 @@ en:
       profile_picture_alt: Profile picture
       settings_title: Settings
       title: Profile
+    update:
+      failed: Profile could not be updated
+      success: Successfully updated Profile
+      wrong_filetype: File must be PEG, PNG, WebP or AVIF
   sessions:
     errors:
       invalid_credentials: Email or password is incorrect.
@@ -30,9 +36,7 @@ en:
         placeholder: "*******"
     forgot_password: Forgot password?
     heading: Sign in
-    html_title: Journey – Sign in
     new:
-      alert: Wrong password or email
       sign_in: Sign in
       title: Login
     sign_out: Successfully signed out.
@@ -40,10 +44,6 @@ en:
       link: Create account
       text: No account yet?
     success: Successfully signed in.
-  settings:
-    passwords:
-      update:
-        success: Your password has been updated.
   users:
     already_have_account: Already have an account?
     create:
@@ -62,33 +62,9 @@ en:
         password: Password
         password_confirmation: Repeat password
       headquarters: Headquarters
-      optional_legend: Optional
       phone: Phone
-      phone_countries:
-        at: "+43 Austria"
-        au: "+61 Australia"
-        ch: "+41 Switzerland"
-        de: "+49 Germany"
-        jp: "+81 Japan"
-        sep: "──────────"
-        uk: "+44 United Kingdom"
-        us: "+1 United States"
       placeholders:
-        country: CH
-        headquarters: Zurich
         phone_local: 555 123 456
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
-  profiles:
-    update:
-      failed: Profile could not be updated
-      success: Successfully updated Profile
-    show:
-      dark: Dark
-      light: Light
-      mode: Mode
-      preferred_language: Preferred language
-      profile_picture_alt: Profile picture
-      settings_title: Settings
-      title: Profile      

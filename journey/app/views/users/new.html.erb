@@ -110,7 +110,7 @@
         <label class="form__field">
           <span class="form__label"><%= t("users.new.headquarters") %></span>
           <%= p.select :headquarters,
-                options_for_select(Profile.headquarter_options, p.object&.headquarters),
+                options_for_select(Profile.headquarter_options),
                 { include_blank: true },
                 { class: "form__input" } %>
         </label>
