@@ -8,6 +8,8 @@ de:
     save: Speichern
   home:
     show:
+      profile: Zum Profil
+      signout: Logout
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
   profiles:
@@ -44,6 +46,9 @@ de:
       link: Konto erstellen
       text: Noch kein Konto?
     success: Erfolgreich angemeldet.
+  settings:
+    show:
+      update_password: Password aktualisieren
   users:
     already_have_account: Schon einen Account?
     create:

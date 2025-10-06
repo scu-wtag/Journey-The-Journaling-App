@@ -1,5 +1,5 @@
 class UsersController < Clearance::UsersController
-  prepend_before_action :require_signed_out, only: %i[new create]
+  prepend_before_action :require_signed_out, only: %i(new create)
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create
 
@@ -26,6 +26,7 @@ class UsersController < Clearance::UsersController
 
   def require_signed_out
     return unless signed_in?
+
     redirect_to root_path
   end
 
@@ -83,6 +84,7 @@ class UsersController < Clearance::UsersController
 
   def normalize_phone!(profile)
     return unless profile
+
     code = profile.phone_country_code.to_s.strip
     local = profile.phone_local.to_s.gsub(/\D/, '')
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil

@@ -1,4 +1,4 @@
-<h1>Password</h1>
+<h1><%= t("home.show.subtitle") %></h1>
 
 <%= form_with model: Current.user, url: settings_password_path do |form| %>
   <% if form.object.errors.any? %>
@@ -21,6 +21,6 @@
   </div>
 
   <div>
-    <%= form.submit "Update password" %>
+    <%= form.submit t("settings.show.update_password") %>
   </div>
 <% end %>

@@ -8,6 +8,8 @@ en:
     save: save
   home:
     show:
+      profile: To the Profile
+      signout: Logout
       subtitle: Placeholder homepage.
       title: Journey
   profiles:
@@ -44,6 +46,9 @@ en:
       link: Create account
       text: No account yet?
     success: Successfully signed in.
+  settings:
+    show:
+      update_password: Update Password
   users:
     already_have_account: Already have an account?
     create:

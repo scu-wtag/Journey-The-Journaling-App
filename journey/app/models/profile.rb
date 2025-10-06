@@ -5,14 +5,13 @@ class Profile < ApplicationRecord
   validates :user_id, uniqueness: true
 
   has_one_attached :picture
-  validate :picture_type_and_size
-
+  validates :picture, attached: true
   before_validation :compose_phone
 
   private
 
   def compose_phone
-    code  = phone_country_code.to_s.strip
+    code = phone_country_code.to_s.strip
     local = phone_local.to_s.gsub(/\D/, '')
     self.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
