@@ -24,7 +24,10 @@ gem 'puma', '>= 5.0'
 
 gem 'rails', '~> 8.0.2', '>= 8.0.2.1'
 gem 'rubocop', require: false
+gem 'rubocop-factory_bot', '~> 2.27', '>= 2.27.1'
 gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', '~> 3.7'
+gem 'rubocop-rspec_rails', '~> 2.31'
 gem 'ruby-vips'
 
 group :development do
