@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   resources :users, only: %i(new create), controller: 'users'
   scope '(:locale)', locale: /en|de/ do
     resources :users, only: %i(new create)
-    get 'signup', to: 'users#new'
-    post 'signup', to: 'users#create'
     resources :journal_entries
     get '/signup', to: 'users#new', as: :sign_up
     post '/signup', to: 'users#create'

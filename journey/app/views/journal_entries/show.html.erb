@@ -39,19 +39,11 @@
     </section>
   <% end %>
 
-  <footer class="show-actions">
-    <%= link_to t("common.edit", default: "Edit"),
-    edit_journal_entry_path(@journal_entry),
-    class: "btn" %>
-    <%= link_to t("journal.show.back", default: "Back"),
-    journal_entries_path,
-    class: "btn btn-ghost" %>
-    <%= button_to t("journal.show.delete", default: "Delete"),
-    @journal_entry,
-    method: :delete,
-    data: {
-      confirm: t("journal.show.confirm_delete", default: "Delete this entry?"),
-    },
-    class: "btn btn-danger" %>
-  </footer>
-</div>
+<p>
+  <%= link_to t("common.edit"), edit_journal_entry_path(@journal_entry) %> |
+  <%= link_to t("journal.show.back"), journal_entries_path %> |
+  <%= button_to t("journal.show.delete"),
+                @journal_entry,
+                method: :delete,
+                data: { confirm: t("journal.show.confirm_delete") } %>
+</p>
