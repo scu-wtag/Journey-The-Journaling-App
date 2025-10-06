@@ -48,6 +48,12 @@ class UsersController < Clearance::UsersController
     User.new(attrs)
   end
 
+  def sanitize_profile_attrs(raw)
+    virtual = %i(phone_country_code phone_local picture)
+    allowed = (Profile.attribute_names.map(&:to_sym) + virtual).uniq
+    raw.to_h.symbolize_keys.slice(*allowed)
+  end
+
   def user_params
     params.fetch(:user, {}).permit(
       :email, :password, :password_confirmation, :name,

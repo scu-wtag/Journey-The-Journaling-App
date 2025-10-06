@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :require_login
   before_action :set_theme
 
+  ALLOWED_THEMES = %w(light dark).freeze
+
   LIGHT_THEME = 'light'.freeze
   DARK_THEME = 'dark'.freeze
   ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze

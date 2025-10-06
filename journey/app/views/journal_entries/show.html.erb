@@ -23,8 +23,5 @@
 <p>
   <%= link_to t("common.edit"), edit_journal_entry_path(@journal_entry) %> |
   <%= link_to t("journal.show.back"), journal_entries_path %> |
-  <%= button_to t("journal.show.delete"),
-                @journal_entry,
-                method: :delete,
-                data: { confirm: t("journal.show.confirm_delete") } %>
+  <%= button_to t("journal.show.delete"), @journal_entry, method: :delete, data: { confirm: t("journal.show.confirm_delete") } %>
 </p>
