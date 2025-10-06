@@ -121,3 +121,38 @@ en:
   journals:
     update:
       error: must be later than start time
+  journal:
+    index:
+      title: Journal
+      new: Create new entry
+    new:
+      title: Create journal entry
+    edit:
+      title: Edit journal entry
+    show:
+      notes: Notes
+      goals_for_tomorrow: Goals for tomorrow
+      attachments: Attachments
+      back: Back to list
+      delete: Delete
+      confirm_delete: Are you sure you want to delete this entry?
+    form:
+      title: Title
+      entry_date: Date
+      time_from: From
+      time_to: To
+      body: Notes
+      goals_for_tomorrow: Goals for tomorrow
+      files: Files
+      create: Create
+      save_changes: Save
+    flash:
+      created: Entry created
+      updated: Entry updated
+      deleted: Entry deleted
+      not_authorized: Not authorized
+  settings:
+    passwords:
+      update:
+        success: Your password has been updated.
+        

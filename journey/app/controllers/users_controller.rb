@@ -48,6 +48,7 @@ class UsersController < Clearance::UsersController
     User.new(attrs)
   end
 
+
   def sanitize_profile_attrs(raw)
     transient_attrs = %i(phone_country_code phone_local picture)
     allowed = (Profile.attribute_names.map(&:to_sym) + transient_attrs).uniq

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze
 
   def default_url_options
-    { locale: I18n.locale }
+    { locale: I18n.locale || I18n.default_locale }
   end
 
   private
@@ -37,12 +37,10 @@ class ApplicationController < ActionController::Base
 
   def pick_locale(avail)
     allowed = Set.new(Array(avail).map(&:to_s))
-
     each_locale_source(avail) do |loc|
       s = loc.to_s
       return s if !s.empty? && allowed.include?(s)
     end
-
     nil
   end
 
@@ -70,10 +68,14 @@ class ApplicationController < ActionController::Base
   end
 
   def accept_language_values
+    languages = accept_language_values
+    direct = languages.detect { |l| l.to_s.presence_in(avail) }
+    direct || languages.map { |l| l[0, 2] }.detect { |code| code.to_s.presence_in(avail) }
+  end
+
+  def accept_language_values
     header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', '').to_s
-    header.split(',').
-      map { |l| l.split(';').first.to_s.strip }.
-      compact_blank
+    header.split(',').map { |l| l.split(';').first.to_s.strip }.compact_blank
   end
 
   def set_theme
@@ -88,10 +90,6 @@ class ApplicationController < ActionController::Base
 
   def first_allowed_theme(candidates, allowed_list)
     allowed = Array(allowed_list).to_set(&:to_s)
-    candidates.
-      compact.
-      lazy.
-      map(&:to_s).
-      detect { |t| t.present? && allowed.include?(t) }
+    candidates.compact.lazy.map(&:to_s).detect { |t| t.present? && allowed.include?(t) }
   end
 end

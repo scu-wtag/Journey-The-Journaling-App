@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     resources :users, only: %i(new create)
     get 'signup', to: 'users#new'
     post 'signup', to: 'users#create'
+    resources :journal_entries
+    get '/signup', to: 'users#new', as: :sign_up
+    post '/signup', to: 'users#create'
 
     get 'login', to: 'sessions#new', as: :login
     post 'login', to: 'sessions#create'

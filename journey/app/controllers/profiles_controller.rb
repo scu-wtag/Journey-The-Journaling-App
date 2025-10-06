@@ -18,10 +18,17 @@ class ProfilesController < ApplicationController
       update_user_if_needed
     end
   end
+  respond_update_success
+rescue ActiveRecord::RecordInvalid
+  respond_update_failure
+end
 
+def respond_update_success
   def respond_update_success
     respond_to do |format|
-      format.html { redirect_to profile_path, notice: t('.success', default: 'Saved') }
+      format.html do
+        redirect_to profile_path(locale: I18n.locale), notice: t('.success', default: 'Profile updated')
+      end
       format.json { head :no_content }
     end
   end
