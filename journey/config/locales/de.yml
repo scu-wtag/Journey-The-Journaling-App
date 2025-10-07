@@ -1,4 +1,3 @@
----
 de:
   app:
     name: Journey
@@ -27,7 +26,7 @@ de:
     update:
       failed: Profil konnte nicht aktualisiert werden
       success: Profil wurde erfolgreich aktualisiert
-      wrong_filetype: Datei muss PEG, PNG, WebP oder AVIF sein
+      wrong_filetype: Datei muss JPEG, PNG, WebP oder AVIF sein
   sessions:
     errors:
       invalid_credentials: E-Mail oder Passwort ist falsch.
@@ -48,7 +47,7 @@ de:
     success: Erfolgreich angemeldet.
   settings:
     show:
-      update_password: Password aktualisieren
+      update_password: Passwort aktualisieren
   users:
     already_have_account: Schon einen Account?
     create:
@@ -73,3 +72,17 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
+  activerecord:
+    models:
+      profile: "Profil"
+    attributes:
+      profile:
+        headquarters: "Headquarters"
+    errors:
+      models:
+        profile:
+          attributes:
+            headquarters:
+              inclusion: "ist kein gueltiger Wert"
+      messages:
+        inclusion: "ist nicht in der Liste enthalten"

@@ -14,27 +14,50 @@
       <div class="profile__head">
         <div class="profile__avatar">
           <div class="profile__frame">
-            <% if @profile&.picture&.attached? %>
-              <%= image_tag @profile.picture.variant(resize_to_fill: [200, 200]),
-                    alt: t("profiles.show.profile_picture_alt"),
-                    class: "profile__image",
-                    id: "avatarImg" %>
+            <% if @profile.errors.any? %>
+              <div class="flash flash--error">
+                <ul>
+                  <% @profile.errors.full_messages.each do |m| %>
+                    <li><%= m %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <% if @profile&.picture&.attached? && @profile.picture.blob&.persisted? %>
+              <% if @profile.picture.variable? %>
+                <%= image_tag(
+                      @profile.picture.variant(resize_to_fill: [200, 200]).processed,
+                      alt: t("profiles.show.profile_picture_alt"),
+                      class: "profile__image",
+                      id: "avatarImg"
+                    ) %>
+              <% else %>
+                <%= image_tag(
+                      url_for(@profile.picture),
+                      alt: t("profiles.show.profile_picture_alt"),
+                      class: "profile__image",
+                      id: "avatarImg"
+                    ) %>
+              <% end %>
             <% else %>
               <img src="https://i.pravatar.cc/200?img=1"
-                   alt="<%= t('profiles.show.profile_picture_alt') %>"
-                   class="profile__image"
-                   id="avatarImg" />
+                  alt="<%= t('profiles.show.profile_picture_alt') %>"
+                  class="profile__image"
+                  id="avatarImg" />
             <% end %>
           </div>
 
-          <%= form_with model: @profile, url: profile_path, method: :patch,
-                html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
+          <%= form_with model: @profile,
+                        url: profile_path,
+                        method: :patch,
+                        local: true,
+                        data: { turbo: false },
+                        html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
             <%= f.file_field :picture,
                   accept: "image/*",
                   class: "profile__file",
                   id: "avatarInput",
                   style: "display:none;" %>
-
             <button type="button" class="profile__edit" id="editAvatar"><%= t("common.edit") %></button>
           <% end %>
         </div>

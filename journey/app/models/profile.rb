@@ -9,11 +9,12 @@ class Profile < ApplicationRecord
 
   has_one_attached :picture
 
-  validates :picture, attached: true,
-                      content_type: { in: ALLOWED_IMAGE_TYPES, message: I18n.t("profiles.update.wrong_filetype") },
-                      size: { less_than_or_equal_to: 5.megabytes, message: I18n.t("profiles.update.failed") }
+  validates :picture,
+            content_type: { in: ALLOWED_IMAGE_TYPES, message: I18n.t("profiles.update.wrong_filetype", default: "Wrong file type") },
+            size:         { less_than_or_equal_to: 5.megabytes, message: I18n.t("profiles.update.failed", default: "File too large") },
+            if: -> { picture.attached? }
 
-  validates :headquarters, inclusion: { in: HEADQUARTERS }
+  validates :headquarters, length: { maximum: 100 }, allow_blank: true
 
   before_validation :compose_phone
 
