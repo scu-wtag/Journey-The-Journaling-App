@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
 
+  LIGHT_THEME = 'light'.freeze
+  DARK_THEME  = 'dark'.freeze
+  ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze
+
   before_action :set_locale
   before_action :set_theme
 
@@ -42,17 +46,15 @@ class ApplicationController < ActionController::Base
   end
 
   def set_theme
-    allowed = %w(light dark)
-
     cookie_theme = cookies[:theme].to_s
-    cookie_theme = cookie_theme if allowed.include?(cookie_theme)
+    cookie_theme = cookie_theme if ALLOWED_THEMES.include?(cookie_theme)
 
     user_theme =
       if respond_to?(:signed_in?) && signed_in? && current_user
         t = current_user.theme.to_s
-        allowed.include?(t) ? t : nil
+        ALLOWED_THEMES.include?(t) ? t : nil
       end
 
-    @theme = cookie_theme.presence || user_theme.presence || 'light'
+    @theme = cookie_theme.presence || user_theme.presence || LIGHT_THEME
   end
 end

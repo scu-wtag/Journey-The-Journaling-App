@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       format.html do
         flash.now[:alert] = t('.failed')
-        render :edit, status: :unprocessable_entity
+        render :show, status: :unprocessable_entity
       end
       format.json { render json: { error: 'invalid' }, status: :unprocessable_entity }
     end
