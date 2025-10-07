@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :require_login
-  before_action :ensure_profile!, only: %i[show edit update]
+  before_action :ensure_profile!, only: %i(show edit update)
 
   def show; end
   def edit; end
@@ -12,16 +12,19 @@ class ProfilesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to profile_path, notice: t(".success", default: "Saved") }
+      format.html { redirect_to profile_path, notice: t('.success', default: 'Saved') }
       format.json { head :no_content }
     end
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid => error
     respond_to do |format|
       format.html do
-        flash.now[:alert] = t(".failed", default: "Update failed")
+        flash.now[:alert] = t('.failed', default: 'Update failed')
         render :show, status: :unprocessable_entity
       end
-      format.json { render json: { error: "invalid", message: e.record.errors.full_messages }, status: :unprocessable_entity }
+      format.json do
+        render json: { error: 'invalid', message: error.record.errors.full_messages },
+               status: :unprocessable_entity
+      end
     end
   end
 
@@ -50,17 +53,17 @@ class ProfilesController < ApplicationController
 
   def set_prefs_cookies_from_params(userparams)
     cookies.permanent[:locale] = current_user.locale if userparams.key?(:locale)
-    cookies.permanent[:theme]  = current_user.theme  if userparams.key?(:theme)
+    cookies.permanent[:theme] = current_user.theme if userparams.key?(:theme)
   end
 
   def apply_phone_params!(profileparams)
     return unless profileparams.key?(:phone_country_code) || profileparams.key?(:phone_local)
 
-    code  = profileparams[:phone_country_code].to_s.strip.gsub(/\D/, "")
-    local = profileparams[:phone_local].to_s.gsub(/\D/, "")
+    code = profileparams[:phone_country_code].to_s.strip.gsub(/\D/, '')
+    local = profileparams[:phone_local].to_s.gsub(/\D/, '')
     @profile.phone_country_code = code
-    @profile.phone_local        = local
-    @profile.phone              = code.present? && local.present? ? "+#{code}#{local}" : nil
+    @profile.phone_local = local
+    @profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
 
   def profile_params

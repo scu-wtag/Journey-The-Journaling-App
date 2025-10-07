@@ -1,8 +1,8 @@
 class Profile < ApplicationRecord
   include ProfileOptions
 
-  HEADQUARTERS = %w[ZRH DAC REM].freeze
-  ALLOWED_IMAGE_TYPES = %w[image/jpeg image/png image/webp image/avif].freeze
+  HEADQUARTERS = %w(ZRH DAC REM).freeze
+  ALLOWED_IMAGE_TYPES = %w(image/jpeg image/png image/webp image/avif).freeze
 
   belongs_to :user, inverse_of: :profile
   validates :user_id, uniqueness: true
@@ -10,8 +10,10 @@ class Profile < ApplicationRecord
   has_one_attached :picture
 
   validates :picture,
-            content_type: { in: ALLOWED_IMAGE_TYPES, message: I18n.t("profiles.update.wrong_filetype", default: "Wrong file type") },
-            size:         { less_than_or_equal_to: 5.megabytes, message: I18n.t("profiles.update.failed", default: "File too large") },
+            content_type: { in: ALLOWED_IMAGE_TYPES,
+                            message: I18n.t('profiles.update.wrong_filetype', default: 'Wrong file type'), },
+            size: { less_than_or_equal_to: 5.megabytes,
+                    message: I18n.t('profiles.update.failed', default: 'File too large'), },
             if: -> { picture.attached? }
 
   validates :headquarters, length: { maximum: 100 }, allow_blank: true
@@ -21,8 +23,8 @@ class Profile < ApplicationRecord
   private
 
   def compose_phone
-    code  = phone_country_code.to_s.strip.gsub(/\D/, "")
-    local = phone_local.to_s.gsub(/\D/, "")
+    code = phone_country_code.to_s.strip.gsub(/\D/, '')
+    local = phone_local.to_s.gsub(/\D/, '')
     self.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
 end

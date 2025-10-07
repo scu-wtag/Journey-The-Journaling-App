@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Clearance::Controller
 
   LIGHT_THEME = 'light'.freeze
-  DARK_THEME  = 'dark'.freeze
+  DARK_THEME = 'dark'.freeze
   ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze
 
   before_action :set_locale
