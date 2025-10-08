@@ -1,6 +1,5 @@
 module Settings
   class PasswordsController < ApplicationController
-    def show; end
 
     def update
       if Current.user.update(password_params)
