@@ -2,8 +2,6 @@ class ProfilesController < ApplicationController
   before_action :require_login
   before_action :ensure_profile!, only: %i(show edit update)
 
-  def show; end
-  def edit; end
 
   def update
     Profile.transaction do
