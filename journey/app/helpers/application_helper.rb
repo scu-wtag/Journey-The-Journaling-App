@@ -7,7 +7,6 @@ module ApplicationHelper
   end
 
   def has_error?(record, attr)
-    errs = record&.errors
-    errs && errs[attr].present?
+    record&.errors&.include?(attr)
   end
 end
