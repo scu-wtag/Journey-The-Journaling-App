@@ -1,9 +1,9 @@
 module ApplicationHelper
   def error_for(record, attr)
-    errs = record&.errors
-    return '' unless errs && errs[attr].present?
+    error_messages = record&.errors
+    return '' unless error_messages && error_messages[attr].present?
 
-    errs[attr].first
+    error_messages[attr].first
   end
 
   def has_error?(record, attr)

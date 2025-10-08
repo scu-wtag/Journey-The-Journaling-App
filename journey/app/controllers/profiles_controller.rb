@@ -1,7 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :require_login
-  before_action :ensure_profile!, only: %i(show edit update)
-
+  before_action :ensure_profile!, only: %i(show update)
 
   def update
     Profile.transaction do
@@ -11,17 +9,12 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to profile_path, notice: t('.success', default: 'Saved') }
-      format.json { head :no_content }
     end
-  rescue ActiveRecord::RecordInvalid => error
+  rescue ActiveRecord::RecordInvalid
     respond_to do |format|
       format.html do
         flash.now[:alert] = t('.failed', default: 'Update failed')
         render :show, status: :unprocessable_entity
-      end
-      format.json do
-        render json: { error: 'invalid', message: error.record.errors.full_messages },
-               status: :unprocessable_entity
       end
     end
   end

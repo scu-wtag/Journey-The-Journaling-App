@@ -10,7 +10,7 @@ class RegistrationsController < Clearance::UsersController
     check_password_confirmation
     normalize_phone!(@user.profile)
 
-    return render_new_error if @user.errors.any?
+    return handle_failure if @user.errors.any?
     return handle_success if @user.save
 
     handle_failure
@@ -59,10 +59,6 @@ class RegistrationsController < Clearance::UsersController
       /\D/, ''
     )
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
-  end
-
-  def render_new_error
-    render 'users/new', status: :unprocessable_content
   end
 
   def handle_success

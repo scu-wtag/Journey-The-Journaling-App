@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
+  before_action :require_login
 
   LIGHT_THEME = 'light'.freeze
   DARK_THEME = 'dark'.freeze
@@ -23,7 +24,7 @@ class ApplicationController < ActionController::Base
   def chosen_locale(avail)
     param_locale = params[:locale].to_s.presence_in(avail)
 
-    if respond_to?(:signed_in?) && signed_in?
+    if signed_in?
       user_locale(avail) || I18n.default_locale
     else
       param_locale ||
@@ -50,7 +51,7 @@ class ApplicationController < ActionController::Base
     cookie_theme = cookie_theme if ALLOWED_THEMES.include?(cookie_theme)
 
     user_theme =
-      if respond_to?(:signed_in?) && signed_in? && current_user
+      if signed_in? && current_user
         t = current_user.theme.to_s
         ALLOWED_THEMES.include?(t) ? t : nil
       end
