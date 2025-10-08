@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  include Clearance::Controller
 
   def new
     @session = Clearance::Session.new(session)
