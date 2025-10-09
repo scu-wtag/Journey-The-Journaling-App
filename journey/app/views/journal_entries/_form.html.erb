@@ -71,8 +71,8 @@
 
         <footer class="footer">
           <label class="file-label">
-            <%= t("journal.form.files", default: "Files") %>
-            <%= f.file_field :files, multiple: true, class: "file" %>
+            <%= t('journal.form.files', default: 'Files') %>
+            <%= f.file_field :files, multiple: true, class: 'file' %>
           </label>
           <div class="actions">
             <%= link_to(
@@ -111,7 +111,7 @@
   >
     <div class="modal__backdrop" data-close="goalModal"></div>
     <div class="modal__card" role="document">
-      <header class="modal__head"><h3><%= t("journal.form.add_goal_btn", default: "Add goal") %></h3></header>
+      <header class="modal__head"><h3><%= t('journal.form.add_goal_btn', default: 'Add goal') %></h3></header>
       <div class="modal__body">
         <div class="field">
           <label class="label"><%= t("journal.form.title", default: "Title") %></label>
@@ -133,8 +133,8 @@
         </div>
       </div>
       <footer class="modal__foot">
-        <button type="button" class="ghost" data-close="goalModal"><%= t("common.cancel") %></button>
-        <button type="button" class="primary" id="saveGoal"><%= t("common.save") %></button>
+        <button type="button" class="ghost" data-close="goalModal"><%= t('common.cancel') %></button>
+        <button type="button" class="primary" id="saveGoal"><%= t('common.save') %></button>
       </footer>
     </div>
   </div>

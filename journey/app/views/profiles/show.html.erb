@@ -136,7 +136,7 @@
 
           <div class="page__actions" id="saveBar" style="display:none;">
             <button class="btn btn--sm" id="cancelBtn" type="button"><%= t("common.cancel") %></button>
-            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t("common.save") %></button>
+            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t('common.save') %></button>
           </div>
         </div>
       </div>
@@ -145,10 +145,10 @@
     <hr class="rule"/>
 
     <section class="settings">
-      <h3 class="settings__title"><%= t("profiles.show.settings_title") %></h3>
+      <h3 class="settings__title"><%= t('profiles.show.settings_title') %></h3>
 
       <div class="settings__row">
-        <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
+        <div class="settings__label"><%= t('profiles.show.preferred_language') %></div>
         <div class="settings__control">
           <select class="input" id="langSelect">
             <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>
@@ -162,15 +162,15 @@
       </div>
 
       <div class="settings__row">
-        <div class="settings__label"><%= t("profiles.show.mode") %></div>
+        <div class="settings__label"><%= t('profiles.show.mode') %></div>
         <div class="settings__control">
           <div class="mode-toggle">
-            <span><%= t("profiles.show.light") %></span>
+            <span><%= t('profiles.show.light') %></span>
             <label class="toggle">
               <input type="checkbox" id="themeToggle"/>
               <span class="toggle__slider" aria-hidden="true"></span>
             </label>
-            <span><%= t("profiles.show.dark") %></span>
+            <span><%= t('profiles.show.dark') %></span>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'JournalEntries', type: :request do
+RSpec.describe 'JournalEntries' do
   let(:user) { create(:user) }
 
   before do
