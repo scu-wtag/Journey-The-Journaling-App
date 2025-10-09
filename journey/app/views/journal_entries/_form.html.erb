@@ -1,38 +1,154 @@
-<%= form_with model: @journal_entry, html: { multipart: true } do |f| %>
-  <p>
-    <%= f.label :title, t("journal.form.title") %><br>
-    <%= f.text_field :title %>
-  </p>
-
-  <p>
-    <%= f.label :entry_date, t("journal.form.entry_date") %><br>
-    <%= f.date_field :entry_date %>
-  </p>
-
-  <p>
-    <%= f.label :time_from, t("journal.form.time_from") %><br>
-    <%= f.time_field :time_from %>
-  </p>
-
-  <p>
-    <%= f.label :time_to, t("journal.form.time_to") %><br>
-    <%= f.time_field :time_to %>
-  </p>
-
-  <p>
-    <%= f.label :body, t("journal.form.body") %><br>
-    <%= f.rich_text_area :body %>
-  </p>
-
-  <p>
-    <%= f.label :goals_for_tomorrow, t("journal.form.goals_for_tomorrow") %><br>
-    <%= f.rich_text_area :goals_for_tomorrow %>
-  </p>
-
-  <p>
-    <%= f.label :files, t("journal.form.files") %><br>
-    <%= f.file_field :files, multiple: true %>
-  </p>
-
-  <%= f.submit(@journal_entry.persisted? ? t("journal.form.save_changes") : t("journal.form.create")) %>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/journals/new" %>
 <% end %>
+
+<%= form_with model: @journal_entry, html: { multipart: true, class: "app" } do |f| %>
+  <header class="topbar">
+    <div class="brand-pill">Journey</div>
+    <div class="topbar__spacer"></div>
+  </header>
+
+  <div class="shell">
+    <nav class="sidenav">
+      <button type="button" class="nav-btn" title="Dashboard" aria-label="Dashboard">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="5"/><rect x="13" y="10" width="8" height="11"/><rect x="3" y="13" width="8" height="8"/></svg>
+      </button>
+      <button type="button" class="nav-btn" title="Profile" aria-label="Profile">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+      </button>
+      <button type="button" class="nav-btn" title="New" aria-label="New">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <button type="button" class="nav-btn" title="Tasks" aria-label="Tasks">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M9 4h6v3H9zM9 10h6M9 14h6"/></svg>
+      </button>
+    </nav>
+
+    <main class="main">
+      <section class="journal">
+        <div class="row tight">
+          <div class="field w-2">
+            <label class="label"><%= t("journal.form.title", default: "Title") %></label>
+            <%= f.text_field :title, class: "input", placeholder: t("journal.form.title_ph", default: "New log entry") %>
+          </div>
+          <div class="field w-1">
+            <label class="label"><%= t("journal.form.entry_date", default: "Date") %></label>
+            <%= f.date_field :entry_date, class: "input" %>
+          </div>
+        </div>
+
+        <div class="row tight">
+          <div class="field w-1">
+            <label class="label"><%= t("journal.form.time_from", default: "From") %></label>
+            <%= f.time_field :time_from, class: "input" %>
+          </div>
+          <div class="field w-1">
+            <label class="label"><%= t("journal.form.time_to", default: "To") %></label>
+            <%= f.time_field :time_to, class: "input" %>
+          </div>
+          <div class="w-spacer"></div>
+        </div>
+
+        <div class="field">
+          <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
+          <%= f.rich_text_area :body, class: "editor-notes" %>
+        </div>
+
+        <div class="goals-header">
+          <div class="section-title"><%= t("journal.form.goals_for_tomorrow", default: "Goals for tomorrow") %></div>
+          <button type="button" class="ghost" id="openGoalModal">+ <%= t("journal.form.add_goal_btn", default: "Add goal") %></button>
+        </div>
+
+        <div id="goalsList" class="goals-list"></div>
+
+        <div class="sr-only">
+          <%= f.rich_text_area :goals_for_tomorrow, id: "goalsEditor" %>
+        </div>
+
+        <footer class="footer">
+          <label class="file-label">
+            <%= t("journal.form.files", default: "Files") %>
+            <%= f.file_field :files, multiple: true, class: "file" %>
+          </label>
+          <div class="actions">
+            <%= link_to(@journal_entry.persisted? ? t("journal.form.discard_changes", default: "Discard") : t("journal.form.discard", default: "Cancel"), journal_entries_path, class: "primary_cancel") %>
+            <%= f.submit(@journal_entry.persisted? ? t("journal.form.save_changes", default: "Save") : t("journal.form.create", default: "Create"), class: "primary") %>
+          </div>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="goalModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__backdrop" data-close="goalModal"></div>
+    <div class="modal__card" role="document">
+      <header class="modal__head"><h3><%= t("journal.form.add_goal_btn", default: "Add goal") %></h3></header>
+      <div class="modal__body">
+        <div class="field">
+          <label class="label"><%= t("journal.form.title", default: "Title") %></label>
+          <input type="text" id="goalTitle" class="input" placeholder="<%= t('journal.form.title_ph', default: 'New goal') %>">
+        </div>
+        <div class="field">
+          <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
+          <textarea id="goalBody" class="textarea" rows="8" placeholder="Write your goal…"></textarea>
+        </div>
+      </div>
+      <footer class="modal__foot">
+        <button type="button" class="ghost" data-close="goalModal"><%= t("common.cancel") %></button>
+        <button type="button" class="primary" id="saveGoal"><%= t("common.save") %></button>
+      </footer>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  const $ = s => document.querySelector(s);
+  const goalModal = $('#goalModal');
+  const openBtn = $('#openGoalModal');
+  const saveBtn = $('#saveGoal');
+  const goalsList = $('#goalsList');
+  const goalsEditor = $('#goalsEditor');
+  const tInput = $('#goalTitle');
+  const bInput = $('#goalBody');
+
+  function openModal() {
+    goalModal.classList.add('is-open');
+    goalModal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => tInput.focus(), 50);
+  }
+
+  function closeModal() {
+    goalModal.classList.remove('is-open');
+    goalModal.setAttribute('aria-hidden', 'true');
+  }
+
+  openBtn?.addEventListener('click', openModal);
+  goalModal?.addEventListener('click', e => { if (e.target.dataset.close === 'goalModal') closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && goalModal.classList.contains('is-open')) closeModal(); });
+
+  saveBtn?.addEventListener('click', () => {
+    const title = tInput.value.trim();
+    const body = bInput.value.trim();
+    if (!title && !body) return;
+
+    const card = document.createElement('div');
+    card.className = 'goal-card';
+    card.innerHTML = `
+      <div class="goal-title">${title || 'Untitled'}</div>
+      ${body ? `<div class="goal-text">${body.replace(/\n/g, '<br>')}</div>` : ''}
+    `;
+    goalsList.appendChild(card);
+
+    if (goalsEditor && goalsEditor.editor) {
+      const html = `
+        <div class="goal">
+          <strong>${title || 'Untitled'}</strong>
+          ${body ? `<div>${body.replace(/\n/g, '<br>')}</div>` : ''}
+        </div>`;
+      const prev = goalsEditor.editor.getDocument().toString().trim();
+      if (prev.length === 0) goalsEditor.editor.loadHTML(html);
+      else goalsEditor.editor.insertHTML(html);
+    }
+    closeModal();
+  });
+</script>
