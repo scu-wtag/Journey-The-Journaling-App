@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "*.html.erb": "erb"
+  },
+  "[erb]": {
+    "editor.defaultFormatter": "elia.erb-formatter",
+    "editor.formatOnSave": true
+  },
+  "editor.formatOnSaveMode": "file",
+  "erb-formatter.bundleExec": false,
+  "erb-formatter.commandPath": "/Users/sophiacuarte/Documents/GitHub/Journey-The-Journaling-App/Journey-The-Journaling-App/journey/bin/erb-format",
+  "erb-formatter.printWidth": 100
+}

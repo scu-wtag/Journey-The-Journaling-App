@@ -1,4 +1,7 @@
 <h1><%= t("home.show.title") %></h1>
 <p><%= t("home.show.subtitle") %></p>
 <button><%= link_to t("home.show.profile"), profile_path, class: "link" %></button>
-<%= button_to t("home.show.signout"), sign_out_path(locale: I18n.locale), method: :delete, class: "btn link" %>
+<%= button_to t("home.show.signout"),
+sign_out_path(locale: I18n.locale),
+method: :delete,
+class: "btn link" %>

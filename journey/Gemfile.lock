@@ -124,6 +124,8 @@ GEM
     email_validator (2.2.4)
       activemodel
     erb (5.0.2)
+    erb-formatter (0.7.3)
+      syntax_tree (~> 6.0)
     erubi (1.13.1)
     factory_bot (6.5.5)
       activesupport (>= 6.1.0)
@@ -248,6 +250,7 @@ GEM
     pg (1.6.2-x86_64-linux-musl)
     pp (0.6.2)
       prettyprint
+    prettier_print (1.2.1)
     prettyprint (0.2.0)
     prism (1.5.1)
     propshaft (1.2.1)
@@ -369,6 +372,8 @@ GEM
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     stringio (3.1.7)
+    syntax_tree (6.3.0)
+      prettier_print (>= 1.2.0)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
@@ -415,6 +420,7 @@ DEPENDENCIES
   dartsass-rails
   database_cleaner-active_record
   debug
+  erb-formatter (~> 0.7.3)
   factory_bot_rails
   i18n-tasks (~> 1.0.15)
   image_processing (~> 1.2)
