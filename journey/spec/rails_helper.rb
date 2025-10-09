@@ -3,9 +3,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
-
-# Support-Dateien laden (u.a. view_locale.rb)
-Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').sort.each { |f| require f }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -42,7 +40,10 @@ RSpec.configure do |config|
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
   config.use_transactional_fixtures = true
   config.filter_rails_from_backtrace!
-
   config.include FactoryBot::Syntax::Methods
   config.include AuthHelpers, type: :request
+  config.after(:suite) do
+    service = ActiveStorage::Blob.service
+    FileUtils.rm_rf(service.root) if service.respond_to?(:root) && service.root.present?
+  end
 end

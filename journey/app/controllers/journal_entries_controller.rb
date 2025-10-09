@@ -20,7 +20,7 @@ class JournalEntriesController < ApplicationController
     if @journal_entry.save
       redirect_to @journal_entry, notice: t('journal.flash.created')
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -28,7 +28,7 @@ class JournalEntriesController < ApplicationController
     if @journal_entry.update(entry_params)
       redirect_to @journal_entry, notice: t('journal.flash.updated')
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

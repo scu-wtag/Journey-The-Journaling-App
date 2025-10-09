@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :journal_entry do
-    association :user
+    user
     title { 'My day' }
     entry_date { Date.current }
     time_from { '09:00' }

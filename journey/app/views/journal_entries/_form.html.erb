@@ -67,12 +67,12 @@
 
         <footer class="footer">
           <label class="file-label">
-            <%= t("journal.form.files", default: "Files") %>
-            <%= f.file_field :files, multiple: true, class: "file" %>
+            <%= t('journal.form.files', default: 'Files') %>
+            <%= f.file_field :files, multiple: true, class: 'file' %>
           </label>
           <div class="actions">
-            <%= link_to(@journal_entry.persisted? ? t("journal.form.discard_changes", default: "Discard") : t("journal.form.discard", default: "Cancel"), journal_entries_path, class: "primary_cancel") %>
-            <%= f.submit(@journal_entry.persisted? ? t("journal.form.save_changes", default: "Save") : t("journal.form.create", default: "Create"), class: "primary") %>
+            <%= link_to(@journal_entry.persisted? ? t('journal.form.discard_changes', default: 'Discard') : t('journal.form.discard', default: 'Cancel'), journal_entries_path, class: 'primary_cancel') %>
+            <%= f.submit(@journal_entry.persisted? ? t('journal.form.save_changes', default: 'Save') : t('journal.form.create', default: 'Create'), class: 'primary') %>
           </div>
         </footer>
       </section>
@@ -82,20 +82,20 @@
   <div class="modal" id="goalModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal__backdrop" data-close="goalModal"></div>
     <div class="modal__card" role="document">
-      <header class="modal__head"><h3><%= t("journal.form.add_goal_btn", default: "Add goal") %></h3></header>
+      <header class="modal__head"><h3><%= t('journal.form.add_goal_btn', default: 'Add goal') %></h3></header>
       <div class="modal__body">
         <div class="field">
-          <label class="label"><%= t("journal.form.title", default: "Title") %></label>
+          <label class="label"><%= t('journal.form.title', default: 'Title') %></label>
           <input type="text" id="goalTitle" class="input" placeholder="<%= t('journal.form.title_ph', default: 'New goal') %>">
         </div>
         <div class="field">
-          <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
+          <label class="label"><%= t('journal.form.body', default: 'Notes') %></label>
           <textarea id="goalBody" class="textarea" rows="8" placeholder="Write your goal…"></textarea>
         </div>
       </div>
       <footer class="modal__foot">
-        <button type="button" class="ghost" data-close="goalModal"><%= t("common.cancel") %></button>
-        <button type="button" class="primary" id="saveGoal"><%= t("common.save") %></button>
+        <button type="button" class="ghost" data-close="goalModal"><%= t('common.cancel') %></button>
+        <button type="button" class="primary" id="saveGoal"><%= t('common.save') %></button>
       </footer>
     </div>
   </div>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'journal_entries/new', type: :view do
+RSpec.describe 'journal_entries/new' do
   it 'renders the form' do
     assign(:journal_entry, JournalEntry.new)
     render

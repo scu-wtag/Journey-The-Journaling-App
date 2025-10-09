@@ -6,14 +6,15 @@
   <div class="text-field email optional session_email">
     <%= form.label :email %>
     <%= form.email_field :email,
-      value: params.dig(:session, :email),
-      autofocus: true,
-      autocomplete: "username" %>
+          value: params.dig(:session, :email),
+          autofocus: true,
+          autocomplete: 'username' %>
   </div>
 
   <div class="password-field password optional session_password">
     <%= form.label :password %>
-    <%= form.password_field :password, autocomplete: "current-password" %>
+    <%= form.password_field :password,
+          autocomplete: 'current-password' %>
   </div>
 
   <div class="submit-field">
