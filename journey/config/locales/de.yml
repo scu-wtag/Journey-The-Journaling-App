@@ -72,6 +72,8 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
+    password:
+      update: Dein Passwort wurde erfolgreich aktualisiert
   activerecord:
     models:
       profile: "Profil"

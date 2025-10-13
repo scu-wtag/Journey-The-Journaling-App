@@ -72,6 +72,8 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
+    password:
+      update: Your password has been successfully updated
   activerecord:
     models:
       profile: "Profile"
