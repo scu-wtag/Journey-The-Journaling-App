@@ -42,4 +42,4 @@ group :test do
   gem 'factory_bot_rails'
 end
 
-gem "erb-formatter", "~> 0.7.3"
+gem 'erb-formatter', '~> 0.7.3'
