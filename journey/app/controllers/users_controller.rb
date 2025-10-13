@@ -63,7 +63,7 @@ class UsersController < Clearance::UsersController
   end
 
   def user_from_params
-    p = user_params
+    params = user_params
     attrs = {
       email: p[:email].to_s.strip.downcase,
       password: p[:password],
