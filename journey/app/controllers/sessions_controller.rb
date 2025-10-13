@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def create
     email = params.dig(:session, :email).to_s.downcase.strip
-    password = params.dig(:session, :password).to_s
+    password = params.dig(:session, :password)
     @user = User.find_by(email: email)
     if @user&.authenticated?(password)
       cookies[Clearance.configuration.cookie_name] = {

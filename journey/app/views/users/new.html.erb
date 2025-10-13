@@ -68,7 +68,7 @@ html: { class: "form" } do |f| %>
         <%= f.password_field :password_confirmation,
                          required: true,
                          autocomplete: "new-password",
-                         placeholder: "*******",
+                         placeholder: t("sessions.fields.password.placeholder"),
                          class: "form__input" %>
       </label>
 
@@ -107,9 +107,9 @@ html: { class: "form" } do |f| %>
 
         <label class="form__field">
           <span class="form__label"><%= t("users.new.country") %></span>
-          <%= p.country_select :country,
+          <%= f.country_select :country,
                            {
-                             priority_countries: %w[CH DE AT BD CA MU],
+                             priority_countries: Profile::PRIORITY_COUNTRIES,
                              include_blank: true,
                            },
                            { class: "form__input" } %>

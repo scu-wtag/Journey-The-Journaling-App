@@ -6,9 +6,6 @@ class UsersController < Clearance::UsersController
   def new; end
 
   def create
-    normalize_phone!(@user.profile)
-    flag_duplicate_email!
-
     return render_new_error if @user.errors.any?
 
     return handle_success if @user.save
@@ -17,12 +14,6 @@ class UsersController < Clearance::UsersController
   end
 
   private
-
-  def flag_duplicate_email!
-    email = @user.email.to_s.strip.downcase
-    @user.email = email
-    @user.errors.add(:email, :taken) if email.present? && User.exists?(email: email)
-  end
 
   def require_signed_out
     return unless signed_in?
@@ -40,22 +31,6 @@ class UsersController < Clearance::UsersController
     @user.build_profile unless @user.profile
   end
 
-  def user_from_params
-    params = user_params
-    attrs = {
-      email: params[:email],
-      password: params[:password],
-      password_confirmation: params[:password_confirmation],
-      name: params[:name],
-    }
-
-    if params[:profile_attributes].present?
-      attrs[:profile_attributes] = sanitize_profile_attrs(params[:profile_attributes])
-    end
-
-    User.new(attrs)
-  end
-
   def sanitize_profile_attrs(raw)
     virtual = %i(phone_country_code phone_local picture)
     allowed = (Profile.attribute_names.map(&:to_sym) + virtual).uniq
@@ -65,12 +40,12 @@ class UsersController < Clearance::UsersController
   def user_from_params
     params = user_params
     attrs = {
-      email: p[:email].to_s.strip.downcase,
-      password: p[:password],
-      name: p[:name],
+      email: params[:email],
+      password: params[:password],
+      name: params[:name],
     }
-    if p[:profile_attributes].present?
-      attrs[:profile_attributes] = sanitize_profile_attrs(p[:profile_attributes])
+    if params[:profile_attributes].present?
+      attrs[:profile_attributes] = sanitize_profile_attrs(params[:profile_attributes])
     end
     User.new(attrs)
   end
@@ -80,14 +55,6 @@ class UsersController < Clearance::UsersController
       :email, :password, :password_confirmation, :name,
       profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters)
     )
-  end
-
-  def normalize_phone!(profile)
-    return unless profile
-
-    code = profile.phone_country_code.to_s.strip
-    local = profile.phone_local.to_s.gsub(/\D/, '')
-    profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
   end
 
   def render_new_error
