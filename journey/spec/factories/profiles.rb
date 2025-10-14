@@ -9,7 +9,7 @@ FactoryBot.define do
 
     trait :with_profile_picture do
       after(:build) do |profile|
-        fixture_path = Rails.root.join('spec/fixtures/files/cute.png')
+        fixture_path = Rails.root.join('spec/fixtures/cute.png')
 
         profile.picture.attach(
           io: File.open(fixture_path),
