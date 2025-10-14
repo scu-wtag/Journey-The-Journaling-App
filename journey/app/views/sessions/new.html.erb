@@ -20,11 +20,11 @@
           <%= t("users.new.fields.email") %><span aria-hidden="true" class="form__req">*</span>
         </span>
         <%= f.email_field :email,
-                      required: true,
-                      autocomplete: "username",
-                      value: params.dig(:session, :email),
-                      placeholder: t("sessions.fields.email.placeholder"),
-                      class: "form__input" %>
+          required: true,
+          autocomplete: "username",
+          value: params.dig(:session, :email),
+          placeholder: t("sessions.fields.email.placeholder"),
+          class: "form__input" %>
       </label>
 
       <label class="form__field">
@@ -32,17 +32,20 @@
           <%= t("users.new.fields.password") %><span aria-hidden="true" class="form__req">*</span>
         </span>
         <%= f.password_field :password,
-                         required: true,
-                         autocomplete: "current-password",
-                         placeholder: t("sessions.fields.password.placeholder"),
-                         class: "form__input" %>
+          required: true,
+          autocomplete: "current-password",
+          placeholder: t("sessions.fields.password.placeholder"),
+          class: "form__input" %>
       </label>
 
       <div class="card__actions">
         <%= link_to t("sessions.forgot_password"),
-        new_password_path,
-        class: "card__actions-link" %>
-        <button class="card__actions-btn" type="submit"><%= t("sessions.new.sign_in") %></button>
+          new_password_path,
+          class: "card__actions-link" %>
+
+        <button class="card__actions-btn" type="submit">
+          <%= t("sessions.new.sign_in") %>
+        </button>
       </div>
     <% end %>
 

@@ -1,4 +1,19 @@
+---
 en:
+  activerecord:
+    attributes:
+      profile:
+        headquarters: Headquarters
+    errors:
+      messages:
+        inclusion: is not included in the list
+      models:
+        profile:
+          attributes:
+            headquarters:
+              inclusion: is not an allowed value
+    models:
+      profile: Profile
   app:
     name: Journey
   common:
@@ -74,17 +89,3 @@ en:
       title: Create your account
     password:
       update: Your password has been successfully updated
-  activerecord:
-    models:
-      profile: "Profile"
-    attributes:
-      profile:
-        headquarters: "Headquarters"
-    errors:
-      models:
-        profile:
-          attributes:
-            headquarters:
-              inclusion: "is not an allowed value"
-      messages:
-        inclusion: "is not included in the list"

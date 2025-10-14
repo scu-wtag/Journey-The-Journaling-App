@@ -6,15 +6,19 @@ class ProfilesController < ApplicationController
       update_profile_if_needed
       update_user_if_needed
     end
-
     respond_to do |format|
       format.html { redirect_to profile_path, notice: t('.success', default: 'Saved') }
+      format.json { head :no_content }
     end
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid => error
     respond_to do |format|
       format.html do
         flash.now[:alert] = t('.failed', default: 'Update failed')
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
+      end
+      format.json do
+        render json: { error: 'invalid', message: error.record.errors.full_messages },
+               status: :unprocessable_content
       end
     end
   end

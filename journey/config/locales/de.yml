@@ -1,4 +1,19 @@
+---
 de:
+  activerecord:
+    attributes:
+      profile:
+        headquarters: Headquarters
+    errors:
+      messages:
+        inclusion: ist nicht in der Liste enthalten
+      models:
+        profile:
+          attributes:
+            headquarters:
+              inclusion: ist kein gueltiger Wert
+    models:
+      profile: Profil
   app:
     name: Journey
   common:
@@ -74,17 +89,3 @@ de:
       title: Konto erstellen
     password:
       update: Dein Passwort wurde erfolgreich aktualisiert
-  activerecord:
-    models:
-      profile: "Profil"
-    attributes:
-      profile:
-        headquarters: "Headquarters"
-    errors:
-      models:
-        profile:
-          attributes:
-            headquarters:
-              inclusion: "ist kein gueltiger Wert"
-      messages:
-        inclusion: "ist nicht in der Liste enthalten"

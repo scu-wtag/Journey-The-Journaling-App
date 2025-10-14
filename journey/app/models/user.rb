@@ -7,8 +7,6 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
 
-  PRIORITY_COUNTRIES = %w(CH DE AT BD CA MU).freeze
-
   attr_accessor :password_confirmation
 
   validates :name, presence: true
@@ -20,7 +18,6 @@ class User < ApplicationRecord
 
   enum :role, { guest: 0, member: 1, admin: 2 }, default: :member
 
-  # Normalizations/guards
   before_validation :normalize_email!
   before_validation :normalize_profile_phone!, if: -> { profile.present? }
   validate :guard_duplicate_email!, on: :create

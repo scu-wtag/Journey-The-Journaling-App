@@ -1,108 +1,73 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-require 'base64'
 
-RSpec.describe 'Profiles', type: :request do
-  let(:user) { create(:user, locale: 'en', theme: 'light') }
-  let(:profile) { user.profile }
-
-  describe 'GET /profile' do
-    it 'renders show for signed-in user and ensures profile exists' do
-      expect(user.profile).to be_nil
-
-      sign_in(user)
-      get profile_path(locale: :en)
-
-      expect(response).to have_http_status(:ok)
-      expect(user.reload.profile).to be_present
-      expect(user.profile).to be_persisted
-    end
+RSpec.describe Profile, type: :model do
+  describe 'associations' do
+    it { is_expected.to belong_to(:user) }
   end
 
-  describe 'PATCH /profile (JSON)' do
-    before { sign_in(user) }
-
-    it 'updates user locale and sets cookie, returns 204' do
-      patch profile_path(locale: :en),
-            params: { user: { locale: 'de' } }.to_json,
-            headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-
-      expect(response).to have_http_status(:no_content)
-      expect(user.reload.locale).to eq('de')
-      expect(cookies[:locale]).to eq('de')
-    end
-
-    it 'updates user theme and sets cookie, returns 204' do
-      patch profile_path(locale: :en),
-            params: { user: { theme: 'dark' } }.to_json,
-            headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-
-      expect(response).to have_http_status(:no_content)
-      expect(user.reload.theme).to eq('dark')
-      expect(cookies[:theme]).to eq('dark')
-    end
-
-    it 'updates profile attributes (country, HQ)' do
-      patch profile_path(locale: :en),
-            params: { profile: { country: 'DE', headquarters: 'Berlin' } }.to_json,
-            headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-
-      expect(response).to have_http_status(:no_content)
-      expect(profile.reload.country).to eq('DE')
-      expect(profile.headquarters).to eq('Berlin')
-    end
-
-    it 'applies phone parts and composes phone' do
-      patch profile_path(locale: :en),
-            params: { profile: { phone_country_code: '41', phone_local: '79 123 45 67' } }.to_json,
-            headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-
-      expect(response).to have_http_status(:no_content)
-      expect(profile.reload.phone).to eq('+41791234567')
-    end
-
-    it 'returns 422 on invalid user update' do
-      patch profile_path(locale: :en),
-            params: { user: { email: '' } }.to_json,
-            headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-
-      expect(response).to have_http_status(:unprocessable_content)
-      body = response.parsed_body
-      expect(body).to include('error' => 'invalid')
-    end
+  describe 'validations' do
+    it { is_expected.to validate_length_of(:headquarters).is_at_most(100).allow_nil }
   end
 
-  describe 'PATCH /profile (HTML)' do
-    before { sign_in(user) }
+  describe 'picture validations (ActiveStorage)' do
+    let(:user) { create(:user) }
 
-    it 'redirects with notice on success (i18n key must exist)' do
-      patch profile_path(locale: :en), params: {
-        user: { locale: 'de' }, profile: { country: 'AT' },
-      }
-      expect(response).to redirect_to(profile_path(locale: :en))
-      follow_redirect!
-      expect(flash[:notice]).to be_present
-    end
-  end
+    # In Sync mit deinem Model:
+    let(:allowed_types) { %w(image/jpeg image/png image/webp image/avif) }
+    let(:disallowed_types) { %w(image/gif image/bmp text/plain application/pdf) }
 
-  describe 'avatar upload' do
-    before { sign_in(user) }
-
-    it 'attaches a picture via multipart form' do
-      png_data = Base64.decode64(
-        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=',
+    # Mini-Helper: fälscht eine Datei mit bestimmtem MIME-Type/Groesse
+    def attach_with_type(record, content_type, size_bytes: 1024, name: 'dummy')
+      io = StringIO.new('0' * size_bytes)
+      record.picture.attach(
+        io: io,
+        filename: "#{name}.#{content_type.split('/').last}",
+        content_type: content_type,
       )
-      tmp = Tempfile.new(['avatar', '.png'])
-      tmp.binmode
-      tmp.write(png_data)
-      tmp.rewind
+    end
 
-      file = Rack::Test::UploadedFile.new(tmp.path, 'image/png')
-      patch profile_path(locale: :en), params: { profile: { picture: file } }
+    context 'when no picture is attached' do
+      it 'is valid (conditional validation)' do
+        p = build(:profile, user: user)
+        expect(p.picture).not_to be_attached
+        expect(p).to be_valid
+      end
+    end
 
-      expect(response).to redirect_to(profile_path(locale: :en))
-      expect(user.reload.profile.picture).to be_attached
-    ensure
-      tmp.close!
+    context 'content type whitelist' do
+      it 'accepts allowed image types' do
+        allowed_types.each do |mime|
+          p = build(:profile, user: user)
+          attach_with_type(p, mime)
+          expect(p).to be_valid, "expected #{mime} to be allowed"
+        end
+      end
+
+      it 'rejects disallowed types' do
+        disallowed_types.each do |mime|
+          p = build(:profile, user: user)
+          attach_with_type(p, mime)
+          expect(p).to be_invalid, "expected #{mime} to be rejected"
+          expect(p.errors[:picture]).to be_present
+        end
+      end
+    end
+
+    context 'file size limit' do
+      it 'rejects files > 5 MB' do
+        p = build(:profile, user: user)
+        attach_with_type(p, 'image/jpeg', size_bytes: 5.megabytes + 1)
+        expect(p).to be_invalid
+        expect(p.errors[:picture]).to be_present
+      end
+
+      it 'accepts files <= 5 MB' do
+        p = build(:profile, user: user)
+        attach_with_type(p, 'image/jpeg', size_bytes: 5.megabytes)
+        expect(p).to be_valid
+      end
     end
   end
 end

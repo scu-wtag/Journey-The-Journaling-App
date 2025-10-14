@@ -1,14 +1,13 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
 
+  before_action :set_locale
   before_action :require_login
+  before_action :set_theme
 
   LIGHT_THEME = 'light'.freeze
   DARK_THEME = 'dark'.freeze
   ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze
-
-  before_action :set_locale
-  before_action :set_theme
 
   private
 
@@ -18,18 +17,23 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     available = I18n.available_locales.map(&:to_s)
-    I18n.locale = chosen_locale(available)
+    chosen = chosen_locale(available).to_s
+    I18n.locale = available.include?(chosen) ? chosen : I18n.default_locale
     session[:locale] = I18n.locale
   end
 
   def chosen_locale(avail)
-    param_locale = params[:locale].to_s.presence_in(avail)
+    raw = params[:locale].to_s
+    return raw if raw.present?
 
-    if signed_in?
-      user_locale(avail) || I18n.default_locale
-    else
-      param_locale ||
+    if respond_to?(:signed_in?) && signed_in?
+      user_locale(avail) ||
         cookies[:locale].to_s.presence_in(avail) ||
+        session[:locale].to_s.presence_in(avail) ||
+        browser_locale_from_header(avail) ||
+        I18n.default_locale
+    else
+      cookies[:locale].to_s.presence_in(avail) ||
         session[:locale].to_s.presence_in(avail) ||
         browser_locale_from_header(avail) ||
         I18n.default_locale
@@ -43,8 +47,8 @@ class ApplicationController < ActionController::Base
   def browser_locale_from_header(avail)
     header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', '').to_s
     languages = header.split(',').map { |l| l.split(';').first.to_s }
-    languages.detect { |l| l.to_s.presence_in(avail) } ||
-      languages.map { |l| l[0, 2] }.detect { |code| code.to_s.presence_in(avail) }
+    languages.detect { |l| l.presence_in(avail) } ||
+      languages.map { |l| l[0, 2] }.detect { |code| code.presence_in(avail) }
   end
 
   def set_theme
@@ -52,7 +56,7 @@ class ApplicationController < ActionController::Base
     cookie_theme = cookie_theme if ALLOWED_THEMES.include?(cookie_theme)
 
     user_theme =
-      if signed_in? && current_user
+      if respond_to?(:signed_in?) && signed_in? && current_user
         t = current_user.theme.to_s
         ALLOWED_THEMES.include?(t) ? t : nil
       end

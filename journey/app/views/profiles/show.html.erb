@@ -23,20 +23,21 @@
                 </ul>
               </div>
             <% end %>
+
             <% if @profile&.picture&.attached? && @profile.picture.blob&.persisted? %>
               <% if @profile.picture.variable? %>
                 <%= image_tag(
                   @profile.picture.variant(resize_to_fill: [200, 200]).processed,
                   alt: t("profiles.show.profile_picture_alt"),
                   class: "profile__image",
-                  id: "avatarImg",
+                  id: "avatarImg"
                 ) %>
               <% else %>
                 <%= image_tag(
                   url_for(@profile.picture),
                   alt: t("profiles.show.profile_picture_alt"),
                   class: "profile__image",
-                  id: "avatarImg",
+                  id: "avatarImg"
                 ) %>
               <% end %>
             <% else %>
@@ -50,17 +51,21 @@
           </div>
 
           <%= form_with model: @profile,
-                        url: profile_path,
-                        method: :patch,
-                        local: true,
-                        data: { turbo: false },
-                        html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
+            url: profile_path,
+            method: :patch,
+            local: true,
+            data: { turbo: false },
+            html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
+
             <%= f.file_field :picture,
-                         accept: "image/*",
-                         class: "profile__file",
-                         id: "avatarInput",
-                         style: "display:none;" %>
-            <button type="button" class="profile__edit" id="editAvatar"><%= t("common.edit") %></button>
+              accept: "image/*",
+              class: "profile__file",
+              id: "avatarInput",
+              style: "display:none;" %>
+
+            <button type="button" class="profile__edit" id="editAvatar">
+              <%= t("common.edit") %>
+            </button>
           <% end %>
         </div>
 
@@ -71,48 +76,28 @@
             <div class="profile__kv" id="details">
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.phone") %></span>
-                <div
-                  class="profile__kv-value"
-                  data-key="phone"
-                  data-type="text"
-                  data-scope="profile"
-                >
+                <div class="profile__kv-value" data-key="phone" data-type="text" data-scope="profile">
                   <%= @profile&.phone.presence || "-" %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
-                <div
-                  class="profile__kv-value"
-                  data-key="headquarters"
-                  data-type="text"
-                  data-scope="profile"
-                >
+                <div class="profile__kv-value" data-key="headquarters" data-type="text" data-scope="profile">
                   <%= @profile&.headquarters.presence || "-" %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
-                <div
-                  class="profile__kv-value"
-                  data-key="email"
-                  data-type="email"
-                  data-scope="user"
-                >
+                <div class="profile__kv-value" data-key="email" data-type="email" data-scope="user">
                   <%= current_user.email %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
-                <div
-                  class="profile__kv-value"
-                  data-key="birthday"
-                  data-type="date"
-                  data-scope="profile"
-                >
+                <div class="profile__kv-value" data-key="birthday" data-type="date" data-scope="profile">
                   <%= @profile&.birthday %>
                 </div>
               </div>
@@ -140,8 +125,12 @@
         <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
         <div class="settings__control">
           <select class="input" id="langSelect">
-            <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>><%= t("profiles.language.english") %></option>
-            <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>><%= t("profiles.language.german") %></option>
+            <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>
+              <%= t("profiles.language.english") %>
+            </option>
+            <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>>
+              <%= t("profiles.language.german") %>
+            </option>
           </select>
         </div>
       </div>
@@ -152,7 +141,7 @@
           <div class="mode-toggle">
             <span><%= t("profiles.show.light") %></span>
             <label class="toggle">
-              <input type="checkbox" id="themeToggle"/>
+              <input type="checkbox" id="themeToggle" />
               <span class="toggle__slider" aria-hidden="true"></span>
             </label>
             <span><%= t("profiles.show.dark") %></span>
@@ -160,7 +149,6 @@
         </div>
       </div>
     </section>
-
   </div>
 </main>
 

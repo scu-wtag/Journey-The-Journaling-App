@@ -6,9 +6,9 @@
   <div class="text-field email optional session_email">
     <%= form.label :email %>
     <%= form.email_field :email,
-                     value: params.dig(:session, :email),
-                     autofocus: true,
-                     autocomplete: "username" %>
+      value: params.dig(:session, :email),
+      autofocus: true,
+      autocomplete: "username" %>
   </div>
 
   <div class="password-field password optional session_password">
