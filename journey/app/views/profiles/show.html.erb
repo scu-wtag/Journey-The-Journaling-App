@@ -47,6 +47,12 @@
                 class="profile__image"
                 id="avatarImg"
               />
+              <img
+                src="https://i.pravatar.cc/200?img=1"
+                alt="<%= t('profiles.show.profile_picture_alt') %>"
+                class="profile__image"
+                id="avatarImg"
+              />
             <% end %>
           </div>
 
@@ -76,28 +82,48 @@
             <div class="profile__kv" id="details">
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.phone") %></span>
-                <div class="profile__kv-value" data-key="phone" data-type="text" data-scope="profile">
+                <div
+                  class="profile__kv-value"
+                  data-key="phone"
+                  data-type="text"
+                  data-scope="profile"
+                >
                   <%= @profile&.phone.presence || "-" %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
-                <div class="profile__kv-value" data-key="headquarters" data-type="text" data-scope="profile">
+                <div
+                  class="profile__kv-value"
+                  data-key="headquarters"
+                  data-type="text"
+                  data-scope="profile"
+                >
                   <%= @profile&.headquarters.presence || "-" %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
-                <div class="profile__kv-value" data-key="email" data-type="email" data-scope="user">
+                <div
+                  class="profile__kv-value"
+                  data-key="email"
+                  data-type="email"
+                  data-scope="user"
+                >
                   <%= current_user.email %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
-                <div class="profile__kv-value" data-key="birthday" data-type="date" data-scope="profile">
+                <div
+                  class="profile__kv-value"
+                  data-key="birthday"
+                  data-type="date"
+                  data-scope="profile"
+                >
                   <%= @profile&.birthday %>
                 </div>
               </div>
@@ -110,7 +136,7 @@
 
           <div class="page__actions" id="saveBar" style="display:none;">
             <button class="btn btn--sm" id="cancelBtn" type="button"><%= t("common.cancel") %></button>
-            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t('common.save') %></button>
+            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t("common.save") %></button>
           </div>
         </div>
       </div>
@@ -119,10 +145,10 @@
     <hr class="rule"/>
 
     <section class="settings">
-      <h3 class="settings__title"><%= t('profiles.show.settings_title') %></h3>
+      <h3 class="settings__title"><%= t("profiles.show.settings_title") %></h3>
 
       <div class="settings__row">
-        <div class="settings__label"><%= t('profiles.show.preferred_language') %></div>
+        <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
         <div class="settings__control">
           <select class="input" id="langSelect">
             <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>
@@ -136,15 +162,15 @@
       </div>
 
       <div class="settings__row">
-        <div class="settings__label"><%= t('profiles.show.mode') %></div>
+        <div class="settings__label"><%= t("profiles.show.mode") %></div>
         <div class="settings__control">
           <div class="mode-toggle">
-            <span><%= t('profiles.show.light') %></span>
+            <span><%= t("profiles.show.light") %></span>
             <label class="toggle">
-              <input type="checkbox" id="themeToggle" />
+              <input type="checkbox" id="themeToggle"/>
               <span class="toggle__slider" aria-hidden="true"></span>
             </label>
-            <span><%= t('profiles.show.dark') %></span>
+            <span><%= t("profiles.show.dark") %></span>
           </div>
         </div>
       </div>

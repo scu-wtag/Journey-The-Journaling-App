@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationController do
-  controller do
-    def index
-      head :ok
-    end
-  end
-
   before { routes.draw { get 'anonymous' => 'anonymous#index' } }
 
   it 'sets locale from valid params[:locale]' do

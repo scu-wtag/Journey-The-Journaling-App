@@ -99,8 +99,8 @@
         </label>
 
         <label class="form__field">
-          <span class="form__label"><%= t('users.new.birthday') %></span>
-          <%= p.date_field :birthday, class: 'form__input' %>
+          <span class="form__label"><%= t("users.new.birthday") %></span>
+          <%= p.date_field :birthday, class: "form__input" %>
         </label>
 
         <label class="form__field">
@@ -130,7 +130,8 @@
     <% end %>
 
     <p class="card__note card__note--muted">
-      <%= t('users.already_have_account') %>
-    <%= link_to t('sessions.new.title'), login_path, class: 'card__note-link' %>    </p>
+      <%= t("users.already_have_account") %>
+      <%= link_to t("sessions.new.title"), login_path, class: "card__note-link" %>
+    </p>
   </section>
 </main>

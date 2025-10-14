@@ -37,6 +37,12 @@ class JournalEntriesController < ApplicationController
     redirect_to journal_entries_path, notice: t('journal.flash.deleted')
   end
 
+  def journal_entry_params
+    params.expect(journal_entry: [:title, :entry_date, :time_from, :time_to, :body, :goals_for_tomorrow, {
+                    files: [],
+                  },])
+  end
+
   private
 
   def set_entry

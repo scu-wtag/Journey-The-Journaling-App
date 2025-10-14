@@ -1,14 +1,36 @@
-<h2><%= t('journal.index.title') %></h2>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/journals/new" %>
+<% end %>
 
-<p>
-  <%= link_to t('journal.index.new'), new_journal_entry_path %>
-</p>
+<div class="index-wrap">
+  <header class="head">
+    <h2><%= t("journal.index.title", default: "Your Journal Entries") %></h2>
+    <%= link_to t("journal.index.new", default: "New Entry"),
+    new_journal_entry_path,
+    class: "btn btn-primary" %>
+  </header>
 
-<ul>
-  <% @journal_entries.each do |e| %>
-    <li>
-      <%= link_to e.title, e %>
-      (<%= e.entry_date %>)
-    </li>
+  <% if @journal_entries.any? %>
+    <ul class="entry-list">
+      <% @journal_entries.each do |e| %>
+        <li class="entry-item">
+          <div class="entry-title">
+            <%= link_to e.title, e %>
+          </div>
+          <div class="entry-meta">
+            <%= e.entry_date %>
+            <% if e.time_from || e.time_to %>
+              ·
+              <%= e.time_from&.strftime("%H:%M") %>-
+              <%= e.time_to&.strftime("%H:%M") %>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="empty">
+      <p><%= t("journal.index.empty", default: "No entries yet.") %></p>
+    </div>
   <% end %>
-</ul> 
+</div>

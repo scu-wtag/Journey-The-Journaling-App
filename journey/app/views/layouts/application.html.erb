@@ -4,7 +4,7 @@
   <title><%= content_for?(:title) ? yield(:title) : t('app.name') %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-
+  <%= javascript_importmap_tags %>
   <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
   <%= yield :styles %>
   <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
