@@ -7,16 +7,6 @@ FactoryBot.define do
     phone_local { '791234567' }
     phone { '+41791234567' }
 
-    trait :with_profile_picture do
-      after(:build) do |profile|
-        fixture_path = Rails.root.join('spec/fixtures/cute.png')
-
-        profile.picture.attach(
-          io: File.open(fixture_path),
-          filename: 'cute.png',
-          content_type: 'image/png',
-        )
-      end
-    end
+    picture { Rack::Test::UploadedFile.new('spec/fixtures/cute.png', 'image/png') }
   end
 end
