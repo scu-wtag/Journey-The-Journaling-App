@@ -1,4 +1,3 @@
-# spec/requests/journal_entries_spec.rb
 require 'rails_helper'
 
 RSpec.describe 'JournalEntries', type: :request do
