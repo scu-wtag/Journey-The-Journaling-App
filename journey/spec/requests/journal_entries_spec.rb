@@ -4,8 +4,9 @@ RSpec.describe 'JournalEntries', type: :request do
   let(:user) { create(:user) }
 
   before do
-    I18n.with_locale = :en
-    sign_in_as(user)
+    I18n.with_locale(:en) do
+      sign_in_as(user)
+    end
   end
 
   describe 'GET /journal_entries' do
