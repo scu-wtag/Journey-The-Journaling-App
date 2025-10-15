@@ -26,6 +26,36 @@ en:
       signout: Logout
       subtitle: Placeholder homepage.
       title: Journey
+  journal:
+    edit:
+      title: Edit journal entry
+    flash:
+      created: Entry created
+      deleted: Entry deleted
+      not_authorized: Not authorized
+      updated: Entry updated
+    form:
+      body: Notes
+      create: Create
+      entry_date: Date
+      files: Files
+      goals_for_tomorrow: Goals for tomorrow
+      save_changes: Save
+      time_from: From
+      time_to: To
+      title: Title
+    index:
+      new: Create new entry
+      title: Journal
+    new:
+      title: Create journal entry
+    show:
+      attachments: Attachments
+      back: Back to list
+      confirm_delete: Are you sure you want to delete this entry?
+      delete: Delete
+      goals_for_tomorrow: Goals for tomorrow
+      notes: Notes
   profiles:
     language:
       english: English
@@ -61,8 +91,9 @@ en:
       text: No account yet?
     success: Successfully signed in.
   settings:
-    show:
-      update_password: Update Password
+    passwords:
+      update:
+        success: Your password has been updated.
   users:
     already_have_account: Already have an account?
     create:
@@ -87,38 +118,3 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
-  journal:
-    index:
-      title: Journal
-      new: Create new entry
-    new:
-      title: Create journal entry
-    edit:
-      title: Edit journal entry
-    show:
-      notes: Notes
-      goals_for_tomorrow: Goals for tomorrow
-      attachments: Attachments
-      back: Back to list
-      delete: Delete
-      confirm_delete: Are you sure you want to delete this entry?
-    form:
-      title: Title
-      entry_date: Date
-      time_from: From
-      time_to: To
-      body: Notes
-      goals_for_tomorrow: Goals for tomorrow
-      files: Files
-      create: Create
-      save_changes: Save
-    flash:
-      created: Entry created
-      updated: Entry updated
-      deleted: Entry deleted
-      not_authorized: Not authorized
-  settings:
-    passwords:
-      update:
-        success: Your password has been updated.
-        

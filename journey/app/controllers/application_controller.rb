@@ -1,3 +1,5 @@
+require 'set'
+
 class ApplicationController < ActionController::Base
   include Clearance::Controller
 
@@ -5,11 +7,13 @@ class ApplicationController < ActionController::Base
   before_action :require_login
   before_action :set_theme
 
-  ALLOWED_THEMES = %w(light dark).freeze
-
   LIGHT_THEME = 'light'.freeze
   DARK_THEME = 'dark'.freeze
   ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze
+
+  def default_url_options
+    { locale: I18n.locale }
+  end
 
   private
 
@@ -26,20 +30,31 @@ class ApplicationController < ActionController::Base
 
   def chosen_locale(avail)
     raw = params[:locale].to_s
-    return raw if raw.present?
+    return raw unless raw.empty?
 
-    if respond_to?(:signed_in?) && signed_in?
-      user_locale(avail) ||
-        cookies[:locale].to_s.presence_in(avail) ||
-        session[:locale].to_s.presence_in(avail) ||
-        browser_locale_from_header(avail) ||
-        I18n.default_locale
-    else
-      cookies[:locale].to_s.presence_in(avail) ||
-        session[:locale].to_s.presence_in(avail) ||
-        browser_locale_from_header(avail) ||
-        I18n.default_locale
+    pick_locale(avail) || I18n.default_locale
+  end
+
+  def pick_locale(avail)
+    allowed = Set.new(Array(avail).map(&:to_s))
+
+    each_locale_source(avail) do |loc|
+      s = loc.to_s
+      return s if !s.empty? && allowed.include?(s)
     end
+
+    nil
+  end
+
+  def each_locale_source(avail)
+    yield user_locale(avail) if signed_in_safe?
+    yield cookies[:locale]
+    yield session[:locale]
+    yield browser_locale_from_header(avail)
+  end
+
+  def signed_in_safe?
+    respond_to?(:signed_in?) && signed_in?
   end
 
   def user_locale(avail)
@@ -48,27 +63,35 @@ class ApplicationController < ActionController::Base
 
   def browser_locale_from_header(avail)
     languages = accept_language_values
-    direct = languages.detect { |l| l.to_s.presence_in(avail) }
-    direct || languages.map { |l| l[0, 2] }.detect { |code| code.to_s.presence_in(avail) }
+    return nil if languages.blank?
+
+    direct = languages.detect { |l| avail.include?(l) }
+    direct || languages.map { |l| l[0, 2] }.detect { |code| avail.include?(code) }
   end
 
   def accept_language_values
     header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', '').to_s
-    languages = header.split(',').map { |l| l.split(';').first.to_s }
-    languages.detect { |l| l.presence_in(avail) } ||
-      languages.map { |l| l[0, 2] }.detect { |code| code.presence_in(avail) }
+    header.split(',').
+      map { |l| l.split(';').first.to_s.strip }.
+      compact_blank
   end
 
   def set_theme
-    cookie_theme = cookies[:theme].to_s
-    cookie_theme = cookie_theme if ALLOWED_THEMES.include?(cookie_theme)
+    @theme = first_allowed_theme(
+      [
+        cookies[:theme],
+        (current_user.theme if signed_in_safe? && current_user),
+      ],
+      ALLOWED_THEMES,
+    ) || LIGHT_THEME
+  end
 
-    user_theme =
-      if respond_to?(:signed_in?) && signed_in? && current_user
-        t = current_user.theme.to_s
-        ALLOWED_THEMES.include?(t) ? t : nil
-      end
-
-    @theme = cookie_theme.presence || user_theme.presence || LIGHT_THEME
+  def first_allowed_theme(candidates, allowed_list)
+    allowed = Array(allowed_list).to_set(&:to_s)
+    candidates.
+      compact.
+      lazy.
+      map(&:to_s).
+      detect { |t| t.present? && allowed.include?(t) }
   end
 end

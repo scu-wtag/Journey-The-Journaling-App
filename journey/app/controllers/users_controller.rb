@@ -54,17 +54,18 @@ class UsersController < Clearance::UsersController
     raw.to_h.symbolize_keys.slice(*allowed)
   end
 
+  def normalize_profile_phone_on_create(helper)
+    code = helper[:phone_country_code].to_s.strip.gsub(/\D/, '')
+    local = helper[:phone_local].to_s.gsub(/\D/, '')
+    helper[:phone] = code.present? && local.present? ? "+#{code}#{local}" : nil
+    helper
+  end
+
   def user_params
     params.fetch(:user, {}).permit(
       :email, :password, :password_confirmation, :name,
       profile_attributes: %i(phone_country_code phone_local phone birthday country headquarters)
     )
-  end
-
-  def sanitize_profile_attrs(raw)
-    virtual = %i(phone_country_code phone_local picture)
-    allowed = (Profile.attribute_names.map(&:to_sym) + virtual).uniq
-    raw.to_h.symbolize_keys.slice(*allowed)
   end
 
   def check_password_confirmation

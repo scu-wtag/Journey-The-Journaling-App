@@ -26,6 +26,36 @@ de:
       signout: Logout
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
+  journal:
+    edit:
+      title: Journaleintrag bearbeiten
+    flash:
+      created: Eintrag erstellt
+      deleted: Eintrag gelöscht
+      not_authorized: Nicht berechtigt
+      updated: Eintrag aktualisiert
+    form:
+      body: Notizen
+      create: Erstellen
+      entry_date: Datum
+      files: Dateien
+      goals_for_tomorrow: Ziele für morgen
+      save_changes: Speichern
+      time_from: Von
+      time_to: Bis
+      title: Titel
+    index:
+      new: Neuen Eintrag erstellen
+      title: Journal
+    new:
+      title: Neuen Journaleintrag erstellen
+    show:
+      attachments: Anhänge
+      back: Zurück zur Übersicht
+      confirm_delete: Willst du diesen Eintrag wirklich löschen?
+      delete: Löschen
+      goals_for_tomorrow: Ziele für morgen
+      notes: Notizen
   profiles:
     language:
       english: Englisch
@@ -61,8 +91,9 @@ de:
       text: Noch kein Konto?
     success: Erfolgreich angemeldet.
   settings:
-    show:
-      update_password: Passwort aktualisieren
+    passwords:
+      update:
+        success: Dein Passwort wurde aktualisiert.
   users:
     already_have_account: Schon einen Account?
     create:
@@ -87,38 +118,3 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-  journal:
-    index:
-      title: Journal
-      new: Neuen Eintrag erstellen
-    new:
-      title: Neuen Journaleintrag erstellen
-    edit:
-      title: Journaleintrag bearbeiten
-    show:
-      notes: Notizen
-      goals_for_tomorrow: Ziele für morgen
-      attachments: Anhänge
-      back: Zurück zur Übersicht
-      delete: Löschen
-      confirm_delete: Willst du diesen Eintrag wirklich löschen?
-    form:
-      title: Titel
-      entry_date: Datum
-      time_from: Von
-      time_to: Bis
-      body: Notizen
-      goals_for_tomorrow: Ziele für morgen
-      files: Dateien
-      create: Erstellen
-      save_changes: Speichern
-    flash:
-      created: Eintrag erstellt
-      updated: Eintrag aktualisiert
-      deleted: Eintrag gelöscht
-      not_authorized: Nicht berechtigt
-  settings:
-    passwords:
-      update:
-        success: Dein Passwort wurde aktualisiert.
-        

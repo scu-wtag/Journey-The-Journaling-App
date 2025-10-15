@@ -4,6 +4,7 @@ require_relative '../config/environment'
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 Rails.root.glob('spec/support/**/*.rb').sort.each { |f| require f }
+RSpec.configure(&:infer_spec_type_from_file_location!)
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -42,6 +43,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include FactoryBot::Syntax::Methods
   config.include AuthHelpers, type: :request
+  config.infer_spec_type_from_file_location!
   config.after(:suite) do
     service = ActiveStorage::Blob.service
     FileUtils.rm_rf(service.root) if service.respond_to?(:root) && service.root.present?

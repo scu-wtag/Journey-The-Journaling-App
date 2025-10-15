@@ -1,6 +1,7 @@
+# spec/requests/journal_entries_spec.rb
 require 'rails_helper'
 
-RSpec.describe 'JournalEntries' do
+RSpec.describe 'JournalEntries', type: :request do
   let(:user) { create(:user) }
 
   before do
@@ -10,10 +11,10 @@ RSpec.describe 'JournalEntries' do
 
   describe 'GET /journal_entries' do
     it 'lists only own entries' do
-      _mine = create(:journal_entry, user: user, title: 'Mine', entry_date: Time.zone.today)
-      _other = create(:journal_entry, title: 'Other', entry_date: Date.yesterday)
+      create(:journal_entry, user: user, title: 'Mine', entry_date: Time.zone.today)
+      create(:journal_entry, title: 'Other', entry_date: Date.yesterday)
 
-      get journal_entries_path(loc)
+      get journal_entries_path, params: loc
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Mine')
       expect(response.body).not_to include('Other')
