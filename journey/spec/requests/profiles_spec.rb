@@ -12,11 +12,9 @@ RSpec.describe Profile, type: :model do
   describe 'picture validations (ActiveStorage)' do
     let(:user) { create(:user) }
 
-    # In Sync mit deinem Model:
     let(:allowed_types) { %w(image/jpeg image/png image/webp image/avif) }
     let(:disallowed_types) { %w(image/gif image/bmp text/plain application/pdf) }
 
-    # Mini-Helper: fälscht eine Datei mit bestimmtem MIME-Type/Groesse
     def attach_with_type(record, content_type, size_bytes: 1024, name: 'dummy')
       io = StringIO.new('0' * size_bytes)
       record.picture.attach(
