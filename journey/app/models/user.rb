@@ -2,19 +2,23 @@ class User < ApplicationRecord
   include Clearance::User
 
   has_one :profile, dependent: :destroy, inverse_of: :user
-
   accepts_nested_attributes_for :profile, update_only: true
 
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
 
+  attr_accessor :password_confirmation
+
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email,
+            presence: true,
+            uniqueness: { case_sensitive: false },
+            format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, confirmation: true, if: -> { password.present? }
 
   enum :role, { guest: 0, member: 1, admin: 2 }, default: :member
 
-  before_validation :downcase_email
+  before_save :downcase_email
 
   private
 

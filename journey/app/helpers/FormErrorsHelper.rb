@@ -1,4 +1,4 @@
-module ApplicationHelper
+module FormErrorsHelper
   def field_errors_for(record, attr)
     return '' unless record&.errors&.[](attr)&.any?
 

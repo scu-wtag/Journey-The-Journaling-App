@@ -28,8 +28,12 @@ en:
   users:
     already_have_account: Already have an account?
     create:
-      failed: Account could not be created. Please check the form.
+      failed: Passwords don't match.
       success: Account successfully created.
+    hq:
+      dac: Dhaka
+      rem: Remote
+      zrh: Zurich
     new:
       birthday: Date of birth
       country: Country
@@ -54,6 +58,6 @@ en:
         country: CH
         headquarters: Zurich
         phone_local: 555 123 456
-      required_note: "* indicates required fields"
+      required_note: indicates required fields
       submit: Sign Up
       title: Create your account

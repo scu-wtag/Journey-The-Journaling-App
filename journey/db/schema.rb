@@ -31,11 +31,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_070926) do
     t.string "phone_country_code"
     t.string "phone_local"
     t.string "phone"
-    t.date "birthday"
     t.string "country"
     t.string "headquarters"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "birthday"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 

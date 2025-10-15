@@ -1,6 +1,7 @@
 Rails.application.config.dartsass.builds = {
   'application.scss' => 'application.css',
   'views/sessions/new.scss' => 'views/sessions/new.css',
+  'views/users/new.scss' => 'views/users/new.css',
 }
 
 Rails.application.config.dartsass.build_options = [
