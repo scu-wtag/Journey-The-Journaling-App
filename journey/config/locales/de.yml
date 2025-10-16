@@ -118,3 +118,6 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
+  journals:
+    update:
+      error: muss später als die anfangszeit sein.

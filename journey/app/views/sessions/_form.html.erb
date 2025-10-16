@@ -2,10 +2,10 @@
   <div class="form__field">
     <%= form.label :email, class: "form__label" %>
     <%= form.email_field :email,
-                     value: @email || params.dig(:session, :email),
-                     autofocus: true,
-                     autocomplete: "username",
-                     class: "form__input" %>
+            value: @email || params.dig(:session, :email),
+            autofocus: true,
+            autocomplete: "username",
+            class: "form__input" %>
   </div>
 
   <div class="form__field">

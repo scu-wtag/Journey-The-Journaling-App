@@ -14,6 +14,6 @@ class JournalEntry < ApplicationRecord
   def time_range_valid
     return if time_from.blank? || time_to.blank?
 
-    errors.add(:time_to, 'must be later than start time') if time_to <= time_from
+    errors.add(:time_to, I18n.t('journals.update.start')) if time_to <= time_from
   end
 end

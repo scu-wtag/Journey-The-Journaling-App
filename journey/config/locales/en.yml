@@ -118,3 +118,6 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
+  journals:
+    update:
+      error: must be later than start time
