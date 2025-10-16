@@ -1,14 +1,14 @@
-class UsersController < ApplicationController
+class UsersController < Clearance::UsersController
   prepend_before_action :require_signed_out, only: %i(new create)
+
   before_action :build_user, only: :new
   before_action :prepare_user, only: :create
+
+  before_action :check_password_confirmation, only: :create
 
   def new; end
 
   def create
-    check_password_confirmation
-    normalize_phone!(@user.profile)
-
     return render_new_error if @user.errors.any?
     return handle_success if @user.save
 
@@ -20,8 +20,7 @@ class UsersController < ApplicationController
   def require_signed_out
     return unless signed_in?
 
-    redirect_to root_path(locale: I18n.locale || I18n.default_locale)
-    nil
+    redirect_to root_path(locale: params[:locale] || I18n.locale || I18n.default_locale)
   end
 
   def build_user
@@ -35,9 +34,17 @@ class UsersController < ApplicationController
   end
 
   def user_from_params
-    p = user_params
-    attrs = { email: p[:email], password: p[:password], name: p[:name] }
-    attrs[:profile_attributes] = p[:profile_attributes] if p[:profile_attributes].present?
+    params_ = user_params
+    attrs = {
+      email: params_[:email],
+      password: params_[:password],
+      name: params_[:name],
+    }
+
+    if params_[:profile_attributes].present?
+      attrs[:profile_attributes] = sanitize_profile_attrs(params_[:profile_attributes])
+    end
+
     User.new(attrs)
   end
 
@@ -48,26 +55,31 @@ class UsersController < ApplicationController
     )
   end
 
+  def sanitize_profile_attrs(raw)
+    virtual = %i(phone_country_code phone_local picture)
+    allowed = (Profile.attribute_names.map(&:to_sym) + virtual).uniq
+    raw.to_h.symbolize_keys.slice(*allowed)
+  end
+
   def check_password_confirmation
     password = params.dig(:user, :password)
     confirmation = params.dig(:user, :password_confirmation)
-    @user.errors.add(:password, :mismatch) if confirmation.present? && password != confirmation
-  end
+    return if confirmation.blank? || password == confirmation
 
-  def normalize_phone!(profile)
-    return unless profile
-
-    code = profile.phone_country_code.to_s.strip
-    local = profile.phone_local.to_s.gsub(/\D/, '')
-    profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
+    @user.errors.add(:password, :mismatch)
   end
 
   def render_new_error
+    flash.now[:alert] = t('users.create.failed', default: '')
     render :new, status: :unprocessable_content
   end
 
   def handle_success
-    redirect_to Clearance.configuration.redirect_url, notice: t('users.create.success')
+    sign_in(@user)
+    redirect_to(
+      Clearance.configuration.redirect_url,
+      notice: t('users.create.success'),
+    )
   end
 
   def handle_failure

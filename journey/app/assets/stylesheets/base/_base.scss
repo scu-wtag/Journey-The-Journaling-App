@@ -1,9 +1,13 @@
+@use "tokens";
+
 * { box-sizing: border-box; }
+html, body { height: 100%; }
 
 body {
   margin: 0;
   background: radial-gradient(1200px 800px at 50% -10%, #1a102b 0%, var(--bg) 60%);
   color: var(--text);
+  font-family: var(--font-sans);
   min-height: 10dvh;
 }
 
@@ -24,3 +28,37 @@ body {
 
 .small { font-size: 14px; }
 .muted { color: var(--muted); margin-top: 14px; }
+
+.form {
+  display: grid;
+  gap: 14px;
+  margin-top: 8px;
+
+  &__field { display: grid; gap: 8px; }
+  &__label { font-size: 14px; color: var(--muted); }
+  &__req   { color: #fca5a5; margin-left: 2px; }
+
+  &__input,
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0b1220;
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+
+    &::placeholder { color: #a3a6ad; opacity: 1; }
+
+    &:focus {
+      border-color: var(--ring);
+      box-shadow: 0 0 0 4px rgba(242,105,255,.25);
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .card__actions { flex-direction: column; align-items: stretch; }
+  .card__actions .card__actions-btn { width: 100%; }
+}

@@ -1,0 +1,338 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/profiles/show" %>
+<% end %>
+
+<header class="navbar">
+  <%= link_to t("app.name"), root_path(locale: I18n.locale), class: "navbar__brand" %>
+</header>
+
+<main class="page">
+  <div class="page__container">
+    <h2 class="page__title"><%= t("profiles.show.title") %></h2>
+
+    <section class="profile">
+      <div class="profile__head">
+        <div class="profile__avatar">
+          <div class="profile__frame">
+            <% if @profile.errors.any? %>
+              <div class="flash flash--error">
+                <ul>
+                  <% @profile.errors.full_messages.each do |m| %>
+                    <li><%= m %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <% if @profile&.picture&.attached? && @profile.picture.blob&.persisted? %>
+              <% if @profile.picture.variable? %>
+                <%= image_tag(
+                  @profile.picture.variant(resize_to_fill: [200, 200]).processed,
+                  alt: t("profiles.show.profile_picture_alt"),
+                  class: "profile__image",
+                  id: "avatarImg"
+                ) %>
+              <% else %>
+                <%= image_tag(
+                  url_for(@profile.picture),
+                  alt: t("profiles.show.profile_picture_alt"),
+                  class: "profile__image",
+                  id: "avatarImg"
+                ) %>
+              <% end %>
+            <% else %>
+              <img
+                src="https://i.pravatar.cc/200?img=1"
+                alt="<%= t('profiles.show.profile_picture_alt') %>"
+                class="profile__image"
+                id="avatarImg"
+              />
+            <% end %>
+          </div>
+
+          <%= form_with model: @profile,
+            url: profile_path,
+            method: :patch,
+            local: true,
+            data: { turbo: false },
+            html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
+
+            <%= f.file_field :picture,
+              accept: "image/*",
+              class: "profile__file",
+              id: "avatarInput",
+              style: "display:none;" %>
+
+            <button type="button" class="profile__edit" id="editAvatar">
+              <%= t("common.edit") %>
+            </button>
+          <% end %>
+        </div>
+
+        <div class="profile__meta">
+          <h3 class="profile__name" id="nameDisplay"><%= current_user.name %></h3>
+
+          <%= form_with url: profile_path, method: :patch, id: "detailsForm", html: { class: "profile__details-form" } do %>
+            <div class="profile__kv" id="details">
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.phone") %></span>
+                <div class="profile__kv-value" data-key="phone" data-type="text" data-scope="profile">
+                  <%= @profile&.phone.presence || "-" %>
+                </div>
+              </div>
+
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
+                <div class="profile__kv-value" data-key="headquarters" data-type="text" data-scope="profile">
+                  <%= @profile&.headquarters.presence || "-" %>
+                </div>
+              </div>
+
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
+                <div class="profile__kv-value" data-key="email" data-type="email" data-scope="user">
+                  <%= current_user.email %>
+                </div>
+              </div>
+
+              <div class="profile__kv-item">
+                <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
+                <div class="profile__kv-value" data-key="birthday" data-type="date" data-scope="profile">
+                  <%= @profile&.birthday %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="profile__toolbar">
+            <button class="btn btn--sm" id="editBtn" type="button"><%= t("common.edit") %></button>
+          </div>
+
+          <div class="page__actions" id="saveBar" style="display:none;">
+            <button class="btn btn--sm" id="cancelBtn" type="button"><%= t("common.cancel") %></button>
+            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t("common.save") %></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule"/>
+
+    <section class="settings">
+      <h3 class="settings__title"><%= t("profiles.show.settings_title") %></h3>
+
+      <div class="settings__row">
+        <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
+        <div class="settings__control">
+          <select class="input" id="langSelect">
+            <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>
+              <%= t("profiles.language.english") %>
+            </option>
+            <option value="de" <%= "selected" if I18n.locale.to_s == "de" %>>
+              <%= t("profiles.language.german") %>
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings__row">
+        <div class="settings__label"><%= t("profiles.show.mode") %></div>
+        <div class="settings__control">
+          <div class="mode-toggle">
+            <span><%= t("profiles.show.light") %></span>
+            <label class="toggle">
+              <input type="checkbox" id="themeToggle" />
+              <span class="toggle__slider" aria-hidden="true"></span>
+            </label>
+            <span><%= t("profiles.show.dark") %></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+  const editBtn   = document.getElementById('editBtn');
+  const saveBar   = document.getElementById('saveBar');
+  const saveBtn   = document.getElementById('saveBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+
+  const detailsForm      = document.getElementById('detailsForm');
+  const detailsContainer = document.getElementById('details');
+
+  let inputs = [];
+  let originals = new Map();
+
+  function toInput(el){
+    const type  = el.dataset.type || 'text';
+    const key   = el.dataset.key;
+    const scope = el.dataset.scope || (key === 'email' ? 'user' : 'profile');
+    const val   = el.textContent.trim();
+
+    const input = document.createElement('input');
+    input.className = 'input';
+    input.value = val;
+    input.setAttribute('data-key', key);
+    input.setAttribute('data-scope', scope);
+    input.type = (type === 'date' || type === 'email') ? type : 'text';
+
+    input.name = scope === 'user' ? `user[${key}]` : `profile[${key}]`;
+
+    if (key === 'phone' && scope === 'profile') {
+      input.name = '';
+
+      const hiddenCode  = document.createElement('input');
+      hiddenCode.type   = 'hidden';
+      hiddenCode.name   = 'profile[phone_country_code]';
+
+      const hiddenLocal = document.createElement('input');
+      hiddenLocal.type  = 'hidden';
+      hiddenLocal.name  = 'profile[phone_local]';
+
+      function fillHiddenFrom(v){
+        const digitsOnly = (v || '').replace(/[^\d+]/g, '');
+        const m = digitsOnly.match(/^\+?(\d{1,4})?(\d{4,})$/);
+        if (m) {
+          hiddenCode.value  = (m[1] || '').replace(/\D/g, '');
+          hiddenLocal.value = (m[2] || '').replace(/\D/g, '');
+        } else {
+          hiddenCode.value  = '';
+          hiddenLocal.value = digitsOnly.replace(/\D/g, '');
+        }
+      }
+      fillHiddenFrom(val);
+      input.addEventListener('input', () => fillHiddenFrom(input.value));
+
+      detailsForm?.appendChild(hiddenCode);
+      detailsForm?.appendChild(hiddenLocal);
+    }
+
+    el.replaceWith(input);
+    return input;
+  }
+
+  function toDisplay(input){
+    const div = document.createElement('div');
+    div.className = 'profile__kv-value';
+    div.dataset.key   = input.dataset.key;
+    div.dataset.scope = input.dataset.scope;
+    div.dataset.type  = input.type === 'text' ? 'text' : input.type;
+    div.textContent   = input.value.trim();
+    input.replaceWith(div);
+    return div;
+  }
+
+  function enterEditMode(){
+    if(inputs.length) return;
+    originals.clear();
+    inputs = [];
+    const editable = detailsContainer.querySelectorAll('.profile__kv-value');
+    editable.forEach(el=>{
+      originals.set(`${el.dataset.scope}.${el.dataset.key}`, el.textContent.trim());
+      const input = toInput(el);
+      inputs.push(input);
+    });
+    editBtn.disabled = true;
+    saveBar.style.display = 'flex';
+    inputs[0]?.focus();
+  }
+
+  function exitEditMode(save){
+    if(!inputs.length) return;
+    if(save){
+      inputs.forEach(inp => toDisplay(inp));
+    }else{
+      inputs.forEach(inp => {
+        const key   = inp.dataset.key;
+        const scope = inp.dataset.scope;
+        const disp  = document.createElement('div');
+        disp.className   = 'profile__kv-value';
+        disp.dataset.key = key;
+        disp.dataset.scope = scope;
+        disp.dataset.type  = inp.type === 'text' ? 'text' : inp.type;
+        disp.textContent   = originals.get(`${scope}.${key}`) ?? '';
+        inp.replaceWith(disp);
+      });
+    }
+    inputs = [];
+    editBtn.disabled = false;
+    saveBar.style.display = 'none';
+  }
+
+  editBtn?.addEventListener('click', enterEditMode);
+  saveBtn?.addEventListener('click', ()=> detailsForm?.requestSubmit());
+  cancelBtn?.addEventListener('click', ()=> exitEditMode(false));
+
+  const langSelect = document.getElementById('langSelect');
+  langSelect?.addEventListener('change', async (e) => {
+    const locale = e.target.value;
+
+    await fetch("<%= profile_path %>", {
+      method: "PATCH",
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ user: { locale } })
+    });
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('locale', locale);
+    window.location.assign(url.toString());
+  });
+
+  const THEME_KEY = 'journey-theme-<%= current_user.id %>'; 
+  const themeToggle = document.getElementById('themeToggle');
+
+  (function initTheme(){
+    const serverTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const stored = localStorage.getItem(THEME_KEY);
+    const theme = stored || serverTheme;
+    document.documentElement.setAttribute('data-theme', theme);
+    if (themeToggle) themeToggle.checked = (theme === 'dark');
+  })();
+
+  themeToggle?.addEventListener('change', async () => {
+    const targetTheme = themeToggle.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', targetTheme);
+    localStorage.setItem(THEME_KEY, targetTheme);
+    try {
+      await fetch("<%= profile_path %>", {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ user: { theme: targetTheme } })
+      });
+    } catch (_) { }
+  });
+
+  (function syncThemeToggle(){
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (themeToggle) themeToggle.checked = isDark;
+  })();
+
+  const editAvatar   = document.getElementById('editAvatar');
+  const avatarInput  = document.getElementById('avatarInput');
+  const avatarForm   = document.getElementById('avatarForm');
+  const avatarImg    = document.getElementById('avatarImg');
+
+  editAvatar?.addEventListener('click', (e)=>{
+    e.preventDefault();
+    avatarInput?.click();
+  });
+
+  avatarInput?.addEventListener('change', (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { if (avatarImg) avatarImg.src = ev.target.result; };
+    reader.readAsDataURL(file);
+    editAvatar?.setAttribute('disabled', 'disabled');
+    avatarForm?.requestSubmit();
+  });
+</script>

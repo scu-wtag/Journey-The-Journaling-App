@@ -5,21 +5,26 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 
 require 'rspec/rails'
 
+Rails.root.glob('spec/support/**/*.rb').sort.each { |f| require f }
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => error
   abort error.to_s.strip
 end
 
-Rails.root.glob('spec/support/**/*.rb').sort.each { |f| require f }
-
 RSpec.configure do |config|
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
+
   config.use_transactional_fixtures = true
   config.include FactoryBot::Syntax::Methods
   config.filter_rails_from_backtrace!
 
   config.include SignInHelpers, type: :request
+
+  config.after(:suite) do
+    FileUtils.rm_rf(Rails.root.glob('tmp/storage'))
+  end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

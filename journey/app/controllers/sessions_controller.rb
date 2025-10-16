@@ -1,32 +1,41 @@
-class SessionsController < Clearance::SessionsController
+class SessionsController < ApplicationController
+  skip_before_action :require_login, only: %i(new create)
+
   def new
-    @session = SessionForm.new(email: params.dig(:session, :email))
+    @session = Clearance::Session.new(session)
   end
 
   def create
-    @session = SessionForm.new(session_params)
+    email = params.dig(:session, :email).to_s.downcase.strip
+    password = params.dig(:session, :password)
+    @user = User.find_by(email: email)
 
-    if (user = @session.authenticate)
-      sign_in user
-      redirect_to root_path, notice: t('sessions.success')
+    if @user&.authenticated?(password)
+      cookies[Clearance.configuration.cookie_name] = {
+        value: @user.remember_token,
+        httponly: true,
+      }
+      session[:team_ids] = @user.respond_to?(:teams) ? @user.teams.pluck(:id) : []
+      redirect_to url_after_create, notice: t('sessions.success', default: '')
     else
-      flash.now[:alert] = t('sessions.errors.wrong_email_or_password')
+      flash.now[:alert] = t('sessions.errors.invalid_credentials', default: '')
       render :new, status: :unprocessable_content
     end
+  end
+
+  def destroy
+    sign_out
+    reset_session
+    redirect_to login_path, notice: t('sessions.sign_out')
   end
 
   private
 
   def url_after_create
-    session[:team_ids] = current_user.teams.pluck(:id) if signed_in? && current_user.respond_to?(:teams)
     root_path
   end
 
   def url_after_destroy
     login_path
-  end
-
-  def session_params
-    params.expect(session: %i(email password))
   end
 end

@@ -1,14 +1,50 @@
 ---
 de:
+  activerecord:
+    attributes:
+      profile:
+        headquarters: Headquarters
+    errors:
+      messages:
+        inclusion: ist nicht in der Liste enthalten
+      models:
+        profile:
+          attributes:
+            headquarters:
+              inclusion: ist kein gueltiger Wert
+    models:
+      profile: Profil
   app:
     name: Journey
+  common:
+    cancel: Abbrechen
+    edit: Bearbeiten
+    save: Speichern
   home:
     show:
+      profile: Zum Profil
+      signout: Logout
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
+  profiles:
+    language:
+      english: Englisch
+      german: Deutsch
+    show:
+      dark: Dunkel
+      light: Hell
+      mode: Modus
+      preferred_language: Bevorzugte Sprache
+      profile_picture_alt: Profilbild
+      settings_title: Einstellungen
+      title: Profil
+    update:
+      failed: Profil konnte nicht aktualisiert werden
+      success: Profil wurde erfolgreich aktualisiert
+      wrong_filetype: Datei muss JPEG, PNG, WebP oder AVIF sein
   sessions:
     errors:
-      wrong_email_or_password: E-Mail oder Passwort ist falsch.
+      invalid_credentials: E-Mail oder Passwort ist falsch.
     fields:
       email:
         placeholder: du@beispiel.de
@@ -16,20 +52,26 @@ de:
         placeholder: "*******"
     forgot_password: Passwort vergessen?
     heading: Anmelden
-    html_title: Journey – Anmeldung
     new:
-      alert: Falsches Passwort oder E-Mail
       sign_in: Anmelden
-      title: Login
+      title: Anmeldung
+    sign_out: Erfolgreich abgemeldet.
     signup_prompt:
       link: Konto erstellen
       text: Noch kein Konto?
     success: Erfolgreich angemeldet.
+  settings:
+    show:
+      update_password: Passwort aktualisieren
   users:
     already_have_account: Schon einen Account?
     create:
       failed: Konto konnte nicht erstellt werden. Bitte Eingaben prüfen.
       success: Konto erfolgreich erstellt.
+    hq:
+      dac: Dhaka
+      rem: Remote
+      zrh: Zürich
     new:
       birthday: Geburtsdatum
       country: Land
@@ -39,21 +81,11 @@ de:
         password: Passwort
         password_confirmation: Passwort wiederholen
       headquarters: Hauptsitz
-      optional_legend: Optional
       phone: Telefon
-      phone_countries:
-        at: "+43 Österreich"
-        au: "+61 Australien"
-        ch: "+41 Schweiz"
-        de: "+49 Deutschland"
-        jp: "+81 Japan"
-        sep: "──────────"
-        uk: "+44 Vereinigtes Königreich"
-        us: "+1 Vereinigte Staaten"
       placeholders:
-        country: CH
-        headquarters: Zürich
         phone_local: 79 123 45 67
-      required_note: "* Pflichtfelder"
+      required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
+    password:
+      update: Dein Passwort wurde erfolgreich aktualisiert

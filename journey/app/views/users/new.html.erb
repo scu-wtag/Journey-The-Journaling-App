@@ -1,0 +1,137 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/users/new" %>
+<% end %>
+
+<main class="screen">
+  <h1 class="app-title"><%= t("app.name") %></h1>
+
+  <section class="card" aria-labelledby="signup-title">
+    <h2 id="signup-title" class="card__title"><%= t("users.new.title") %></h2>
+
+    <% if flash[:alert].present? %>
+      <p class="card__info card__info--error" role="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice].present? %>
+      <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
+    <% end %>
+
+    <p class="card__info">
+      <span class="form__req">*</span>
+      <%= t("users.new.required_note") %>
+    </p>
+
+    <% if flash[:alert].present? %>
+      <p class="card__info card__info--error" role="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice].present? %>
+      <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
+    <% end %>
+
+    <%= form_with model: @user,
+      url: users_path,
+      data: { turbo: false },
+      html: { class: "form" } do |f| %>
+
+      <label class="form__field">
+        <span class="form__label">
+          <%= t("users.new.fields.email") %><span aria-hidden="true" class="form__req">*</span>
+        </span>
+        <%= f.email_field :email,
+          required: true,
+          autocomplete: "username",
+          placeholder: t("sessions.fields.email.placeholder"),
+          class: "form__input" %>
+      </label>
+
+      <label class="form__field">
+        <span class="form__label">
+          <%= t("users.new.fields.name") %><span aria-hidden="true" class="form__req">*</span>
+        </span>
+        <%= f.text_field :name,
+          required: true,
+          autocomplete: "name",
+          placeholder: "John Doe",
+          class: "form__input" %>
+      </label>
+
+      <label class="form__field">
+        <span class="form__label">
+          <%= t("users.new.fields.password") %><span aria-hidden="true" class="form__req">*</span>
+        </span>
+        <%= f.password_field :password,
+          required: true,
+          autocomplete: "new-password",
+          placeholder: t("sessions.fields.password.placeholder"),
+          class: "form__input" %>
+      </label>
+
+      <label class="form__field">
+        <span class="form__label">
+          <%= t("users.new.fields.password_confirmation") %><span aria-hidden="true" class="form__req">*</span>
+        </span>
+        <%= f.password_field :password_confirmation,
+          required: true,
+          autocomplete: "new-password",
+          placeholder: t("sessions.fields.password.placeholder"),
+          class: "form__input" %>
+      </label>
+
+      <%= f.fields_for :profile_attributes do |p| %>
+        <label class="form__field">
+          <span class="form__label"><%= t("users.new.phone") %></span>
+
+          <div class="form__input-row" role="group" aria-label="<%= t('users.new.phone') %>">
+            <%= p.select :phone_country_code,
+              options_for_select(
+                Profile.phone_country_options,
+                p.object&.phone_country_code || "41"
+              ),
+              {},
+              class: "form__dial" %>
+
+            <%= p.telephone_field :phone_local,
+              inputmode: "tel",
+              autocomplete: "tel-national",
+              pattern: "^[0-9][0-9\\s\\-]{5,17}$",
+              placeholder: t("users.new.placeholders.phone_local"),
+              class: "form__input" %>
+          </div>
+
+          <%= p.hidden_field :phone %>
+        </label>
+
+        <label class="form__field">
+          <span class="form__label"><%= t("users.new.birthday") %></span>
+          <%= p.date_field :birthday, class: "form__input" %>
+        </label>
+
+        <label class="form__field">
+          <span class="form__label"><%= t("users.new.country") %></span>
+          <%= f.country_select :country,
+            {
+              priority_countries: Profile::PRIORITY_COUNTRIES,
+              include_blank: true
+            },
+            { class: "form__input" } %>
+        </label>
+
+        <label class="form__field">
+          <span class="form__label"><%= t("users.new.headquarters") %></span>
+          <%= p.select :headquarters,
+            options_for_select(Profile.headquarter_options),
+            { include_blank: true },
+            { class: "form__input" } %>
+        </label>
+      <% end %>
+
+      <div class="card__actions">
+        <button class="card__actions-btn" type="submit">
+          <%= t("users.new.submit") %>
+        </button>
+      </div>
+    <% end %>
+
+    <p class="card__note card__note--muted">
+      <%= t("users.already_have_account") %>
+      <%= link_to t("sessions.new.title"), login_path, class: "card__note-link" %>
+    </p>
+  </section>
+</main>

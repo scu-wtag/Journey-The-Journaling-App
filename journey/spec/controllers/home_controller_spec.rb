@@ -1,8 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'Home', type: :request do
-  it 'renders a page (root or show) without error' do
-    get root_path
-    expect(response).to have_http_status(:ok).or have_http_status(:success)
+RSpec.describe HomeController, type: :controller do
+  it 'renders when signed in' do
+    user = create(:user)
+    allow(controller).to receive(:signed_in?).and_return(true)
+    allow(controller).to receive(:current_user).and_return(user)
+
+    get :show, params: { locale: :en }
+    expect(response).to have_http_status(:ok)
   end
 end

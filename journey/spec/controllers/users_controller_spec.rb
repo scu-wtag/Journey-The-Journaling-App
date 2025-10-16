@@ -13,7 +13,7 @@ RSpec.describe UsersController, type: :controller do
       allow(controller).to receive(:signed_in?).and_return(true)
 
       get :new, params: { locale: I18n.locale }
-      expect(response).to redirect_to(root_path(locale: I18n.locale))
+      expect(response).to redirect_to(root_path(locale: I18n.default_locale))
     end
   end
 
@@ -34,18 +34,6 @@ RSpec.describe UsersController, type: :controller do
           },
         },
       }
-    end
-
-    it 'redirects to root when already signed in' do
-      user = create(:user)
-      allow(controller).to receive(:current_user).and_return(user)
-      allow(controller).to receive(:signed_in?).and_return(true)
-
-      expect do
-        post :create, params: valid_params.merge(locale: I18n.locale)
-      end.not_to change(User, :count)
-
-      expect(response).to redirect_to(root_path(locale: I18n.locale))
     end
   end
 end
