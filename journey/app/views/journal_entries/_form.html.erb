@@ -51,7 +51,6 @@
           <div class="w-spacer"></div>
         </div>
 
-
         <div class="field">
           <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
           <%= f.rich_text_area :body, class: "editor-notes" %>
@@ -140,3 +139,362 @@
     </div>
   </div>
 <% end %>
+
+<script>
+  const $ = s => document.querySelector(s);
+  const goalModal = $('#goalModal');
+  const openBtn = $('#openGoalModal');
+  const saveBtn = $('#saveGoal');
+  const goalsList = $('#goalsList');
+  const tInput    = $('#goalTitle');
+  const bInput    = $('#goalBody');
+
+  function resolveGoalsFields() {
+    const hidden = document.querySelector('input[name="journal_entry[goals_for_tomorrow]"]');
+    const editor = hidden ? document.querySelector(`trix-editor[input="${hidden.id}"]`) : null;
+    return { hidden, editor };
+  }
+
+  let goalsHidden, goalsEditor;
+  let goalsBooted = false;
+
+  function readGoalsHtml() {
+    return goalsHidden?.value || '';
+  }
+
+  function addGoalCardToList(title, bodyHtml) {
+    if (!goalsList) return;
+    const card = document.createElement('div');
+    card.className = 'goal-card';
+    card.innerHTML = `
+  <div class="goal-title">${title || 'Untitled'}</div>
+      ${bodyHtml ? `<div class="goal-text">${bodyHtml}</div>` : ''}`;
+    goalsList.appendChild(card);
+  }
+
+  function extractBodyHTML(goalEl) {
+    const clone = goalEl.cloneNode(true);
+    const firstStrong = clone.querySelector('strong');
+    if (firstStrong) firstStrong.remove();
+    return clone.innerHTML.trim();
+  }
+
+  function renderGoalsFromHidden() {
+    if (!goalsList) return;
+    goalsList.replaceChildren();
+    const html = readGoalsHtml();
+    if (!html.trim()) return;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    let blocks = Array.from(tmp.querySelectorAll('.goal'));
+    if (blocks.length === 0) {
+      blocks = Array.from(tmp.querySelectorAll('div, p')).filter(n => n.querySelector('strong'));
+    }
+    blocks.forEach(g => {
+      const title = g.querySelector('strong')?.textContent || 'Untitled';
+      const bodyHtml = extractBodyHTML(g);
+      addGoalCardToList(title, bodyHtml);
+    });
+  }
+
+  function appendGoalToTrixOrInput(title, body) {
+    const html = `
+  <div class="goal">
+    <strong>${title || 'Untitled'}</strong>
+    ${body ? `<p>${body.replace(/\n/g, '<br>')}</p>` : ''}
+  </div>`.trim();
+
+    if (goalsHidden) {
+      const current = goalsHidden.value || "";
+      const next = current + (current.trim() ? "\n" : "") + html;
+      goalsHidden.value = next;
+      goalsHidden.dispatchEvent(new Event('input', { bubbles: true }));
+      goalsHidden.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (goalsEditor?.editor) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = goalsHidden.value || '';
+      goalsEditor.editor.loadHTML(tmp.innerHTML);
+    }
+
+    renderGoalsFromHidden();
+  }
+
+  function openModal() {
+    goalModal.classList.add('is-open');
+    goalModal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => tInput?.focus(), 50);
+  let goalsHidden, goalsEditor;
+  let goalsBooted = false;
+
+  function readGoalsHtml() {
+    return goalsHidden?.value || '';
+  }
+
+  function addGoalCardToList(title, bodyHtml) {
+    if (!goalsList) return;
+    const card = document.createElement('div');
+    card.className = 'goal-card';
+    card.innerHTML = `
+  <div class="goal-title">${title || 'Untitled'}</div>
+      ${bodyHtml ? `<div class="goal-text">${bodyHtml}</div>` : ''}`;
+    goalsList.appendChild(card);
+  }
+  let goalsHidden, goalsEditor;
+  let goalsBooted = false;
+
+  function readGoalsHtml() {
+    return goalsHidden?.value || '';
+  }
+
+  function addGoalCardToList(title, bodyHtml) {
+    if (!goalsList) return;
+    const card = document.createElement('div');
+    card.className = 'goal-card';
+    card.innerHTML = `
+  <div class="goal-title">${title || 'Untitled'}</div>
+      ${bodyHtml ? `<div class="goal-text">${bodyHtml}</div>` : ''}`;
+    goalsList.appendChild(card);
+  }
+
+  function extractBodyHTML(goalEl) {
+    const clone = goalEl.cloneNode(true);
+    const firstStrong = clone.querySelector('strong');
+    if (firstStrong) firstStrong.remove();
+    return clone.innerHTML.trim();
+  }
+
+  function renderGoalsFromHidden() {
+    if (!goalsList) return;
+    goalsList.replaceChildren();
+    const html = readGoalsHtml();
+    if (!html.trim()) return;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    let blocks = Array.from(tmp.querySelectorAll('.goal'));
+    if (blocks.length === 0) {
+      blocks = Array.from(tmp.querySelectorAll('div, p')).filter(n => n.querySelector('strong'));
+    }
+    blocks.forEach(g => {
+      const title = g.querySelector('strong')?.textContent || 'Untitled';
+      const bodyHtml = extractBodyHTML(g);
+      addGoalCardToList(title, bodyHtml);
+    });
+  }
+
+  function appendGoalToTrixOrInput(title, body) {
+    const html = `
+  <div class="goal">
+    <strong>${title || 'Untitled'}</strong>
+    ${body ? `<p>${body.replace(/\n/g, '<br>')}</p>` : ''}
+  </div>`.trim();
+
+    if (goalsHidden) {
+      const current = goalsHidden.value || "";
+      const next = current + (current.trim() ? "\n" : "") + html;
+      goalsHidden.value = next;
+      goalsHidden.dispatchEvent(new Event('input', { bubbles: true }));
+      goalsHidden.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (goalsEditor?.editor) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = goalsHidden.value || '';
+      goalsEditor.editor.loadHTML(tmp.innerHTML);
+    }
+
+    renderGoalsFromHidden();
+  }
+
+  function extractBodyHTML(goalEl) {
+    const clone = goalEl.cloneNode(true);
+    const firstStrong = clone.querySelector('strong');
+    if (firstStrong) firstStrong.remove();
+    return clone.innerHTML.trim();
+  }
+
+  function closeModal() {
+    goalModal.classList.remove('is-open');
+    goalModal.setAttribute('aria-hidden', 'true');
+  }
+
+  function initGoals() {
+    if (goalsBooted) return;
+    goalsBooted = true;
+    ({ hidden: goalsHidden, editor: goalsEditor } = resolveGoalsFields());
+    renderGoalsFromHidden();
+    openBtn?.addEventListener('click', openModal);
+    goalModal?.addEventListener('click', e => {
+      if (e.target.dataset.close === 'goalModal') closeModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && goalModal.classList.contains('is-open')) closeModal();
+    });
+    saveBtn?.addEventListener('click', () => {
+      const title = tInput.value.trim();
+      const body  = bInput.value.trim();
+      if (!title && !body) return;
+      addGoalCardToList(title, body);
+      appendGoalToTrixOrInput(title, body);
+      tInput.value = '';
+      bInput.value = '';
+      closeModal();
+    });
+  }
+  function renderGoalsFromHidden() {
+    if (!goalsList) return;
+    goalsList.replaceChildren();
+    const html = readGoalsHtml();
+    if (!html.trim()) return;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    let blocks = Array.from(tmp.querySelectorAll('.goal'));
+    if (blocks.length === 0) {
+      blocks = Array.from(tmp.querySelectorAll('div, p')).filter(n => n.querySelector('strong'));
+    }
+    blocks.forEach(g => {
+      const title = g.querySelector('strong')?.textContent || 'Untitled';
+      const bodyHtml = extractBodyHTML(g);
+      addGoalCardToList(title, bodyHtml);
+    });
+  }
+
+  function appendGoalToTrixOrInput(title, body) {
+    const html = `
+  <div class="goal">
+    <strong>${title || 'Untitled'}</strong>
+    ${body ? `<p>${body.replace(/\n/g, '<br>')}</p>` : ''}
+  </div>`.trim();
+
+    if (goalsHidden) {
+      const current = goalsHidden.value || "";
+      const next = current + (current.trim() ? "\n" : "") + html;
+      goalsHidden.value = next;
+      goalsHidden.dispatchEvent(new Event('input', { bubbles: true }));
+      goalsHidden.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (goalsEditor?.editor) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = goalsHidden.value || '';
+      goalsEditor.editor.loadHTML(tmp.innerHTML);
+    }
+
+    renderGoalsFromHidden();
+  }
+  let goalsHidden, goalsEditor;
+  let goalsBooted = false;
+
+  function readGoalsHtml() {
+    return goalsHidden?.value || '';
+  }
+
+  function addGoalCardToList(title, bodyHtml) {
+    if (!goalsList) return;
+    const card = document.createElement('div');
+    card.className = 'goal-card';
+    card.innerHTML = `
+  <div class="goal-title">${title || 'Untitled'}</div>
+      ${bodyHtml ? `<div class="goal-text">${bodyHtml}</div>` : ''}`;
+    goalsList.appendChild(card);
+  }
+
+  function extractBodyHTML(goalEl) {
+    const clone = goalEl.cloneNode(true);
+    const firstStrong = clone.querySelector('strong');
+    if (firstStrong) firstStrong.remove();
+    return clone.innerHTML.trim();
+  }
+
+  function renderGoalsFromHidden() {
+    if (!goalsList) return;
+    goalsList.replaceChildren();
+    const html = readGoalsHtml();
+    if (!html.trim()) return;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    let blocks = Array.from(tmp.querySelectorAll('.goal'));
+    if (blocks.length === 0) {
+      blocks = Array.from(tmp.querySelectorAll('div, p')).filter(n => n.querySelector('strong'));
+    }
+    blocks.forEach(g => {
+      const title = g.querySelector('strong')?.textContent || 'Untitled';
+      const bodyHtml = extractBodyHTML(g);
+      addGoalCardToList(title, bodyHtml);
+    });
+  }
+
+  function appendGoalToTrixOrInput(title, body) {
+    const html = `
+  <div class="goal">
+    <strong>${title || 'Untitled'}</strong>
+    ${body ? `<p>${body.replace(/\n/g, '<br>')}</p>` : ''}
+  </div>`.trim();
+
+    if (goalsHidden) {
+      const current = goalsHidden.value || "";
+      const next = current + (current.trim() ? "\n" : "") + html;
+      goalsHidden.value = next;
+      goalsHidden.dispatchEvent(new Event('input', { bubbles: true }));
+      goalsHidden.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (goalsEditor?.editor) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = goalsHidden.value || '';
+      goalsEditor.editor.loadHTML(tmp.innerHTML);
+    }
+
+    renderGoalsFromHidden();
+  }
+
+  function openModal() {
+    goalModal.classList.add('is-open');
+    goalModal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => tInput.focus(), 50);
+  }
+
+  function closeModal() {
+    goalModal.classList.remove('is-open');
+    goalModal.setAttribute('aria-hidden', 'true');
+  }
+
+  function initGoals() {
+    if (goalsBooted) return;
+    goalsBooted = true;
+    ({ hidden: goalsHidden, editor: goalsEditor } = resolveGoalsFields());
+    renderGoalsFromHidden();
+    openBtn?.addEventListener('click', openModal);
+    goalModal?.addEventListener('click', e => {
+      if (e.target.dataset.close === 'goalModal') closeModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && goalModal.classList.contains('is-open')) closeModal();
+    });
+    saveBtn?.addEventListener('click', () => {
+      const title = tInput.value.trim();
+      const body  = bInput.value.trim();
+      if (!title && !body) return;
+      addGoalCardToList(title, body);
+      appendGoalToTrixOrInput(title, body);
+      tInput.value = '';
+      bInput.value = '';
+      closeModal();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initGoals);
+  document.addEventListener('turbo:load', initGoals);
+  document.addEventListener('turbo:before-render', () => { goalsBooted = false; });
+  document.addEventListener('trix-initialize', () => {
+  document.addEventListener('DOMContentLoaded', initGoals);
+  document.addEventListener('turbo:load', initGoals);
+  document.addEventListener('turbo:before-render', () => { goalsBooted = false; });
+  document.addEventListener('trix-initialize', () => {
+    ({ hidden: goalsHidden, editor: goalsEditor } = resolveGoalsFields());
+    renderGoalsFromHidden();
+    renderGoalsFromHidden();
+    renderGoalsFromHidden();
+  });
+</script>
