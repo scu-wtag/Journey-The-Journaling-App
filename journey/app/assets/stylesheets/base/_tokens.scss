@@ -1,5 +1,6 @@
 :root {
   --bg: #0b1220;
+  --surface: #0e1629;
   --card: #151026;
   --text: #e5e7eb;
   --muted: #9ca3af;
@@ -7,8 +8,57 @@
   --primary-contrast: #ffffff;
   --ring: #f269ff;
   --border: #320f4b;
+
   --radius: 14px;
   --space: 14px;
   --shadow: 0 10px 25px rgba(0, 0, 0, .35);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+
+  --accent1: #4c1d95;
+  --accent2: #9333ea;
+
+  --transition-fast: 80ms ease;
+
+  --transition-slow: 100ms ease;
+
+  --bg-radial-top: #1a102b;
+  --input-bg: #0b1220;
+  --hover-bg: #0f172a;
+  --topbar-h: 56px;
+
+  --btn-primary-bg: linear-gradient(90deg, #00000051, #0b0b0b44);
+  --btn-primary-text: #dadada;
+  --btn-primary-border: #320f4b;
+
+  --btn-danger-bg: #2a1120;
+  --btn-danger-border: #57243e;
+  --btn-danger-text: #ffb4c2;
+}
+
+:root[data-theme="light"] {
+  --bg: #f7f7fb;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #4b5563;
+  --primary: #7c3aed;
+  --primary-contrast: #ffffff;
+  --ring: #7c3aed;
+  --border: #e5e7eb;
+
+  --shadow: 0 4px 16px rgba(0, 0, 0, .12);
+
+  --accent1: #7c3aed;
+  --accent2: #a78bfa;
+
+  --bg-radial-top: #ffffff;
+  --input-bg: #ffffff;
+  --hover-bg: #f3f4f6;
+
+  --btn-primary-bg: linear-gradient(90deg, #f7f7f7, #f4f4f4);
+  --btn-primary-text: #301637;
+  --btn-primary-border: #57243e;
+
+  --btn-danger-bg: #f5c5e2;
+  --btn-danger-border: #d48692;
+  --btn-danger-text: #414042;
 }

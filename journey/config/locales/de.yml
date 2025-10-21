@@ -124,7 +124,7 @@ de:
   journal:
     index:
       title: Journal
-      new: Neuen Eintrag erstellen
+      new: +
     new:
       title: Neuen Journaleintrag erstellen
     edit:

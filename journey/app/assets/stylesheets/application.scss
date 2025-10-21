@@ -1,3 +1,8 @@
+@use "base/tokens";
+@use "base/base";
+@use "views/journals/new";
+@use "views/profiles/show";
+
 :root {
   --bg: #0b1220;
   --card: #151026;

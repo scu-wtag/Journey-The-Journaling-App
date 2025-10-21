@@ -309,21 +309,19 @@
     window.location.assign(url.toString());
   });
 
-  const THEME_KEY = 'journey-theme-<%= current_user.id %>'; 
   const themeToggle = document.getElementById('themeToggle');
 
-  (function initTheme(){
-    const serverTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    const stored = localStorage.getItem(THEME_KEY);
-    const theme = stored || serverTheme;
-    document.documentElement.setAttribute('data-theme', theme);
-    if (themeToggle) themeToggle.checked = (theme === 'dark');
+  (function syncInitialTheme(){
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    if (themeToggle) themeToggle.checked = (current === 'dark');
   })();
 
-  themeToggle?.addEventListener('change', async () => {
-    const targetTheme = themeToggle.checked ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', targetTheme);
-    localStorage.setItem(THEME_KEY, targetTheme);
+  function setCookieTheme(val) {
+    document.cookie =
+      `theme=${val}; path=/; max-age=${60*60*24*365}; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
+  }
+
+  async function persistUserTheme(val) {
     try {
       await fetch("<%= profile_path %>", {
         method: "PATCH",
@@ -332,16 +330,27 @@
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify({ user: { theme: targetTheme } })
+        body: JSON.stringify({ user: { theme: val } })
       });
-    } catch (_) { }
+    } catch(_) {}
+  }
+
+  themeToggle?.addEventListener('change', async () => {
+    const next = themeToggle.checked ? 'dark' : 'light';
+
+    document.documentElement.setAttribute('data-theme', next);
+
+    setCookieTheme(next);
+
+    await persistUserTheme(next);
   });
 
-  (function syncThemeToggle(){
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if (themeToggle) themeToggle.checked = isDark;
-  })();
-
+  document.addEventListener('turbo:render', () => {
+    const meta = document.querySelector('meta[name="theme"]');
+    if (!meta) return;
+    document.documentElement.setAttribute('data-theme', meta.content);
+    if (themeToggle) themeToggle.checked = (meta.content === 'dark');
+  });
   const editAvatar   = document.getElementById('editAvatar');
   const avatarInput  = document.getElementById('avatarInput');
   const avatarForm   = document.getElementById('avatarForm');

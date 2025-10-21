@@ -124,7 +124,7 @@ en:
   journal:
     index:
       title: Journal
-      new: Create new entry
+      new: +
     new:
       title: Create journal entry
     edit:

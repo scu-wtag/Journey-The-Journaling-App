@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_theme
 
   ALLOWED_THEMES = %w(light dark).freeze
+  helper_method :current_theme
 
   LIGHT_THEME = 'light'.freeze
   DARK_THEME = 'dark'.freeze
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
 
   def default_url_options
     { locale: I18n.locale || I18n.default_locale }
+  end
+
+  def current_theme
+    @theme || 'light'
   end
 
   private
