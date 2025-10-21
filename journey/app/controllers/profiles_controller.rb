@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
   def update
     perform_profile_update!
     respond_update_success
-  rescue ActiveRecord::RecordInvalid => error
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => error
     respond_update_failure(error)
   end
 
@@ -42,41 +42,41 @@ class ProfilesController < ApplicationController
   end
 
   def update_profile_if_needed
-    profileparams = params[:profile]
-    return if profileparams.blank?
+    profile_params = params.fetch(:profile, {})
+    return if profile_params.blank?
 
-    apply_phone_params!(profileparams)
-    @profile.assign_attributes(profile_params)
+    apply_phone_params!(profile_params)
+    @profile.assign_attributes(profile_params.permit(:picture, :headquarters, :phone_country_code, :phone_local, :birthday))
     @profile.save!
   end
 
   def update_user_if_needed
-    userparams = params[:user]
-    return if userparams.blank?
+    user_params = params.fetch(:user, {})
+    return if user_params.blank?
 
-    current_user.update!(user_params)
-    prefs_cookies_from_params(userparams)
+    current_user.update!(user_params.permit(:locale, :theme, :email, :name))
+    prefs_cookies_from_params(user_params)
   end
 
-  def prefs_cookies_from_params(userparams)
-    cookies.permanent[:locale] = current_user.locale if userparams.key?(:locale)
-    cookies.permanent[:theme] = current_user.theme if userparams.key?(:theme)
+  def prefs_cookies_from_params(user_params)
+    cookies.permanent[:locale] = current_user.locale if user_params.key?(:locale)
+    cookies.permanent[:theme] = current_user.theme if user_params.key?(:theme)
   end
 
-  def apply_phone_params!(profileparams)
-    return unless needs_phone_update?(profileparams)
+  def apply_phone_params!(profile_params)
+    return unless needs_phone_update?(profile_params)
 
-    code, local = sanitized_phone_parts(profileparams)
+    code, local = sanitized_phone_parts(profile_params)
     set_profile_phone(@profile, code, local)
   end
 
-  def needs_phone_update?(pp)
-    pp.key?(:phone_country_code) || pp.key?(:phone_local)
+  def needs_phone_update?(profile_params)
+    profile_params.key?(:phone_country_code) || profile_params.key?(:phone_local)
   end
 
-  def sanitized_phone_parts(pp)
-    code = pp[:phone_country_code].to_s.strip.gsub(/\D/, '')
-    local = pp[:phone_local].to_s.gsub(/\D/, '')
+  def sanitized_phone_parts(profile_params)
+    code = profile_params[:phone_country_code].to_s.strip.gsub(/\D/, '')
+    local = profile_params[:phone_local].to_s.gsub(/\D/, '')
     [code, local]
   end
 
@@ -84,13 +84,5 @@ class ProfilesController < ApplicationController
     profile.phone_country_code = code
     profile.phone_local = local
     profile.phone = code.present? && local.present? ? "+#{code}#{local}" : nil
-  end
-
-  def profile_params
-    params.fetch(:profile, {}).permit(:picture, :headquarters, :phone_country_code, :phone_local, :birthday)
-  end
-
-  def user_params
-    params.fetch(:user, {}).permit(:locale, :theme, :email, :name)
   end
 end

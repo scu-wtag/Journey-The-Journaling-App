@@ -49,8 +49,8 @@ class UsersController < Clearance::UsersController
   end
 
   def sanitize_profile_attrs(raw)
-    virtual = %i(phone_country_code phone_local picture)
-    allowed = (Profile.attribute_names.map(&:to_sym) + virtual).uniq
+    transient_attrs = %i(phone_country_code phone_local picture)
+    allowed = (Profile.attribute_names.map(&:to_sym) + transient_attrs).uniq
     raw.to_h.symbolize_keys.slice(*allowed)
   end
 

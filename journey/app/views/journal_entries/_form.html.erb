@@ -10,59 +10,10 @@
 
   <div class="shell">
     <nav class="sidenav">
-      <button type="button" class="nav-btn" title="Dashboard" aria-label="Dashboard">
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <rect x="3" y="3" width="8" height="8"/>
-          <rect x="13" y="3" width="8" height="5"/>
-          <rect x="13" y="10" width="8" height="11"/>
-          <rect x="3" y="13" width="8" height="8"/>
-        </svg>
-      </button>
-      <button type="button" class="nav-btn" title="Profile" aria-label="Profile">
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
-        </svg>
-      </button>
-      <button type="button" class="nav-btn" title="New" aria-label="New">
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M12 5v14M5 12h14"/>
-        </svg>
-      </button>
-      <button type="button" class="nav-btn" title="Tasks" aria-label="Tasks">
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <rect x="6" y="4" width="12" height="16" rx="2"/>
-          <path d="M9 4h6v3H9zM9 10h6M9 14h6"/>
-        </svg>
-      </button>
+      <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+      <%= nav_btn icon: :profile, title: "Profile" %>
+      <%= nav_btn icon: :new, title: "New" %>
+      <%= nav_btn icon: :tasks, title: "Tasks" %>
     </nav>
 
     <main class="main">
@@ -99,7 +50,7 @@
           </div>
           <div class="w-spacer"></div>
         </div>
-        
+
         <div class="field">
           <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
           <%= f.rich_text_area :body, class: "editor-notes" %>
@@ -189,111 +140,4 @@
   </div>
 <% end %>
 
-<script>
-  const $ = s => document.querySelector(s);
-
-  const goalModal = $('#goalModal');
-  const openBtn   = $('#openGoalModal');
-  const saveBtn   = $('#saveGoal');
-  const goalsList = $('#goalsList');
-  const tInput    = $('#goalTitle');
-  const bInput    = $('#goalBody');
-
-  function resolveGoalsFields() {
-    const hidden = document.querySelector('input[name="journal_entry[goals_for_tomorrow]"]');
-    const editor = hidden ? document.querySelector(`trix-editor[input="${hidden.id}"]`) : null;
-    return { hidden, editor };
-  }
-
-  let { hidden: goalsHidden, editor: goalsEditor } = resolveGoalsFields();
-
-  document.addEventListener("trix-initialize", () => {
-    ({ hidden: goalsHidden, editor: goalsEditor } = resolveGoalsFields());
-  });
-
-  function openModal() {
-    goalModal.classList.add('is-open');
-    goalModal.setAttribute('aria-hidden', 'false');
-    setTimeout(() => tInput?.focus(), 50);
-  }
-
-  function closeModal() {
-    goalModal.classList.remove('is-open');
-    goalModal.setAttribute('aria-hidden', 'true');
-  }
-
-  openBtn?.addEventListener('click', openModal);
-  goalModal?.addEventListener('click', e => {
-    if (e.target.dataset.close === 'goalModal') closeModal();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && goalModal.classList.contains('is-open')) closeModal();
-  });
-
-  function appendGoalToTrixOrInput(title, body) {
-    const html = `
-  <div class="goal">
-    <strong>${title || 'Untitled'}</strong>
-    ${body ? `<div>${body.replace(/\n/g, '<br>')}</div>` : ''}
-  </div>`.trim();
-
-    if (goalsEditor?.editor) {
-      goalsEditor.editor.insertHTML(html);
-    } else if (goalsHidden) {
-      const current = goalsHidden.value || "";
-      goalsHidden.value = current + (current.trim() ? "\n" : "") + html;
-      goalsHidden.dispatchEvent(new Event('input', { bubbles: true }));
-      goalsHidden.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-  }
-
-  function addGoalCardToList(title, body) {
-    if (!goalsList) return;
-    const card = document.createElement('div');
-    card.className = 'goal-card';
-    card.innerHTML = `
-  <div class="goal-title">${title || 'Untitled'}</div>
-${body ? `<div class="goal-text">${body.replace(/\n/g, '<br>')}</div>` : ''}`;
-    goalsList.appendChild(card);
-  }
-
-  saveBtn?.addEventListener('click', () => {
-    const title = tInput.value.trim();
-    const body  = bInput.value.trim();
-    if (!title && !body) return;
-
-    addGoalCardToList(title, body);
-    appendGoalToTrixOrInput(title, body);
-
-    tInput.value = '';
-    bInput.value = '';
-    tInput.blur();
-    bInput.blur();
-
-    closeModal();
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    ({ hidden: goalsHidden, editor: goalsEditor } = resolveGoalsFields());
-
-    let html = '';
-    if (goalsEditor?.editor) {
-      html = goalsEditor.editor.getDocument().toString() || '';
-    } else if (goalsHidden) {
-      html = goalsHidden.value || '';
-    }
-    if (!html.trim()) return;
-
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-
-    const blocks = Array.from(tmp.querySelectorAll('div')).filter(d => d.querySelector(':scope > strong'));
-
-    blocks.forEach(g => {
-      const title = g.querySelector(':scope > strong')?.textContent || 'Untitled';
-      const bodyDiv = g.querySelector(':scope > div');
-      const bodyHtml = bodyDiv ? bodyDiv.innerHTML : '';
-      addGoalCardToList(title, bodyHtml.replace(/\n/g, '<br>'));
-    });
-  });
-</script>
+<%= javascript_import_module_tag "journal_goals" %>
