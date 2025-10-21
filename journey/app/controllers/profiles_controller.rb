@@ -1,5 +1,7 @@
 class ProfilesController < ApplicationController
-  before_action :ensure_profile!, only: %i(update)
+  before_action :ensure_profile!, only: %i(show update)
+
+  def show; end
 
   def update
     perform_profile_update!
@@ -46,7 +48,8 @@ class ProfilesController < ApplicationController
     return if profile_params.blank?
 
     apply_phone_params!(profile_params)
-    @profile.assign_attributes(profile_params.permit(:picture, :headquarters, :phone_country_code, :phone_local, :birthday))
+    @profile.assign_attributes(profile_params.permit(:picture, :headquarters, :phone_country_code,
+                                                     :phone_local, :birthday))
     @profile.save!
   end
 

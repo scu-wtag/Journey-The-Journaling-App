@@ -1,6 +1,6 @@
-module NavHelper
+module NavHelpers
   def nav_btn(icon:, title:)
-    content_tag(:button, type: "button", class: "nav-btn", title: title, aria: { label: title }) do
+    content_tag(:button, type: 'button', class: 'nav-btn', title: title, aria: { label: title }) do
       icon_svg(icon)
     end
   end
@@ -39,7 +39,7 @@ module NavHelper
         </svg>
       )
     else
-      ""
+      ''
     end
   end
 end

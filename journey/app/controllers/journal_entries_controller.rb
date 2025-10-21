@@ -2,6 +2,7 @@ class JournalEntriesController < ApplicationController
   before_action :require_login
   before_action :set_entry, only: %i(show edit update destroy)
   before_action :authorize_entry!, only: %i(show edit update destroy)
+  helper NavHelpers
 
   def index
     @journal_entries = current_user.journal_entries.order(entry_date: :desc)
@@ -35,8 +36,8 @@ class JournalEntriesController < ApplicationController
   def destroy
     @journal_entry.destroy!
     redirect_to journal_entries_path, notice: t('journal.flash.deleted')
-  rescue ActiveRecord::RecordNotDestroyed => e
-    Rails.logger.warn("JournalEntry #{@journal_entry.id} not destroyed: #{e.message}")
+  rescue ActiveRecord::RecordNotDestroyed => error
+    Rails.logger.warn("JournalEntry #{@journal_entry.id} not destroyed: #{error.message}")
     redirect_to @journal_entry, alert: t('journal.flash.delete_failed')
   end
 
