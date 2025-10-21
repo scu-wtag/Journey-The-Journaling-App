@@ -18,12 +18,7 @@ class ProfilesController < ApplicationController
       update_user_if_needed
     end
   end
-  respond_update_success
-rescue ActiveRecord::RecordInvalid
-  respond_update_failure
-end
 
-def respond_update_success
   def respond_update_success
     respond_to do |format|
       format.html do
@@ -51,42 +46,42 @@ def respond_update_success
   end
 
   def update_profile_if_needed
-    profile_params = params.fetch(:profile, {})
-    return if profile_params.blank?
+    raw = params.fetch(:profile, {})
+    return if raw.blank?
 
-    apply_phone_params!(profile_params)
-    @profile.assign_attributes(profile_params.permit(:picture, :headquarters, :phone_country_code,
-                                                     :phone_local, :birthday))
+    apply_phone_params!(raw)
+    @profile.assign_attributes(raw.permit(:picture, :headquarters, :phone_country_code, :phone_local,
+                                          :birthday))
     @profile.save!
   end
 
   def update_user_if_needed
-    user_params = params.fetch(:user, {})
-    return if user_params.blank?
+    raw = params.fetch(:user, {})
+    return if raw.blank?
 
-    current_user.update!(user_params.permit(:locale, :theme, :email, :name))
-    prefs_cookies_from_params(user_params)
+    current_user.update!(raw.permit(:locale, :theme, :email, :name))
+    prefs_cookies_from_params(raw)
   end
 
-  def prefs_cookies_from_params(user_params)
-    cookies.permanent[:locale] = current_user.locale if user_params.key?(:locale)
-    cookies.permanent[:theme] = current_user.theme if user_params.key?(:theme)
+  def prefs_cookies_from_params(raw)
+    cookies.permanent[:locale] = current_user.locale if raw.key?(:locale)
+    cookies.permanent[:theme] = current_user.theme if raw.key?(:theme)
   end
 
-  def apply_phone_params!(profile_params)
-    return unless needs_phone_update?(profile_params)
+  def apply_phone_params!(raw)
+    return unless needs_phone_update?(raw)
 
-    code, local = sanitized_phone_parts(profile_params)
+    code, local = sanitized_phone_parts(raw)
     set_profile_phone(@profile, code, local)
   end
 
-  def needs_phone_update?(profile_params)
-    profile_params.key?(:phone_country_code) || profile_params.key?(:phone_local)
+  def needs_phone_update?(raw)
+    raw.key?(:phone_country_code) || raw.key?(:phone_local)
   end
 
-  def sanitized_phone_parts(profile_params)
-    code = profile_params[:phone_country_code].to_s.strip.gsub(/\D/, '')
-    local = profile_params[:phone_local].to_s.gsub(/\D/, '')
+  def sanitized_phone_parts(raw)
+    code = raw[:phone_country_code].to_s.strip.gsub(/\D/, '')
+    local = raw[:phone_local].to_s.gsub(/\D/, '')
     [code, local]
   end
 

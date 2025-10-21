@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
 
   LIGHT_THEME = 'light'.freeze
   DARK_THEME = 'dark'.freeze
-  ALLOWED_THEMES = [LIGHT_THEME, DARK_THEME].freeze
 
   def default_url_options
     { locale: I18n.locale || I18n.default_locale }
@@ -78,11 +77,6 @@ class ApplicationController < ActionController::Base
     languages = accept_language_values
     direct = languages.detect { |l| l.to_s.presence_in(avail) }
     direct || languages.map { |l| l[0, 2] }.detect { |code| code.to_s.presence_in(avail) }
-  end
-
-  def accept_language_values
-    header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', '').to_s
-    header.split(',').map { |l| l.split(';').first.to_s.strip }.compact_blank
   end
 
   def set_theme
