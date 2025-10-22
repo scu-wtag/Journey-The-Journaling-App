@@ -30,14 +30,14 @@
                   @profile.picture.variant(resize_to_fill: [200, 200]).processed,
                   alt: t("profiles.show.profile_picture_alt"),
                   class: "profile__image",
-                  id: "avatarImg"
+                  id: "avatarImg",
                 ) %>
               <% else %>
                 <%= image_tag(
                   url_for(@profile.picture),
                   alt: t("profiles.show.profile_picture_alt"),
                   class: "profile__image",
-                  id: "avatarImg"
+                  id: "avatarImg",
                 ) %>
               <% end %>
             <% else %>
@@ -64,10 +64,10 @@
             html: { multipart: true, class: "profile__form", id: "avatarForm" } do |f| %>
 
             <%= f.file_field :picture,
-              accept: "image/*",
-              class: "profile__file",
-              id: "avatarInput",
-              style: "display:none;" %>
+                         accept: "image/*",
+                         class: "profile__file",
+                         id: "avatarInput",
+                         style: "display:none;" %>
 
             <button type="button" class="profile__edit" id="editAvatar">
               <%= t("common.edit") %>
@@ -136,7 +136,7 @@
 
           <div class="page__actions" id="saveBar" style="display:none;">
             <button class="btn btn--sm" id="cancelBtn" type="button"><%= t("common.cancel") %></button>
-            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t('common.save') %></button>
+            <button class="btn" id="saveBtn" type="button" style="min-width:120px;"><%= t("common.save") %></button>
           </div>
         </div>
       </div>
@@ -145,10 +145,10 @@
     <hr class="rule"/>
 
     <section class="settings">
-      <h3 class="settings__title"><%= t('profiles.show.settings_title') %></h3>
+      <h3 class="settings__title"><%= t("profiles.show.settings_title") %></h3>
 
       <div class="settings__row">
-        <div class="settings__label"><%= t('profiles.show.preferred_language') %></div>
+        <div class="settings__label"><%= t("profiles.show.preferred_language") %></div>
         <div class="settings__control">
           <select class="input" id="langSelect">
             <option value="en" <%= "selected" if I18n.locale.to_s == "en" %>>
@@ -162,15 +162,15 @@
       </div>
 
       <div class="settings__row">
-        <div class="settings__label"><%= t('profiles.show.mode') %></div>
+        <div class="settings__label"><%= t("profiles.show.mode") %></div>
         <div class="settings__control">
           <div class="mode-toggle">
-            <span><%= t('profiles.show.light') %></span>
+            <span><%= t("profiles.show.light") %></span>
             <label class="toggle">
               <input type="checkbox" id="themeToggle"/>
               <span class="toggle__slider" aria-hidden="true"></span>
             </label>
-            <span><%= t('profiles.show.dark') %></span>
+            <span><%= t("profiles.show.dark") %></span>
           </div>
         </div>
       </div>
@@ -291,22 +291,28 @@
   cancelBtn?.addEventListener('click', ()=> exitEditMode(false));
 
   const langSelect = document.getElementById('langSelect');
+
+  function pathWithLocale(locale) {
+    const { pathname, search, hash } = window.location;
+    const stripped = pathname.replace(/^\/(en|de)(?=\/|$)/, '');
+    return `/${locale}${stripped}${search}${hash}`;
+  }
   langSelect?.addEventListener('change', async (e) => {
     const locale = e.target.value;
 
-    await fetch("<%= profile_path %>", {
-      method: "PATCH",
-      headers: {
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ user: { locale } })
-    });
+    try {
+      await fetch("<%= profile_path %>", {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ user: { locale } })
+      });
+    } catch(_) {}
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('locale', locale);
-    window.location.assign(url.toString());
+    window.location.assign(pathWithLocale(locale));
   });
 
   const themeToggle = document.getElementById('themeToggle');

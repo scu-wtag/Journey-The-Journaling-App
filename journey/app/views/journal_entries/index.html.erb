@@ -3,44 +3,57 @@
 <% end %>
 
 <header class="topbar">
-  <div class="brand-pill"><%= t("journal.title", default: "Journey") %></div>
+  <div class="brand-pill"><%= t("journal.title") %></div>
   <div class="topbar__spacer"></div>
+
+  <div class="topbar__actions">
+    <%= button_to t("common.logout", default: "Logout"),
+    logout_path(locale: I18n.locale),
+    method: :delete,
+    class: "btn btn-ghost btn--sm topbar__logout" %>
+
+    <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
+      <% if current_user&.profile&.picture&.attached? %>
+        <%= image_tag(
+          current_user.profile.picture.variant(resize_to_fill: [32, 32]),
+          alt: current_user.name.presence || "Profile",
+          class: "avatar-img",
+        ) %>
+      <% else %>
+        <svg
+          class="avatar-fallback"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+        </svg>
+      <% end %>
+    <% end %>
+  </div>
 </header>
 
-  <div class="shell">
-    <nav class="sidenav">
-      <button type="button" class="nav-btn" title="Dashboard" aria-label="Dashboard">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="5"/><rect x="13" y="10" width="8" height="11"/><rect x="3" y="13" width="8" height="8"/></svg>
-      </button>
-      <button type="button" class="nav-btn" title="Profile" aria-label="Profile">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
-      </button>
-      
-      <%= link_to new_journal_entry_path,
-                  class: "nav-btn",
-                  title: t("journal.index.new", default: "New"),
-                  aria: { label: "New" } do %>
-        <svg viewBox="0 0 24 24"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
-          <path d="M12 5v14M5 12h14"/>
-        </svg>
-      <% end %>      
-      <button type="button" class="nav-btn" title="Tasks" aria-label="Tasks">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M9 4h6v3H9zM9 10h6M9 14h6"/></svg>
-      </button>
-    </nav>
+<div class="shell">
+  <nav class="sidenav">
+    <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+      <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+    <% end %>
+    <%= nav_btn icon: :profile, title: "Profile" %>
+
+    <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+      <%= nav_btn icon: :new, title: "New" %>
+    <% end %>
+
+    <%= nav_btn icon: :tasks, title: "Tasks" %>
+  </nav>
 
   <main class="main">
     <section class="journal journal-index">
       <header class="head row tight">
         <h2 style="margin:0"><%= t("journal.index.dashboard", default: "Dashboard") %></h2>
-        <%= link_to t("journal.index.new"),
-        new_journal_entry_path,
-        class: "btn btn-primary" %>
+        <%= link_to t("journal.index.new"), new_journal_entry_path, class: "btn btn-primary" %>
       </header>
 
       <% if @journal_entries.any? %>

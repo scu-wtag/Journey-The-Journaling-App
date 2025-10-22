@@ -74,9 +74,10 @@ class ApplicationController < ActionController::Base
   end
 
   def accept_language_values
-    languages = accept_language_values
-    direct = languages.detect { |l| l.to_s.presence_in(avail) }
-    direct || languages.map { |l| l[0, 2] }.detect { |code| code.to_s.presence_in(avail) }
+    header = request.env['HTTP_ACCEPT_LANGUAGE'].to_s
+    return [] if header.empty?
+
+    header.split(',').map { |l| l.split(';').first.strip.downcase }.compact_blank
   end
 
   def set_theme

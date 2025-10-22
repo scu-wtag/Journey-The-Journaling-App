@@ -6,24 +6,65 @@
   <header class="topbar">
     <div class="brand-pill"><%= t("journal.title") %></div>
     <div class="topbar__spacer"></div>
+
+    <div class="topbar__actions">
+      <%= link_to t("common.logout", default: "Logout"),
+      logout_path(locale: I18n.locale),
+      data: {
+        turbo_method: :delete,
+      },
+      class: "btn btn-ghost btn--sm topbar__logout" %>
+
+      <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
+        <% if current_user&.profile&.picture&.attached? %>
+          <%= image_tag(
+            current_user.profile.picture.variant(resize_to_fill: [32, 32]),
+            alt: current_user.name.presence || "Profile",
+            class: "avatar-img",
+          ) %>
+        <% else %>
+          <svg
+            class="avatar-fallback"
+            viewBox="0 0 24 24"
+            width="32"
+            height="32"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+          </svg>
+        <% end %>
+      <% end %>
+    </div>
   </header>
 
   <div class="shell">
-    <nav class="sidenav">
-      <%= nav_btn icon: :dashboard, title: "Dashboard" %>
-      <%= nav_btn icon: :profile, title: "Profile" %>
-      <%= nav_btn icon: :new, title: "New" %>
-      <%= nav_btn icon: :tasks, title: "Tasks" %>
-    </nav>
+    <div class="shell">
+      <nav class="sidenav">
+        <%= link_to journal_entries_path, class: "nav-btn current", title: "Dashboard" do %>
+          <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+        <% end %>
+
+        <%= nav_btn icon: :profile, title: "Profile" %>
+
+        <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+          <%= nav_btn icon: :new, title: "New" %>
+        <% end %>
+
+        <%= nav_btn icon: :tasks, title: "Tasks" %>
+      </nav>
+    </div>
 
     <main class="main">
       <section class="journal">
         <div class="head">
-          <h2><%= if @journal_entry.persisted?
+          <h2>
+            <%= if @journal_entry.persisted?
               t("journal.edit.title", default: "Edit Journal Entry")
             else
               t("journal.new.title", default: "New Journal Entry")
-            end %></h2>
+            end %>
+          </h2>
         </div>
 
         <div class="row">
@@ -33,6 +74,7 @@
                          class: "input",
                          placeholder: t("journal.form.title_ph", default: "New log entry") %>
           </div>
+
           <div class="field w-1">
             <label class="label"><%= t("journal.form.entry_date", default: "Date") %></label>
             <%= f.date_field :entry_date, class: "input" %>
@@ -44,10 +86,12 @@
             <label class="label"><%= t("journal.form.time_from", default: "From") %></label>
             <%= f.time_field :time_from, class: "input" %>
           </div>
+
           <div class="field w-1">
             <label class="label"><%= t("journal.form.time_to", default: "To") %></label>
             <%= f.time_field :time_to, class: "input" %>
           </div>
+
           <div class="w-spacer"></div>
         </div>
 
@@ -57,12 +101,18 @@
         </div>
 
         <div class="goals-header">
-          <div class="section-title"><%= t("journal.form.goals_for_tomorrow", default: "Goals for tomorrow") %></div>
-          <button type="button" class="ghost" id="openGoalModal">+
-            <%= t("journal.form.add_goal_btn", default: "Add goal") %></button>
+          <div class="section-title">
+            <%= t("journal.form.goals_for_tomorrow", default: "Goals for tomorrow") %>
+          </div>
+
+          <button type="button" class="ghost" id="openGoalModal">
+            +
+            <%= t("journal.form.add_goal_btn", default: "Add goal") %>
+          </button>
         </div>
 
         <div id="goalsList" class="goals-list"></div>
+
         <trix-toolbar id="goals-toolbar" class="sr-only"></trix-toolbar>
 
         <div class="sr-only">
@@ -71,32 +121,34 @@
 
         <footer class="footer">
           <label class="file-label">
-            <%= t('journal.form.files', default: 'Files') %>
-            <%= f.file_field :files, multiple: true, class: 'file' %>
+            <%= t("journal.form.files", default: "Files") %>
+            <%= f.file_field :files, multiple: true, class: "file" %>
           </label>
-          <div class="actions">
-            <%= link_to(
-              (
-                if @journal_entry.persisted?
-                  t("journal.form.discard_changes", default: "Discard")
-                else
-                  t("journal.form.discard", default: "Cancel")
-                end
-              ),
-              journal_entries_path,
-              class: "btn btn-ghost",
-            ) %>
-            <%= f.submit(
-              (
-                if @journal_entry.persisted?
-                  t("journal.form.save_changes", default: "Save")
-                else
-                  t("journal.form.create", default: "Create")
-                end
-              ),
-              class: "btn btn-primary",
-            ) %>
-          </div>
+
+          <%= f.button type: :submit, class: "btn btn-primary btn--lg", data: { turbo_submits_with: t("journal.form.saving", default: "Saving…") } do %>
+            <svg
+              class="btn__icon"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              aria-hidden="true"
+            >
+              <path
+                d="M20 6L9 17l-5-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span><%= if @journal_entry.persisted?
+                t("journal.form.save_changes", default: "Save")
+              else
+                t("journal.form.create", default: "Create")
+              end %></span>
+            <span class="btn__spinner" aria-hidden="true"></span>
+          <% end %>
         </footer>
       </section>
     </main>
@@ -110,8 +162,12 @@
     aria-modal="true"
   >
     <div class="modal__backdrop" data-close="goalModal"></div>
+
     <div class="modal__card" role="document">
-      <header class="modal__head"><h3><%= t('journal.form.add_goal_btn', default: 'Add goal') %></h3></header>
+      <header class="modal__head">
+        <h3><%= t("journal.form.add_goal_btn", default: "Add goal") %></h3>
+      </header>
+
       <div class="modal__body">
         <div class="field">
           <label class="label"><%= t("journal.form.title", default: "Title") %></label>
@@ -122,6 +178,7 @@
             placeholder="<%= t('journal.form.title_ph', default: 'New goal') %>"
           >
         </div>
+
         <div class="field">
           <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
           <textarea
@@ -132,9 +189,10 @@
           ></textarea>
         </div>
       </div>
+
       <footer class="modal__foot">
-        <button type="button" class="ghost" data-close="goalModal"><%= t('common.cancel') %></button>
-        <button type="button" class="primary" id="saveGoal"><%= t('common.save') %></button>
+        <button type="button" class="ghost" data-close="goalModal"><%= t("common.cancel") %></button>
+        <button type="button" class="primary" id="saveGoal"><%= t("common.save") %></button>
       </footer>
     </div>
   </div>
