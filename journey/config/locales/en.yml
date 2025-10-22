@@ -25,6 +25,7 @@ en:
     save: Save
     view: View
     confirm_delete: Are you sure you want to delete?
+    back: Back
   home:
     show:
       profile: To the Profile
@@ -55,7 +56,6 @@ en:
       title_ph: New log entry
     index:
       dashboard: Dashboard
-      empty: Log entry
       new: Create new entry
       no_date: No date
     new:
@@ -121,3 +121,7 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
+    hq: 
+      zrh: Zurich
+      dac: Dhaka
+      rem: Remote

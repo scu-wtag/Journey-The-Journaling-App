@@ -25,6 +25,7 @@ de:
     save: Speichern
     view: Anzeigen
     confirm_delete: Möchtest du das wirklich löschen?
+    back: Zurück
   home:
     show:
       profile: Zum Profil
@@ -55,8 +56,7 @@ de:
       title_ph: Neuer Eintrag
     index:
       dashboard: Dashboard
-      empty: Kein Eintrag
-      new: Neuen Eintrag erstellen
+      new: +
       no_date: Kein Datum
     new:
       title: Neuen Journaleintrag erstellen
@@ -125,3 +125,7 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
+    hq: 
+      zrh: Zurich
+      dac: Dhaka
+      rem: Remote
