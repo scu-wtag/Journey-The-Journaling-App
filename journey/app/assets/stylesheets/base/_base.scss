@@ -1,7 +1,13 @@
 @use "tokens";
 
-* { box-sizing: border-box; }
-html, body { height: 100%; }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -26,17 +32,34 @@ body {
   font-weight: 700;
 }
 
-.small { font-size: 14px; }
-.muted { color: var(--muted); margin-top: 14px; }
+.small {
+  font-size: 14px;
+}
+
+.muted {
+  color: var(--muted);
+  margin-top: 14px;
+}
 
 .form {
   display: grid;
   gap: 14px;
   margin-top: 8px;
 
-  &__field { display: grid; gap: 8px; }
-  &__label { font-size: 14px; color: var(--muted); }
-  &__req   { color: #fca5a5; margin-left: 2px; }
+  &__field {
+    display: grid;
+    gap: 8px;
+  }
+
+  &__label {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  &__req {
+    color: #fca5a5;
+    margin-left: 2px;
+  }
 
   &__input,
   select {
@@ -49,16 +72,25 @@ body {
     outline: none;
     transition: border-color .15s ease, box-shadow .15s ease;
 
-    &::placeholder { color: #a3a6ad; opacity: 1; }
+    &::placeholder {
+      color: #a3a6ad;
+      opacity: 1;
+    }
 
     &:focus {
       border-color: var(--ring);
-      box-shadow: 0 0 0 4px rgba(242,105,255,.25);
+      box-shadow: 0 0 0 4px rgba(242, 105, 255, .25);
     }
   }
 }
 
 @media (max-width: 380px) {
-  .card__actions { flex-direction: column; align-items: stretch; }
-  .card__actions .card__actions-btn { width: 100%; }
+  .card__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card__actions .card__actions-btn {
+    width: 100%;
+  }
 }

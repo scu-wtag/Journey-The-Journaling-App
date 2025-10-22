@@ -165,7 +165,9 @@ trix-editor.editor-notes {
   pointer-events: auto;
 }
 
-trix-editor { pointer-events: auto; }
+trix-editor {
+  pointer-events: auto;
+}
 
 .trix-content {
   color: var(--text);
