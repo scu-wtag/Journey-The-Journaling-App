@@ -1,23 +1,25 @@
-:root{
-  --bg:#0b1220;
-  --card:#151026;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --primary:#5b21b6;
-  --primary-contrast:#ffffff;
-  --ring:#f269ff;
-  --border:#320f4b;
-  --radius:14px;
-  --space:14px;
-  --shadow:0 10px 25px rgba(0,0,0,.35);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Noto Sans","Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
+:root {
+  --bg: #0b1220;
+  --card: #151026;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #5b21b6;
+  --primary-contrast: #ffffff;
+  --ring: #f269ff;
+  --border: #320f4b;
+  --radius: 14px;
+  --space: 14px;
+  --shadow: 0 10px 25px rgba(0, 0, 0, .35);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-*{ box-sizing:border-box; }
+* {
+  box-sizing: border-box;
+}
 
-body{
-  margin:0;
+body {
+  margin: 0;
   background: radial-gradient(1200px 800px at 50% -10%, #1a102b 0%, var(--bg) 60%);
-  color:var(--text);
-  min-height:10dvh;
+  color: var(--text);
+  min-height: 10dvh;
 }
