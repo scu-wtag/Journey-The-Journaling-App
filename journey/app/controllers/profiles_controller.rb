@@ -22,7 +22,8 @@ class ProfilesController < ApplicationController
   def respond_update_success
     respond_to do |format|
       format.html do
-        redirect_to profile_path(locale: I18n.locale), notice: t('.success', default: 'Profile updated')
+        redirect_to profile_path(locale: I18n.locale),
+                    notice: t('profiles.update.success', default: 'Profile updated')
       end
       format.json { head :no_content }
     end
@@ -31,7 +32,7 @@ class ProfilesController < ApplicationController
   def respond_update_failure(error)
     respond_to do |format|
       format.html do
-        flash.now[:alert] = t('.failed', default: 'Update failed')
+        flash.now[:alert] = t('profiles.update.failed', default: 'Update failed')
         render :show, status: :unprocessable_content
       end
       format.json do

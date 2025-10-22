@@ -3,7 +3,7 @@ de:
   activerecord:
     attributes:
       profile:
-        headquarters: Headquarters
+        headquarters: Hauptsitz
     errors:
       messages:
         inclusion: ist nicht in der Liste enthalten
@@ -11,51 +11,62 @@ de:
         profile:
           attributes:
             headquarters:
-              inclusion: ist kein gueltiger Wert
+              inclusion: ist kein gültiger Wert
     models:
       profile: Profil
   app:
     name: Journey
   common:
     cancel: Abbrechen
+    delete: Löschen
     edit: Bearbeiten
+    logout: Logout
+    profile: Profil
     save: Speichern
+    view: Anzeigen
+    confirm_delete: Möchtest du das wirklich löschen?
   home:
     show:
       profile: Zum Profil
-      signout: Logout
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
   journal:
     edit:
       title: Journaleintrag bearbeiten
+    errors:
+      time_to_after_time_from: muss später als die anfangszeit sein.
     flash:
       created: Eintrag erstellt
+      delete_failed: Eintrag konnte nicht gelöscht werden
       deleted: Eintrag gelöscht
       not_authorized: Nicht berechtigt
       updated: Eintrag aktualisiert
     form:
+      add_goal_btn: Ziel hinzufügen
       body: Notizen
       create: Erstellen
       entry_date: Datum
       files: Dateien
       goals_for_tomorrow: Ziele für morgen
-      save_changes: Speichern
+      saving: Speichern…
       time_from: Von
       time_to: Bis
       title: Titel
+      title_ph: Neuer Eintrag
     index:
+      dashboard: Dashboard
+      empty: Kein Eintrag
       new: Neuen Eintrag erstellen
-      title: Journal
+      no_date: Kein Datum
     new:
       title: Neuen Journaleintrag erstellen
     show:
       attachments: Anhänge
       back: Zurück zur Übersicht
-      confirm_delete: Willst du diesen Eintrag wirklich löschen?
-      delete: Löschen
       goals_for_tomorrow: Ziele für morgen
       notes: Notizen
+    title: Journal
+    untitled: Ohne Titel
   profiles:
     language:
       english: Englisch
@@ -67,11 +78,10 @@ de:
       preferred_language: Bevorzugte Sprache
       profile_picture_alt: Profilbild
       settings_title: Einstellungen
-      title: Profil
     update:
-      failed: Profil konnte nicht aktualisiert werden
-      success: Profil wurde erfolgreich aktualisiert
-      wrong_filetype: Datei muss JPEG, PNG, WebP oder AVIF sein
+      failed: This file is too large
+      success: Your profile was successfully updated
+      wrong_filetype: Sorry this is a wrong filetype.
   sessions:
     errors:
       invalid_credentials: E-Mail oder Passwort ist falsch.
@@ -94,15 +104,13 @@ de:
     passwords:
       update:
         success: Dein Passwort wurde aktualisiert.
+    show:
+      update_password: Passwort aktualisieren
   users:
     already_have_account: Schon einen Account?
     create:
       failed: Konto konnte nicht erstellt werden. Bitte Eingaben prüfen.
       success: Konto erfolgreich erstellt.
-    hq:
-      dac: Dhaka
-      rem: Remote
-      zrh: Zürich
     new:
       birthday: Geburtsdatum
       country: Land
@@ -111,48 +119,9 @@ de:
         name: Name
         password: Passwort
         password_confirmation: Passwort wiederholen
-      headquarters: Hauptsitz
       phone: Telefon
       placeholders:
         phone_local: 79 123 45 67
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-  journals:
-    update:
-      error: muss später als die anfangszeit sein.
-  journal:
-    index:
-      title: Journal
-      new: +
-    new:
-      title: Neuen Journaleintrag erstellen
-    edit:
-      title: Journaleintrag bearbeiten
-    show:
-      notes: Notizen
-      goals_for_tomorrow: Ziele für morgen
-      attachments: Anhänge
-      back: Zurück zur Übersicht
-      delete: Löschen
-      confirm_delete: Willst du diesen Eintrag wirklich löschen?
-    form:
-      title: Titel
-      entry_date: Datum
-      time_from: Von
-      time_to: Bis
-      body: Notizen
-      goals_for_tomorrow: Ziele für morgen
-      files: Dateien
-      create: Erstellen
-      save_changes: Speichern
-    flash:
-      created: Eintrag erstellt
-      updated: Eintrag aktualisiert
-      deleted: Eintrag gelöscht
-      not_authorized: Nicht berechtigt
-  settings:
-    passwords:
-      update:
-        success: Dein Passwort wurde aktualisiert.
-        

@@ -46,11 +46,11 @@
     <%= link_to t("journal.show.back", default: "Back"),
     journal_entries_path,
     class: "btn btn-ghost" %>
-    <%= button_to t("journal.show.delete", default: "Delete"),
+    <%= button_to t("common.delete", default: "Delete"),
     @journal_entry,
     method: :delete,
     data: {
-      confirm: t("journal.show.confirm_delete", default: "Delete this entry?"),
+      confirm: t("common.confirm_delete", default: "Delete this entry?"),
     },
     class: "btn btn-danger" %>
   </footer>
