@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def signed_in_safe?
-    respond_to?(:signed_in?) && signed_in?
+    signed_in?
   end
 
   def user_locale(avail)
