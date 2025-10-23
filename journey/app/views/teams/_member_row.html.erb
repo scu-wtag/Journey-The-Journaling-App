@@ -1,0 +1,45 @@
+<li class="member">
+  <div class="member__avatar">
+    <% if member.profile&.picture&.attached? %>
+      <%= image_tag member.profile.picture.variant(resize_to_fill: [40, 40]),
+      alt: member.name,
+      class: "avatar-img" %>
+    <% else %>
+      <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+        <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+      </svg>
+    <% end %>
+  </div>
+
+  <div class="member__main">
+    <div class="member__name"><%= member.name %></div>
+    <div class="member__email muted"><%= member.email %></div>
+    <div class="member__role"><%= membership.role %></div>
+  </div>
+
+  <div class="member__stats">
+    <div class="stat">
+      <span class="stat__label"><%= t("teams.tasks_assigned", default: "Tasks assigned") %></span>
+      <span class="stat__value"><%= local_assigns[:assigned_count].to_i %></span>
+    </div>
+    <div class="stat">
+      <span class="stat__label"><%= t("teams.done_today", default: "Done today") %></span>
+      <span class="stat__value"><%= local_assigns[:done_today_count].to_i %></span>
+    </div>
+
+    <% if can?(:manage, membership) && member.id != current_user.id %>
+      <div>
+        <%= button_to t("teams.members.kick", default: "Remove"),
+        team_team_member_path(membership.team, membership),
+        method: :delete,
+        form: {
+          data: {
+            turbo_confirm: t("common.delete", default: "Delete this member?"),
+          },
+        },
+        class: "btn btn-danger btn--sm" %>
+      </div>
+    <% end %>
+  </div>
+</li>

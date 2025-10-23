@@ -4,6 +4,8 @@ Rails.application.config.dartsass.builds = {
   'views/users/new.scss' => 'views/users/new.css',
   'views/profiles/show.scss' => 'views/profiles/show.css',
   'views/journals/new.scss' => 'views/journals/new.css',
+  'views/teams/show.scss' => 'views/teams/show.css',
+
 }
 
 Rails.application.config.dartsass.build_options = [

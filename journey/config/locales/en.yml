@@ -125,3 +125,21 @@ en:
       zrh: Zurich
       dac: Dhaka
       rem: Remote
+  teams:
+    created: Team created
+    new: New Team
+    fields:
+      name: Team name
+    members:
+      added: "Member added"
+      removed: "Member removed"
+      role_updated: "Role updated"
+      invalid_role: "Invalid role"
+      user_not_found: "User not found"
+      not_authorized: "Not authorized"
+    invite:
+    not_ready: "Email invites coming soon. Please use \"Add member by email\" for now."
+    members:
+      kick: "Remove"
+      cannot_remove_self: "You can't remove yourself"
+      last_admin_guard: "Cannot remove or demote the last admin"

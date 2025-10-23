@@ -1,0 +1,109 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/teams/show" %>
+<% end %>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand-pill">Journey</div>
+    <div class="topbar__spacer"></div>
+
+    <div class="topbar__actions">
+
+      <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
+        <% if current_user&.profile&.picture&.attached? %>
+          <%= image_tag current_user.profile.picture.variant(resize_to_fill: [32, 32]),
+          alt: current_user.name.presence || "Profile",
+          class: "avatar-img" %>
+        <% else %>
+          <svg
+            class="avatar-fallback"
+            viewBox="0 0 24 24"
+            width="32"
+            height="32"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+          </svg>
+        <% end %>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav class="sidenav">
+      <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+        <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+      <% end %>
+
+      <%= link_to profile_path, class: "nav-btn", title: "Profile" do %>
+        <%= nav_btn icon: :profile, title: "Profile" %>
+      <% end %>
+
+      <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+        <%= nav_btn icon: :new, title: "New" %>
+      <% end %>
+
+      <%= link_to team_tasks_path(@team), class: "nav-btn", title: "Tasks" do %>
+        <%= nav_btn icon: :tasks, title: "Tasks" %>
+      <% end %>
+    </nav>
+
+    <main class="main">
+      <section class="team">
+        <header class="team__head">
+          <h2 class="team__title"><%= t("teams.overview", default: "Team Overview") %></h2>
+        </header>
+
+        <div class="team__card">
+          <div class="team__row team__row--head">
+            <div class="team__name">
+              <span class="team__label"><%= t("teams.team", default: "Team") %></span>
+              <span class="team__value"><%= @team.name %></span>
+            </div>
+
+            <% if @membership&.role_admin? %>
+              <div class="team__invite">
+                <%= link_to t("teams.invite", default: "invite"),
+                new_team_invitation_path(@team),
+                class: "chip" %>
+              </div>
+            <% end %>
+          </div>
+
+          <% if @memberships.any? %>
+            <ul class="members">
+              <% @memberships.each do |membership| %>
+                <%= render "member_row",
+                member: membership.user,
+                membership: membership,
+                assigned_count: (@assigned_counts[membership.user_id] || 0),
+                done_today_count: (@done_today_counts[membership.user_id] || 0) %>
+              <% end %>
+            </ul>
+          <% else %>
+            <div class="empty">
+              <%= t("teams.members.empty", default: "No members yet.") %>
+            </div>
+          <% end %>
+
+          <%# Only team admins see the add-by-email form %>
+          <% if @membership&.role_admin? %>
+            <hr class="sep"/>
+            <h3><%= t("teams.members.add", default: "Add member by email") %></h3>
+            <%= form_with url: team_team_members_path(@team), method: :post, class: "row" do %>
+              <%= email_field_tag :email,
+              @new_member_email,
+              class: "input w-2",
+              placeholder: "user@example.com" %>
+              <%= select_tag :role,
+              options_for_select(Membership.roles.keys, :member),
+              class: "input w-1" %>
+              <%= submit_tag t("common.add", default: "Add"), class: "btn btn-primary" %>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

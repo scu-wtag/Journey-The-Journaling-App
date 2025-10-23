@@ -1,0 +1,24 @@
+<header class="topbar">
+  <div class="brand-pill"><%= t("teams.index.title", default: "Your Teams") %></div>
+  <div class="topbar__spacer"></div>
+  <%= link_to t("teams.new", default: "New Team"),
+  new_team_path,
+  class: "btn btn-primary" %>
+</header>
+
+<main class="page">
+  <section class="page__container">
+    <% if @teams.any? %>
+      <ul class="card-list">
+        <% @teams.each do |team| %>
+          <li class="card">
+            <h3><%= link_to team.name, team %></h3>
+            <p class="muted"><%= pluralize(team.users.count, "member") %></p>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p><%= t("teams.index.empty", default: "You are not in any teams.") %></p>
+    <% end %>
+  </section>
+</main>

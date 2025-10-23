@@ -15,6 +15,13 @@ Rails.application.routes.draw do
       resource :password, only: %i(show update)
     end
 
+    resources :teams, only: %i(index show new create) do
+      resources :team_members, only: %i(create update destroy)
+      resources :tasks, only: %i(index new create)
+      resources :invitations, only: %i(new create), controller: 'team_invitations'
+    end
+    resources :tasks, only: %i(show edit update destroy)
+
     resource :profile, only: %i(show update)
 
     resources :journal_entries

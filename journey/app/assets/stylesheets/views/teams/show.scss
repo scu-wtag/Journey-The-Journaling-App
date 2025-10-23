@@ -1,0 +1,110 @@
+.team {
+    padding: var(--space);
+}
+
+.team__head {
+    margin-bottom: calc(var(--space) * 1.5);
+}
+
+.team__title {
+    margin: 0;
+    font-size: 20px;
+}
+
+.team__card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: calc(var(--space) * 1.25);
+}
+
+.team__row--head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    margin-bottom: calc(var(--space) * 1.0);
+}
+
+.team__label {
+    opacity: .8;
+    margin-right: 8px;
+}
+
+.team__value {
+    font-weight: 600;
+}
+
+.chip {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform var(--transition-fast);
+}
+
+.chip:hover {
+    transform: translateY(-1px);
+}
+
+.members {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.member {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: color-mix(in oklab, var(--card) 92%, black 8%);
+    border: 1px solid color-mix(in oklab, var(--border) 90%, white 10%);
+}
+
+.member__name {
+    font-weight: 600;
+}
+
+.member__stats {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 18px;
+    align-items: center;
+}
+
+.stat {
+    display: grid;
+    gap: 2px;
+    text-align: right;
+}
+
+.stat__label {
+    font-size: 12px;
+    opacity: .7;
+}
+
+.stat__value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+    .member {
+        grid-template-columns: 40px 1fr;
+        grid-template-rows: auto auto;
+        align-items: start;
+    }
+
+    .member__stats {
+        grid-column: 2 / -1;
+        justify-content: start;
+        text-align: left;
+    }
+}
