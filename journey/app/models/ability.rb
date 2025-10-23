@@ -1,4 +1,3 @@
-# app/models/ability.rb
 class Ability
   include CanCan::Ability
 
@@ -10,7 +9,6 @@ class Ability
     can :create, Team
     can :read, Team, memberships: { user_id: user.id }
 
-    # Nur Team-Admins dürfen Memberships managen (rollen ändern, kicken)
     can(:manage, Membership) { |m| admin_of_team?(user, m.team_id) }
 
     return unless defined?(Task)

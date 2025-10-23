@@ -1,4 +1,3 @@
-# app/controllers/teams_controller.rb
 class TeamsController < ApplicationController
   before_action :require_login
   helper NavHelpers
@@ -12,7 +11,7 @@ class TeamsController < ApplicationController
     authorize! :read, @team
 
     @memberships = @team.memberships.includes(:user).order('users.name ASC')
-    @membership = @team.memberships.find_by(user_id: current_user.id) # your role
+    @membership = @team.memberships.find_by(user_id: current_user.id)
     @new_member_email = ''
 
     if defined?(Task)

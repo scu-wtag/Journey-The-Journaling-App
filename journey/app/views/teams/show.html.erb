@@ -87,7 +87,6 @@
             </div>
           <% end %>
 
-          <%# Only team admins see the add-by-email form %>
           <% if @membership&.role_admin? %>
             <hr class="sep"/>
             <h3><%= t("teams.members.add", default: "Add member by email") %></h3>

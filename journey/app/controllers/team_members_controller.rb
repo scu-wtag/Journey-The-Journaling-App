@@ -1,4 +1,3 @@
-# app/controllers/team_members_controller.rb
 class TeamMembersController < ApplicationController
   before_action :set_team
   before_action :require_admin!
@@ -14,8 +13,7 @@ class TeamMembersController < ApplicationController
     return redirect_to(@team, alert: t('teams.members.user_not_found', default: 'User not found')) unless user
 
     membership = @team.memberships.find_or_initialize_by(user_id: user.id)
-    membership.role = role # <- explizit setzen
-
+    membership.role = role
     if membership.save
       redirect_to @team, notice: t('teams.members.added', default: 'Member added')
     else
@@ -60,7 +58,6 @@ class TeamMembersController < ApplicationController
     redirect_to @team, alert: t('teams.members.not_authorized', default: 'Not authorized') unless allowed
   end
 
-  # nie den letzten Admin verlieren
   def last_admin?
     @team.memberships.role_admin.one?
   end
