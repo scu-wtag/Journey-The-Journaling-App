@@ -17,17 +17,17 @@ en:
   app:
     name: Journey
   common:
+    add: Add
     back: Back
     cancel: Cancel
     confirm_delete: Are you sure you want to delete?
+    create: Create
     delete: Delete
     edit: Edit
     logout: Logout
     profile: Profile
     save: Save
     view: View
-    add: Add
-    create: Create
   home:
     show:
       profile: To the Profile
@@ -106,15 +106,30 @@ en:
       update_password: Update password
   teams:
     created: Team created
+    done_today: Tasks done today
     fields:
       name: Team name
-    invite:
+    index:
+      empty: Can't be empty
+      title: All teams
+    invite: Invite
     members:
-      cannot_remove_self: You can't remove yourself
+      add: Add
+      added: Added
+      cannot_remove_self: You cannot remove yourself
+      empty: It's pretty empty
+      invalid_role: This role doesn't exist
       kick: Remove
-      last_admin_guard: Cannot remove or demote the last admin
+      last_admin_guard: You can't remove the admin
+      not_authorized: You are not authorized to do that
+      removed: You removed the team member
+      role_updated: The role was changed
+      user_not_found: This User wasn't found.
     new: New Team
-    not_ready: Email invites coming soon. Please use "Add member by email" for now.
+    not_ready: Invites by Email are not yet implemented.
+    overview: All Teams
+    tasks_assigned: Assinged tasks
+    team: Team
   users:
     already_have_account: Already have an account?
     create:
@@ -138,29 +153,3 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
-  teams:
-    created: Team created
-    fields:
-      name: Team name
-    invite: Invite
-    members:
-      cannot_remove_self: You cannot remove yourself
-      kick: Remove
-      last_admin_guard: You can't remove the admin
-      add: Add
-      added: Added
-      empty: It's pretty empty
-      invalid_role: This role doesn't exist
-      not_authorized: You are not authorized to do that
-      removed: You removed the team member
-      role_updated: The role was changed
-      user_not_found: This User wasn't found.
-    new: New Team
-    not_ready: Invites by Email are not yet implemented.
-    done_today: Tasks done today
-    index:
-      empty: Can't be empty
-      title: All teams
-    overview: All Teams
-    tasks_assigned: Assinged tasks
-    team: Team

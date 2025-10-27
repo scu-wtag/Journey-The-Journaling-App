@@ -14,9 +14,6 @@ de:
               inclusion: ist kein gültiger Wert
     models:
       profile: Profil
-  common:
-    add: Hinzufügen
-    create: Erstellen
   app:
     name: Journey
   common:
@@ -59,9 +56,9 @@ de:
       title_ph: Neuer Eintrag
     index:
       dashboard: Dashboard
+      empty: Darf nicht leer sein
       new: "+"
       no_date: Kein Datum
-      empty: Darf nicht leer sein 
       title: Journey
     new:
       title: Neuen Journaleintrag erstellen
@@ -111,6 +108,32 @@ de:
         success: Dein Passwort wurde aktualisiert.
     show:
       update_password: Passwort aktualisieren
+  teams:
+    created: Team erstellt
+    done_today: Heute erledigte tasks
+    fields:
+      name: Teamname
+    index:
+      empty: Darf nicht leer sein
+      title: Alle teams
+    invite: Einladen
+    members:
+      add: Hinzufügen
+      added: Hinzugefügt
+      cannot_remove_self: Du kannst dich nicht selbst entfernen
+      empty: Hier ist es noch sehr leer
+      invalid_role: Diese Rolle gibt es nicht
+      kick: Entfernen
+      last_admin_guard: Du kannst den Admin nicht entfernen
+      not_authorized: Du hast die berechitigung hierzu nicht.
+      removed: Du hast dieses Teammitglied entfernt
+      role_updated: Die Rolle wurde geändert
+      user_not_found: Dieser User wurde nicht gefunden.
+    new: Neues Team
+    not_ready: Email einladungen sind noch nicht verfügbar.
+    overview: Alle Teams
+    tasks_assigned: Zugeteilte Aufgaben
+    team: Team
   users:
     already_have_account: Schon einen Account?
     create:
@@ -134,30 +157,3 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-  teams:
-    created: Team erstellt
-    fields:
-      name: Teamname
-    invite: Einladen
-    members:
-      cannot_remove_self: Du kannst dich nicht selbst entfernen
-      kick: Entfernen
-      last_admin_guard: Du kannst den Admin nicht entfernen
-      add: Hinzufügen
-      added: Hinzugefügt
-      empty: Hier ist es noch sehr leer
-      invalid_role: Diese Rolle gibt es nicht
-      not_authorized: Du hast die berechitigung hierzu nicht.
-      removed: Du hast dieses Teammitglied entfernt
-      role_updated: Die Rolle wurde geändert
-      user_not_found: Dieser User wurde nicht gefunden.
-    new: Neues Team
-    not_ready: Email einladungen sind noch nicht verfügbar.
-    done_today: Heute erledigte tasks
-    index:
-      empty: Darf nicht leer sein
-      title: Alle teams
-    overview: Alle Teams
-    tasks_assigned: Zugeteilte Aufgaben
-    team: Team
-    
