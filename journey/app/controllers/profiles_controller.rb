@@ -25,7 +25,6 @@ class ProfilesController < ApplicationController
         redirect_to profile_path(locale: I18n.locale),
                     notice: t('profiles.update.success', default: 'Profile updated')
       end
-      format.json { head :no_content }
     end
   end
 
