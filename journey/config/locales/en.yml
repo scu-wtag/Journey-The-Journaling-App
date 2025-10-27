@@ -17,15 +17,17 @@ en:
   app:
     name: Journey
   common:
+    back: Back
     cancel: Cancel
+    confirm_delete: Are you sure you want to delete?
     delete: Delete
     edit: Edit
     logout: Logout
     profile: Profile
     save: Save
     view: View
-    confirm_delete: Are you sure you want to delete?
-    back: Back
+    add: Add
+    create: Create
   home:
     show:
       profile: To the Profile
@@ -102,11 +104,26 @@ en:
         success: Your password has been updated.
     show:
       update_password: Update password
+  teams:
+    created: Team created
+    fields:
+      name: Team name
+    invite:
+    members:
+      cannot_remove_self: You can't remove yourself
+      kick: Remove
+      last_admin_guard: Cannot remove or demote the last admin
+    new: New Team
+    not_ready: Email invites coming soon. Please use "Add member by email" for now.
   users:
     already_have_account: Already have an account?
     create:
       failed: Could not create account. Please check your inputs.
       success: Account successfully created.
+    hq:
+      dac: Dhaka
+      rem: Remote
+      zrh: Zurich
     new:
       birthday: Date of birth
       country: Country
@@ -121,25 +138,29 @@ en:
       required_note: indicates required fields
       submit: Sign Up
       title: Create your account
-    hq: 
-      zrh: Zurich
-      dac: Dhaka
-      rem: Remote
   teams:
     created: Team created
-    new: New Team
     fields:
       name: Team name
+    invite: Invite
     members:
-      added: "Member added"
-      removed: "Member removed"
-      role_updated: "Role updated"
-      invalid_role: "Invalid role"
-      user_not_found: "User not found"
-      not_authorized: "Not authorized"
-    invite:
-    not_ready: "Email invites coming soon. Please use \"Add member by email\" for now."
-    members:
-      kick: "Remove"
-      cannot_remove_self: "You can't remove yourself"
-      last_admin_guard: "Cannot remove or demote the last admin"
+      cannot_remove_self: You cannot remove yourself
+      kick: Remove
+      last_admin_guard: You can't remove the admin
+      add: Add
+      added: Added
+      empty: It's pretty empty
+      invalid_role: This role doesn't exist
+      not_authorized: You are not authorized to do that
+      removed: You removed the team member
+      role_updated: The role was changed
+      user_not_found: This User wasn't found.
+    new: New Team
+    not_ready: Invites by Email are not yet implemented.
+    done_today: Tasks done today
+    index:
+      empty: Can't be empty
+      title: All teams
+    overview: All Teams
+    tasks_assigned: Assinged tasks
+    team: Team

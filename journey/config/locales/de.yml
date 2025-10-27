@@ -14,18 +14,21 @@ de:
               inclusion: ist kein gültiger Wert
     models:
       profile: Profil
+  common:
+    add: Hinzufügen
+    create: Erstellen
   app:
     name: Journey
   common:
+    back: Zurück
     cancel: Abbrechen
+    confirm_delete: Möchtest du das wirklich löschen?
     delete: Löschen
     edit: Bearbeiten
     logout: Logout
     profile: Profil
     save: Speichern
     view: Anzeigen
-    confirm_delete: Möchtest du das wirklich löschen?
-    back: Zurück
   home:
     show:
       profile: Zum Profil
@@ -56,8 +59,10 @@ de:
       title_ph: Neuer Eintrag
     index:
       dashboard: Dashboard
-      new: +
+      new: "+"
       no_date: Kein Datum
+      empty: Darf nicht leer sein 
+      title: Journey
     new:
       title: Neuen Journaleintrag erstellen
     show:
@@ -79,9 +84,9 @@ de:
       profile_picture_alt: Profilbild
       settings_title: Einstellungen
     update:
-      failed: This file is too large
-      success: Your profile was successfully updated
-      wrong_filetype: Sorry this is a wrong filetype.
+      failed: Diese Datei ist zu gross
+      success: Dein Profil wurde erfolgreicht aktualisiert
+      wrong_filetype: Das ist ein falscher dateityp
   sessions:
     errors:
       invalid_credentials: E-Mail oder Passwort ist falsch.
@@ -111,6 +116,10 @@ de:
     create:
       failed: Konto konnte nicht erstellt werden. Bitte Eingaben prüfen.
       success: Konto erfolgreich erstellt.
+    hq:
+      dac: Dhaka
+      rem: Remote
+      zrh: Zurich
     new:
       birthday: Geburtsdatum
       country: Land
@@ -125,7 +134,30 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-    hq: 
-      zrh: Zurich
-      dac: Dhaka
-      rem: Remote
+  teams:
+    created: Team erstellt
+    fields:
+      name: Teamname
+    invite: Einladen
+    members:
+      cannot_remove_self: Du kannst dich nicht selbst entfernen
+      kick: Entfernen
+      last_admin_guard: Du kannst den Admin nicht entfernen
+      add: Hinzufügen
+      added: Hinzugefügt
+      empty: Hier ist es noch sehr leer
+      invalid_role: Diese Rolle gibt es nicht
+      not_authorized: Du hast die berechitigung hierzu nicht.
+      removed: Du hast dieses Teammitglied entfernt
+      role_updated: Die Rolle wurde geändert
+      user_not_found: Dieser User wurde nicht gefunden.
+    new: Neues Team
+    not_ready: Email einladungen sind noch nicht verfügbar.
+    done_today: Heute erledigte tasks
+    index:
+      empty: Darf nicht leer sein
+      title: Alle teams
+    overview: Alle Teams
+    tasks_assigned: Zugeteilte Aufgaben
+    team: Team
+    
