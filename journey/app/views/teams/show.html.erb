@@ -28,6 +28,11 @@
         <% end %>
       <% end %>
     </div>
+    <% flash.each do |type, message| %>
+      <% next if message.blank? %>
+      <% css = (type.to_s == "alert") ? "flash flash--error" : "flash flash--notice" %>
+      <div class="<%= css %>"><%= message %></div>
+    <% end %>
   </header>
 
   <div class="shell">
