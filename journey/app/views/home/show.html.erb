@@ -6,7 +6,10 @@
 </button>
 
 <%= button_to t("home.show.signout"),
-  sign_out_path(locale: I18n.locale),
-  method: :delete,
-  class: "btn link" %>
-  
+logout_path(locale: I18n.locale),
+method: :delete,
+class: "btn link" %>
+
+<button>
+  <%= link_to t("home.show.journals"), journal_entries_path, class: "link" %>
+</button>

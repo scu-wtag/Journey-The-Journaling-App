@@ -47,6 +47,12 @@
                 class="profile__image"
                 id="avatarImg"
               />
+              <img
+                src="https://i.pravatar.cc/200?img=1"
+                alt="<%= t('profiles.show.profile_picture_alt') %>"
+                class="profile__image"
+                id="avatarImg"
+              />
             <% end %>
           </div>
 
@@ -76,28 +82,48 @@
             <div class="profile__kv" id="details">
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.phone") %></span>
-                <div class="profile__kv-value" data-key="phone" data-type="text" data-scope="profile">
+                <div
+                  class="profile__kv-value"
+                  data-key="phone"
+                  data-type="text"
+                  data-scope="profile"
+                >
                   <%= @profile&.phone.presence || "-" %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.headquarters") %></span>
-                <div class="profile__kv-value" data-key="headquarters" data-type="text" data-scope="profile">
+                <div
+                  class="profile__kv-value"
+                  data-key="headquarters"
+                  data-type="text"
+                  data-scope="profile"
+                >
                   <%= @profile&.headquarters.presence || "-" %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.fields.email") %></span>
-                <div class="profile__kv-value" data-key="email" data-type="email" data-scope="user">
+                <div
+                  class="profile__kv-value"
+                  data-key="email"
+                  data-type="email"
+                  data-scope="user"
+                >
                   <%= current_user.email %>
                 </div>
               </div>
 
               <div class="profile__kv-item">
                 <span class="profile__kv-label"><%= t("users.new.birthday") %></span>
-                <div class="profile__kv-value" data-key="birthday" data-type="date" data-scope="profile">
+                <div
+                  class="profile__kv-value"
+                  data-key="birthday"
+                  data-type="date"
+                  data-scope="profile"
+                >
                   <%= @profile&.birthday %>
                 </div>
               </div>
@@ -141,7 +167,7 @@
           <div class="mode-toggle">
             <span><%= t("profiles.show.light") %></span>
             <label class="toggle">
-              <input type="checkbox" id="themeToggle" />
+              <input type="checkbox" id="themeToggle"/>
               <span class="toggle__slider" aria-hidden="true"></span>
             </label>
             <span><%= t("profiles.show.dark") %></span>

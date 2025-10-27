@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
 
-  attr_accessor :password_confirmation
+  has_many :journal_entries, dependent: :destroy
 
   validates :name, presence: true
   validates :email,

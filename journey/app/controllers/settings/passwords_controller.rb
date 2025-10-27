@@ -11,8 +11,8 @@ module Settings
     private
 
     def password_params
-      params.expect(user: %i(password password_confirmation
-                             password_challenge)).with_defaults(password_challenge: '')
+      params.expect(user: %i(password password_confirmation password_challenge)).
+        with_defaults(password_challenge: '')
     end
   end
 end

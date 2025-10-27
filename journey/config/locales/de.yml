@@ -26,6 +26,36 @@ de:
       signout: Logout
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
+  journal:
+    edit:
+      title: Journaleintrag bearbeiten
+    flash:
+      created: Eintrag erstellt
+      deleted: Eintrag gelöscht
+      not_authorized: Nicht berechtigt
+      updated: Eintrag aktualisiert
+    form:
+      body: Notizen
+      create: Erstellen
+      entry_date: Datum
+      files: Dateien
+      goals_for_tomorrow: Ziele für morgen
+      save_changes: Speichern
+      time_from: Von
+      time_to: Bis
+      title: Titel
+    index:
+      new: Neuen Eintrag erstellen
+      title: Journal
+    new:
+      title: Neuen Journaleintrag erstellen
+    show:
+      attachments: Anhänge
+      back: Zurück zur Übersicht
+      confirm_delete: Willst du diesen Eintrag wirklich löschen?
+      delete: Löschen
+      goals_for_tomorrow: Ziele für morgen
+      notes: Notizen
   profiles:
     language:
       english: Englisch
@@ -61,8 +91,9 @@ de:
       text: Noch kein Konto?
     success: Erfolgreich angemeldet.
   settings:
-    show:
-      update_password: Passwort aktualisieren
+    passwords:
+      update:
+        success: Dein Passwort wurde aktualisiert.
   users:
     already_have_account: Schon einen Account?
     create:
@@ -87,5 +118,6 @@ de:
       required_note: Pflichtfelder
       submit: Registrieren
       title: Konto erstellen
-    password:
-      update: Dein Passwort wurde erfolgreich aktualisiert
+  journals:
+    update:
+      error: muss später als die anfangszeit sein.

@@ -1,0 +1,57 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/journals/new" %>
+<% end %>
+
+<div class="show-wrap">
+  <header class="show-head">
+    <h2><%= @journal_entry.title %></h2>
+    <div class="meta">
+      <span><%= @journal_entry.entry_date %></span>
+      <span>·</span>
+      <span>
+        <%= @journal_entry.time_from&.strftime("%H:%M") %>
+        -
+        <%= @journal_entry.time_to&.strftime("%H:%M") %>
+      </span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h3><%= t("journal.show.notes", default: "Notes") %></h3>
+    <div class="rtx"><%= @journal_entry.body %></div>
+  </section>
+
+  <section class="card">
+    <h3><%= t("journal.show.goals_for_tomorrow", default: "Goals for tomorrow") %></h3>
+    <div class="goals-section rtx">
+      <%= @journal_entry.goals_for_tomorrow %>
+    </div>
+  </section>
+
+  <% if @journal_entry.files.attached? %>
+    <section class="card">
+      <h3><%= t("journal.show.attachments", default: "Attachments") %></h3>
+      <ul class="files">
+        <% @journal_entry.files.each do |file| %>
+          <li><%= link_to file.filename, url_for(file) %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <footer class="show-actions">
+    <%= link_to t("common.edit", default: "Edit"),
+    edit_journal_entry_path(@journal_entry),
+    class: "btn" %>
+    <%= link_to t("journal.show.back", default: "Back"),
+    journal_entries_path,
+    class: "btn btn-ghost" %>
+    <%= button_to t("journal.show.delete", default: "Delete"),
+    @journal_entry,
+    method: :delete,
+    data: {
+      confirm: t("journal.show.confirm_delete", default: "Delete this entry?"),
+    },
+    class: "btn btn-danger" %>
+  </footer>
+</div>

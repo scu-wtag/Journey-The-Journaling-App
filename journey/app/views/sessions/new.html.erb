@@ -14,17 +14,17 @@
       <p class="card__info card__info--notice" role="status"><%= flash[:notice] %></p>
     <% end %>
 
-    <%= form_with url: sign_in_path, scope: :session, method: :post, data: { turbo: false } do |f| %>
+    <%= form_with url: login_path, scope: :session, method: :post, data: { turbo: false } do |f| %>
       <label class="form__field">
         <span class="form__label">
           <%= t("users.new.fields.email") %><span aria-hidden="true" class="form__req">*</span>
         </span>
         <%= f.email_field :email,
-          required: true,
-          autocomplete: "username",
-          value: params.dig(:session, :email),
-          placeholder: t("sessions.fields.email.placeholder"),
-          class: "form__input" %>
+                      required: true,
+                      autocomplete: "username",
+                      value: params.dig(:session, :email),
+                      placeholder: t("sessions.fields.email.placeholder"),
+                      class: "form__input" %>
       </label>
 
       <label class="form__field">
@@ -32,10 +32,10 @@
           <%= t("users.new.fields.password") %><span aria-hidden="true" class="form__req">*</span>
         </span>
         <%= f.password_field :password,
-          required: true,
-          autocomplete: "current-password",
-          placeholder: t("sessions.fields.password.placeholder"),
-          class: "form__input" %>
+                         required: true,
+                         autocomplete: "current-password",
+                         placeholder: t("sessions.fields.password.placeholder"),
+                         class: "form__input" %>
       </label>
 
       <div class="card__actions">
@@ -51,7 +51,7 @@
 
     <p class="card__note card__note--muted">
       <%= t("sessions.signup_prompt.text") %>
-      <%= link_to t("sessions.signup_prompt.link"), sign_up_path, class: "card__note-link" %>
+      <%= link_to t("sessions.signup_prompt.link"), signup_path, class: "card__note-link" %>
     </p>
   </section>
 </main>

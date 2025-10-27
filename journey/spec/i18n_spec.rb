@@ -27,6 +27,7 @@ RSpec.describe 'I18n housekeeping' do
   it 'does not have inconsistent interpolations' do
     inconsistent = i18n.inconsistent_interpolations
     expect(inconsistent).to be_empty,
-                            "#{inconsistent.leaves.count} keys have inconsistent interpolations.\nRun: `i18n-tasks check-consistent-interpolations`"
+                            "#{inconsistent.leaves.count} inconsistent interpolations.
+                            \nRun: `i18n-tasks check-consistent-interpolations`"
   end
 end

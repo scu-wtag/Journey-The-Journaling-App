@@ -1,0 +1,143 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/journals/new" %>
+<% end %>
+
+<%= form_with model: @journal_entry, html: { multipart: true, class: "app" } do |f| %>
+  <header class="topbar">
+    <div class="brand-pill"><%= t("journal.title") %></div>
+    <div class="topbar__spacer"></div>
+  </header>
+
+  <div class="shell">
+    <nav class="sidenav">
+      <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+      <%= nav_btn icon: :profile, title: "Profile" %>
+      <%= nav_btn icon: :new, title: "New" %>
+      <%= nav_btn icon: :tasks, title: "Tasks" %>
+    </nav>
+
+    <main class="main">
+      <section class="journal">
+        <div class="head">
+          <h2><%= if @journal_entry.persisted?
+              t("journal.edit.title", default: "Edit Journal Entry")
+            else
+              t("journal.new.title", default: "New Journal Entry")
+            end %></h2>
+        </div>
+
+        <div class="row">
+          <div class="field w-2">
+            <label class="label"><%= t("journal.form.title", default: "Title") %></label>
+            <%= f.text_field :title,
+                         class: "input",
+                         placeholder: t("journal.form.title_ph", default: "New log entry") %>
+          </div>
+          <div class="field w-1">
+            <label class="label"><%= t("journal.form.entry_date", default: "Date") %></label>
+            <%= f.date_field :entry_date, class: "input" %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field w-1">
+            <label class="label"><%= t("journal.form.time_from", default: "From") %></label>
+            <%= f.time_field :time_from, class: "input" %>
+          </div>
+          <div class="field w-1">
+            <label class="label"><%= t("journal.form.time_to", default: "To") %></label>
+            <%= f.time_field :time_to, class: "input" %>
+          </div>
+          <div class="w-spacer"></div>
+        </div>
+
+        <div class="field">
+          <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
+          <%= f.rich_text_area :body, class: "editor-notes" %>
+        </div>
+
+        <div class="goals-header">
+          <div class="section-title"><%= t("journal.form.goals_for_tomorrow", default: "Goals for tomorrow") %></div>
+          <button type="button" class="ghost" id="openGoalModal">+
+            <%= t("journal.form.add_goal_btn", default: "Add goal") %></button>
+        </div>
+
+        <div id="goalsList" class="goals-list"></div>
+        <trix-toolbar id="goals-toolbar" class="sr-only"></trix-toolbar>
+
+        <div class="sr-only">
+          <%= f.rich_text_area :goals_for_tomorrow, toolbar: "goals-toolbar" %>
+        </div>
+
+        <footer class="footer">
+          <label class="file-label">
+            <%= t("journal.form.files", default: "Files") %>
+            <%= f.file_field :files, multiple: true, class: "file" %>
+          </label>
+          <div class="actions">
+            <%= link_to(
+              (
+                if @journal_entry.persisted?
+                  t("journal.form.discard_changes", default: "Discard")
+                else
+                  t("journal.form.discard", default: "Cancel")
+                end
+              ),
+              journal_entries_path,
+              class: "btn btn-ghost",
+            ) %>
+            <%= f.submit(
+              (
+                if @journal_entry.persisted?
+                  t("journal.form.save_changes", default: "Save")
+                else
+                  t("journal.form.create", default: "Create")
+                end
+              ),
+              class: "btn btn-primary",
+            ) %>
+          </div>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <div
+    class="modal"
+    id="goalModal"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="modal__backdrop" data-close="goalModal"></div>
+    <div class="modal__card" role="document">
+      <header class="modal__head"><h3><%= t("journal.form.add_goal_btn", default: "Add goal") %></h3></header>
+      <div class="modal__body">
+        <div class="field">
+          <label class="label"><%= t("journal.form.title", default: "Title") %></label>
+          <input
+            type="text"
+            id="goalTitle"
+            class="input"
+            placeholder="<%= t('journal.form.title_ph', default: 'New goal') %>"
+          >
+        </div>
+        <div class="field">
+          <label class="label"><%= t("journal.form.body", default: "Notes") %></label>
+          <textarea
+            id="goalBody"
+            class="textarea"
+            rows="8"
+            placeholder="Write your goal…"
+          ></textarea>
+        </div>
+      </div>
+      <footer class="modal__foot">
+        <button type="button" class="ghost" data-close="goalModal"><%= t("common.cancel") %></button>
+        <button type="button" class="primary" id="saveGoal"><%= t("common.save") %></button>
+      </footer>
+    </div>
+  </div>
+<% end %>
+
+<%= javascript_import_module_tag "journal_goals" %>
