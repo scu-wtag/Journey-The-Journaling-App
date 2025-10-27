@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_theme
-    @theme || 'light'
+    @theme
   end
 
   private
