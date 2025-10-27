@@ -17,6 +17,13 @@ body,
     background-color var(--transition-slow),
     color var(--transition-slow),
     border-color var(--transition-slow);
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
@@ -121,6 +128,13 @@ body {
       }
     }
   }
+.small {
+  font-size: 14px;
+}
+
+.muted {
+  color: var(--muted);
+  margin-top: 14px;
 }
 
 .form {

@@ -34,11 +34,12 @@ class JournalEntriesController < ApplicationController
   end
 
   def destroy
-    @journal_entry.destroy!
-    redirect_to journal_entries_path, notice: t('journal.flash.deleted')
-  rescue ActiveRecord::RecordNotDestroyed => error
-    Rails.logger.warn("JournalEntry #{@journal_entry.id} not destroyed: #{error.message}")
-    redirect_to @journal_entry, alert: t('journal.flash.delete_failed')
+    if @journal_entry.destroy
+      redirect_to journal_entries_path, notice: t('journal.flash.deleted'), status: :see_other
+    else
+      flash.now[:alert] = t('journal.flash.delete_failed')
+      render :show, status: :unprocessable_entity
+    end
   end
 
   private

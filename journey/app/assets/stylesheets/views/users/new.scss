@@ -102,9 +102,20 @@
   gap: 14px;
   margin-top: 8px;
 
-  &__field { display: grid; gap: 8px; }
-  &__label { font-size: 14px; color: var(--muted); }
-  &__req   { color: #fca5a5; margin-left: 2px; }
+  &__field {
+    display: grid;
+    gap: 8px;
+  }
+
+  &__label {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  &__req {
+    color: #fca5a5;
+    margin-left: 2px;
+  }
 
   &__input-row {
     display: grid;
@@ -147,6 +158,12 @@
 }
 
 @media (max-width: 380px) {
-  .card__actions { flex-direction: column; align-items: stretch; }
-  .card__actions .card__actions-btn { width: 100%; }
+  .card__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card__actions .card__actions-btn {
+    width: 100%;
+  }
 }
