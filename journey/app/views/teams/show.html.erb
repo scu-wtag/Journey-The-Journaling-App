@@ -97,7 +97,7 @@
             <h3><%= t("teams.members.add", default: "Add member by email") %></h3>
             <%= form_with url: team_team_members_path(@team), method: :post, class: "row" do %>
               <%= email_field_tag :email,
-              @new_member_email,
+              '',
               class: "input w-2",
               placeholder: "user@example.com" %>
               <%= select_tag :role,
