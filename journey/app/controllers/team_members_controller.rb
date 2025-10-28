@@ -9,7 +9,7 @@ class TeamMembersController < ApplicationController
     email = params[:email].to_s.strip.downcase
     role = Membership.roles.key?(params[:role].to_s) ? params[:role].to_s : 'member'
 
-    user = User.find_by('LOWER(email) = ?', email)
+    user = User.find_by(email: email)
     return redirect_to(@team, alert: t('teams.members.user_not_found', default: 'User not found')) unless user
 
     membership = @team.memberships.find_or_initialize_by(user_id: user.id)
