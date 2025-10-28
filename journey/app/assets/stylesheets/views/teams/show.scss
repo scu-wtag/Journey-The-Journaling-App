@@ -3,12 +3,32 @@
 }
 
 .team__head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space);
+    align-items: end;
     margin-bottom: calc(var(--space) * 1.5);
+}
+
+.team__super {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    opacity: .7;
 }
 
 .team__title {
     margin: 0;
-    font-size: 20px;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.2;
+}
+
+.team__actions {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 10px;
+    align-items: center;
 }
 
 .team__card {
@@ -19,34 +39,30 @@
     padding: calc(var(--space) * 1.25);
 }
 
-.team__row--head {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    margin-bottom: calc(var(--space) * 1.0);
+.sep {
+    height: 1px;
+    background: color-mix(in oklab, var(--border) 85%, transparent);
+    margin: calc(var(--space) * 1.25) 0;
 }
-
-.team__label {
-    opacity: .8;
-    margin-right: 8px;
-}
-
-.team__value {
-    font-weight: 600;
-}
-
 .chip {
     display: inline-block;
-    padding: 6px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid var(--border);
     text-decoration: none;
     color: var(--text);
-    transition: transform var(--transition-fast);
+    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+    will-change: transform;
 }
 
 .chip:hover {
     transform: translateY(-1px);
+    border-color: color-mix(in oklab, var(--border) 60%, var(--text) 40%);
+}
+
+.chip--action {
+    background: color-mix(in oklab, var(--card) 85%, var(--text) 15%);
+    border-color: color-mix(in oklab, var(--border) 80%, var(--text) 20%);
 }
 
 .members {
@@ -95,6 +111,121 @@
     font-variant-numeric: tabular-nums;
 }
 
+.admin-add {
+    display: grid;
+    gap: 10px;
+}
+
+.admin-add__title {
+    margin: 0;
+    font-size: 16px;
+    opacity: .9;
+}
+
+.admin-add__form {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+}
+
+.label {
+    font-size: 12px;
+    opacity: .8;
+}
+
+.input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--input-bg, var(--card));
+    color: var(--text);
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input:focus {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent);
+}
+
+.select {
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, currentColor 50%),
+        linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+        calc(100% - 16px) calc(50% - 3px),
+        calc(100% - 11px) calc(50% - 3px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+}
+
+.actions {
+    justify-self: end;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--btn-primary-bg, linear-gradient(90deg, #00000051, #0b0b0b44));
+    color: var(--text);
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+    border-color: color-mix(in oklab, var(--border) 70%, var(--text) 30%);
+}
+
+.btn-primary {
+    background: var(--btn-primary-bg, linear-gradient(90deg, #00000051, #0b0b0b44));
+}
+
+.empty {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    padding: 20px;
+    border: 1px dashed color-mix(in oklab, var(--border) 70%, var(--text) 30%);
+    border-radius: 12px;
+    background: color-mix(in oklab, var(--card) 96%, black 4%);
+}
+
+.empty__icon {
+    font-size: 22px;
+}
+
+.empty__text {
+    margin: 0;
+    opacity: .8;
+}
+
+@media (max-width: 900px) {
+    .team__head {
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+
+    .team__actions {
+        justify-content: start;
+        grid-auto-flow: row;
+    }
+}
+
 @media (max-width: 560px) {
     .member {
         grid-template-columns: 40px 1fr;
@@ -106,5 +237,13 @@
         grid-column: 2 / -1;
         justify-content: start;
         text-align: left;
+    }
+
+    .admin-add__form {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        justify-self: stretch;
     }
 }

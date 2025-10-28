@@ -1,0 +1,13 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/tasks/form_show", media: "all" %>
+<% end %>
+
+<header class="topbar">
+  <div class="brand-pill"><%= t("tasks.edit", default: "Edit Task") %></div>
+  <div class="topbar__spacer"></div>
+</header>
+<main class="page">
+  <section class="page__container">
+    <%= render "form", task: @task %>
+  </section>
+</main>

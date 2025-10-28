@@ -24,8 +24,14 @@ Rails.application.routes.draw do
 
     resource :profile, only: %i(show update)
 
+    resources :teams, only: %i(index show new create) do
+      resources :team_members, only: %i(create update destroy)
+      resources :tasks, only: %i(index new create)
+    end
+    resources :tasks, only: %i(index show edit update destroy)
+
     resources :journal_entries
 
-    root 'home#show'
+    root 'journal_entries#index'
   end
 end

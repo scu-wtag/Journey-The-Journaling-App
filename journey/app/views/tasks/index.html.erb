@@ -1,0 +1,179 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/tasks/index", media: "all" %>
+<% end %>
+
+<header class="topbar">
+  <div class="brand-pill"><%= t("journal.title") %></div>
+  <div class="topbar__spacer"></div>
+  <div class="topbar__actions">
+    <%= button_to t("common.logout", default: "Logout"),
+    logout_path(locale: I18n.locale),
+    method: :delete,
+    class: "btn btn-ghost btn--sm topbar__logout" %>
+
+    <%= link_to profile_path,
+                class: "avatar-btn",
+                title: t("common.profile", default: "Profile"),
+                "aria-label": t("common.profile", default: "Profile") do %>
+      <% if current_user&.profile&.picture&.attached? %>
+        <%= image_tag current_user.profile.picture.variant(resize_to_fill: [32, 32]),
+        alt: (current_user.name.presence || "Profile"),
+        class: "avatar-img" %>
+      <% else %>
+        <svg
+          class="avatar-fallback"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+        </svg>
+      <% end %>
+    <% end %>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidenav">
+    <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+      <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+    <% end %>
+
+    <%= link_to teams_path, class: "nav-btn", title: "Teams" do %>
+      <%= nav_btn icon: :profile, title: "Teams" %>
+    <% end %>
+
+    <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+      <%= nav_btn icon: :new, title: "New" %>
+    <% end %>
+
+    <%= link_to (@team ? team_tasks_path(@team) : tasks_path),
+                class: ["nav-btn", ("current" if @team)].compact.join(" "),
+                title: "Tasks" do %>
+      <%= nav_btn icon: :tasks, title: "Tasks" %>
+    <% end %>
+  </nav>
+
+  <main class="main">
+    <section class="index-wrap">
+
+      <% if @team %>
+        <div class="head">
+          <h2 class="page__title">
+            <%= t("tasks.team_tasks", default: "Tasks in %{team}", team: @team.name) %>
+          </h2>
+          <%= link_to t("tasks.new", default: "New Task"),
+          new_team_task_path(@team),
+          class: "btn btn-primary btn--sm head__cta" %>
+        </div>
+
+        <% if @tasks.any? %>
+          <ul class="entry-list">
+            <% @tasks.each do |task| %>
+              <li class="entry-item">
+                <div class="entry-title">
+                  <%= link_to task.title, task_path(task) %>
+                  <span class="muted">·
+                    <%= task.team.name %></span>
+                </div>
+
+                <div class="entry-meta">
+                  <span class="badge"><%= task.status.humanize %></span>
+                  ·
+                  <span class="muted">
+                    <%= t("tasks.fields.assignee", default: "Assignee") %>:
+                    <%= task.assignee&.name.presence || t("tasks.unassigned", default: "Unassigned") %>
+                  </span>
+
+                  <% if task.journal_entry_id.present? %>
+                    ·
+                    <%= link_to t("tasks.related_entry", default: "log entry"),
+                    journal_entry_path(task.journal_entry),
+                    class: "muted" %>
+                  <% end %>
+                  <% if task.due_on.present? %>
+                    ·
+                    <span class="muted">
+                      <%= t("tasks.due_on", default: "due") %>
+                      <%= l(task.due_on, format: "%-d.%m.%Y") %>
+                    </span>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="muted"><%= t("tasks.empty", default: "No tasks found.") %></p>
+        <% end %>
+
+      <% else %>
+        <div class="head">
+          <h2 class="page__title"><%= t("tasks.assigned_to_me", default: "Assigned to me") %></h2>
+        </div>
+
+        <% if @tasks_by_team.present? && @tasks_by_team.any? %>
+          <% @tasks_by_team.each do |team, tasks| %>
+            <div class="card" style="margin:14px 0;">
+              <div class="row tight" style="align-items:center;">
+                <h3 class="entry-title" style="margin:0;">
+                  <%= link_to team.name, team_tasks_path(team) %>
+                </h3>
+                <div class="entry-meta">
+                  <% todo = @team_counts[[team.id, "todo"]].to_i %>
+                  <% prog = @team_counts[[team.id, "in_progress"]].to_i %>
+                  <% done = @team_counts[[team.id, "done"]].to_i %>
+                  <span class="badge"><%= t("tasks.status.todo", default: "todo") %>:
+                    <%= todo %></span>
+                  <span class="badge"><%= t("tasks.status.in_progress", default: "in progress") %>:
+                    <%= prog %></span>
+                  <span class="badge"><%= t("tasks.status.done", default: "done") %>:
+                    <%= done %></span>
+                </div>
+              </div>
+
+              <ul class="entry-list" style="margin-top:10px;">
+                <% tasks.each do |task| %>
+                  <li class="entry-item">
+                    <div class="entry-title">
+                      <%= link_to task.title, task_path(task) %>
+                      <span class="muted">·
+                        <%= team.name %></span>
+                    </div>
+
+                    <div class="entry-meta">
+                      <span class="badge"><%= task.status.humanize %></span>
+                      ·
+                      <span class="muted">
+                        <%= t("tasks.fields.assignee", default: "Assignee") %>:
+                        <%= task.assignee&.name.presence || t("tasks.unassigned", default: "Unassigned") %>
+                      </span>
+
+                      <% if task.journal_entry_id.present? %>
+                        ·
+                        <%= link_to t("tasks.related_entry", default: "log entry"),
+                        journal_entry_path(task.journal_entry),
+                        class: "muted" %>
+                      <% end %>
+                      <% if task.due_on.present? %>
+                        ·
+                        <span class="muted">
+                          <%= t("tasks.due_on", default: "due") %>
+                          <%= l(task.due_on, format: "%-d.%m.%Y") %>
+                        </span>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="muted"><%= t("tasks.empty", default: "No tasks found.") %></p>
+        <% end %>
+      <% end %>
+
+    </section>
+  </main>
+</div>

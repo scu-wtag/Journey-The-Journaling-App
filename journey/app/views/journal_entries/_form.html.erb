@@ -39,23 +39,21 @@
   </header>
 
   <div class="shell">
-    <div class="shell">
-      <nav class="sidenav">
-        <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
-          <%= nav_btn icon: :dashboard, title: "Dashboard" %>
-        <% end %>
+    <nav class="sidenav">
+      <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+        <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+      <% end %>
 
-        <%= link_to teams_path, class: "nav-btn", title: "Teams" do %>
-          <%= nav_btn icon: :profile, title: "Teams" %>
-        <% end %>
+      <%= link_to teams_path, class: "nav-btn", title: "Teams" do %>
+        <%= nav_btn icon: :profile, title: "Teams" %>
+      <% end %>
 
-        <%= link_to new_journal_entry_path, class: "nav-btn current", title: "New Journal Entry" do %>
-          <%= nav_btn icon: :new, title: "New" %>
-        <% end %>
+      <%= link_to new_journal_entry_path, class: "nav-btn current", title: "New Journal Entry" do %>
+        <%= nav_btn icon: :new, title: "New" %>
+      <% end %>
 
-        <%= nav_btn icon: :tasks, title: "Tasks" %>
-      </nav>
-    </div>
+      <%= nav_btn icon: :tasks, title: "Tasks" %>
+    </nav>
 
     <main class="main">
       <section class="journal">

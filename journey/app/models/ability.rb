@@ -11,8 +11,6 @@ class Ability
 
     can(:manage, Membership) { |m| admin_of_team?(user, m.team_id) }
 
-    return unless defined?(Task)
-
     team_ids = user.team_ids
     can :read, Task, team_id: team_ids
     can :create, Task, team_id: team_ids

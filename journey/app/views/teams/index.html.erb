@@ -1,24 +1,75 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/teams/show" %>
+<% end %>
+
 <header class="topbar">
-  <div class="brand-pill"><%= t("teams.index.title", default: "Your Teams") %></div>
+  <div class="brand-pill"><%= t("app.name") %></div>
   <div class="topbar__spacer"></div>
-  <%= link_to t("teams.new", default: "New Team"),
-  new_team_path,
-  class: "btn btn-primary" %>
+
+  <div class="topbar__actions">
+    <%= link_to t("common.logout", default: "Logout"),
+    logout_path(locale: I18n.locale),
+    data: {
+      turbo_method: :delete,
+    },
+    class: "btn btn-ghost btn--sm topbar__logout" %>
+
+    <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
+      <% if current_user&.profile&.picture&.attached? %>
+        <%= image_tag(
+          current_user.profile.picture.variant(resize_to_fill: [32, 32]),
+          alt: current_user.name.presence || "Profile",
+          class: "avatar-img",
+        ) %>
+      <% else %>
+        <svg
+          class="avatar-fallback"
+          viewBox="0 0 24 24"
+          width="32"
+          height="32"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+        </svg>
+      <% end %>
+    <% end %>
+  </div>
 </header>
 
-<main class="page">
-  <section class="page__container">
-    <% if @teams.any? %>
-      <ul class="card-list">
-        <% @teams.each do |team| %>
-          <li class="card">
-            <h3><%= link_to team.name, team %></h3>
-            <p class="muted"><%= pluralize(team.users.count, "member") %></p>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p><%= t("teams.index.empty", default: "You are not in any teams.") %></p>
-    <% end %>
-  </section>
-</main>
+<div class="shell">
+  <div class="shell">
+    <nav class="sidenav">
+      <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+        <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+      <% end %>
+
+      <%= link_to teams_path, class: "nav-btn current", title: "Teams" do %>
+        <%= nav_btn icon: :profile, title: "Teams" %>
+      <% end %>
+
+      <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+        <%= nav_btn icon: :new, title: "New" %>
+      <% end %>
+
+      <%= nav_btn icon: :tasks, title: "Tasks" %>
+    </nav>
+  </div>
+
+  <main class="page">
+    <section class="page__container">
+      <% if @teams.any? %>
+        <ul class="card-list">
+          <% @teams.each do |team| %>
+            <li class="card">
+              <h3><%= link_to team.name, team %></h3>
+              <p class="muted"><%= pluralize(team.users.count, "member") %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><%= t("teams.index.empty", default: "You are not in any teams.") %></p>
+      <% end %>
+    </section>
+  </main>
+</div>
