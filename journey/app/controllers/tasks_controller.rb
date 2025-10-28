@@ -5,21 +5,15 @@ class TasksController < ApplicationController
   helper NavHelpers
 
   def index
-    if @team
-      authorize! :read, @team
-      @tasks = @team.tasks.
-               includes(:team, :assignee).
-               order(created_at: :desc)
-    else
-      base = Task.assigned_to(current_user).
-             where.not(status: :done).
-             includes(:team, :creator).
-             references(:team).
-             order('teams.name ASC, tasks.status ASC, tasks.created_at DESC')
-
-      @tasks_by_team = base.group_by(&:team)
-      @team_counts = base.group(:team_id, :status).count
+    unless @team
+      return redirect_to(teams_path,
+                         notice: t('tasks.select_team_first', default: 'Please choose a team first'))
     end
+
+    authorize! :read, @team
+    @tasks = @team.tasks.
+             includes(:team, :assignee).
+             order(created_at: :desc)
   end
 
   def show
@@ -29,10 +23,6 @@ class TasksController < ApplicationController
   def new
     authorize! :create, Task.new(team: @team)
     @task = @team.tasks.new(creator: current_user, assignee: current_user)
-  end
-
-  def edit
-    authorize! :update, @task
   end
 
   def create

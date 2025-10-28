@@ -1,4 +1,4 @@
-<% action_url   = task.persisted? ? task_path(task) : team_tasks_path(@team) %>
+<% action_url = task.persisted? ? task_path(task) : team_tasks_path(@team) %>
 <% action_method = task.persisted? ? :patch : :post %>
 
 <%= form_with model: task,
@@ -14,10 +14,16 @@
       <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
         <% if current_user&.profile&.picture&.attached? %>
           <%= image_tag current_user.profile.picture.variant(resize_to_fill: [32, 32]),
-                        alt: (current_user.name.presence || "Profile"),
-                        class: "avatar-img" %>
+          alt: (current_user.name.presence || "Profile"),
+          class: "avatar-img" %>
         <% else %>
-          <svg class="avatar-fallback" viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+          <svg
+            class="avatar-fallback"
+            viewBox="0 0 24 24"
+            width="32"
+            height="32"
+            aria-hidden="true"
+          >
             <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
             <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
           </svg>
@@ -28,19 +34,39 @@
 
   <div class="shell">
     <nav class="sidenav">
-      <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+      <% dash_path = journal_entries_path %>
+      <%= link_to dash_path,
+              class: "nav-btn#{ current_page?(dash_path) ? ' current' : '' }",
+              title: "Dashboard" do %>
         <%= nav_btn icon: :dashboard, title: "Dashboard" %>
       <% end %>
 
-      <%= link_to teams_path, class: "nav-btn", title: "Teams" do %>
+      <% teams_index = teams_path %>
+      <%= link_to teams_index,
+              class: "nav-btn#{ controller_name == 'teams' ? ' current' : '' }",
+              title: "Teams" do %>
         <%= nav_btn icon: :profile, title: "Teams" %>
       <% end %>
 
-      <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+      <% new_entry = new_journal_entry_path %>
+      <%= link_to new_entry,
+              class: "nav-btn#{ current_page?(new_entry) ? ' current' : '' }",
+              title: "New Journal Entry" do %>
         <%= nav_btn icon: :new, title: "New" %>
       <% end %>
 
-      <%= link_to team_tasks_path(@team), class: "nav-btn current", title: "Tasks" do %>
+      <% tasks_href =
+        if defined?(@task) && @task&.team
+          team_tasks_path(@task.team)
+        elsif defined?(@team) && @team.present?
+          team_tasks_path(@team)
+        else
+          tasks_path
+        end %>
+
+      <%= link_to tasks_href,
+              class: "nav-btn#{ controller_name == 'tasks' ? ' current' : '' }",
+              title: "Tasks" do %>
         <%= nav_btn icon: :tasks, title: "Tasks" %>
       <% end %>
     </nav>
@@ -49,8 +75,11 @@
       <section class="journal">
         <div class="head row tight">
           <h2>
-            <%= task.persisted? ? t("tasks.edit", default: "Edit Task")
-                                : t("tasks.new",  default: "New Task") %>
+            <%= if task.persisted?
+              t("tasks.edit", default: "Edit Task")
+            else
+              t("tasks.new", default: "New Task")
+            end %>
           </h2>
 
           <span class="chip chip--team">
@@ -65,18 +94,26 @@
             <div class="field">
               <label class="label"><%= t("tasks.fields.title", default: "Title") %></label>
               <%= f.text_field :title,
-                               class: "input",
-                               required: true,
-                               autofocus: true,
-                               placeholder: t("tasks.placeholders.title", default: "Give it a short, clear title") %>
+                           class: "input",
+                           required: true,
+                           autofocus: true,
+                           placeholder:
+                             t(
+                               "tasks.placeholders.title",
+                               default: "Give it a short, clear title",
+                             ) %>
             </div>
 
             <div class="field">
               <label class="label"><%= t("tasks.fields.notes", default: "Description / Instructions") %></label>
               <%= f.text_area :notes,
-                              class: "textarea",
-                              rows: 10,
-                              placeholder: t("tasks.placeholders.notes", default: "Some descriptions, instructions …") %>
+                          class: "textarea",
+                          rows: 10,
+                          placeholder:
+                            t(
+                              "tasks.placeholders.notes",
+                              default: "Some descriptions, instructions …",
+                            ) %>
             </div>
 
             <div class="field">
@@ -86,25 +123,27 @@
               </label>
             </div>
           </div>
-
           <!-- rechte Seite: Assign / Status / Due -->
           <div class="task-layout__right">
             <div class="field">
               <label class="label"><%= t("tasks.fields.assignee", default: "Assign to") %></label>
               <%= f.collection_select :assignee_id,
-                                      @team.users.order(:name),
-                                      :id,
-                                      :name,
-                                      { include_blank: t("tasks.unassigned", default: "Unassigned") },
-                                      class: "input select" %>
+                                  @team.users.order(:name),
+                                  :id,
+                                  :name,
+                                  {
+                                    include_blank:
+                                      t("tasks.unassigned", default: "Unassigned"),
+                                  },
+                                  class: "input select" %>
             </div>
 
             <div class="field">
               <label class="label"><%= t("tasks.fields.status", default: "Status") %></label>
               <%= f.select :status,
-                           Task.statuses.keys.map { |s| [s.humanize, s] },
-                           {},
-                           class: "input select" %>
+                       Task.statuses.keys.map { |s| [s.humanize, s] },
+                       {},
+                       class: "input select" %>
             </div>
 
             <div class="field">
@@ -118,18 +157,38 @@
           <%= f.button type: :submit,
                        class: "btn btn-primary btn--lg",
                        data: { turbo_submits_with: t("tasks.saving", default: "Saving…") } do %>
-            <svg class="btn__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-              <path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              class="btn__icon"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              aria-hidden="true"
+            >
+              <path
+                d="M20 6L9 17l-5-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
-            <span><%= task.persisted? ? t("common.save", default: "Save")
-                                      : t("common.create", default: "Create") %></span>
+            <span><%= if task.persisted?
+                t("common.save", default: "Save")
+              else
+                t("common.create", default: "Create")
+              end %></span>
             <span class="btn__spinner" aria-hidden="true"></span>
           <% end %>
 
           <% if task.persisted? %>
-            <%= link_to t("common.cancel", default: "Cancel"), task_path(task), class: "primary_cancel" %>
+            <%= link_to t("common.cancel", default: "Cancel"),
+            task_path(task),
+            class: "primary_cancel" %>
           <% else %>
-            <%= link_to t("common.cancel", default: "Cancel"), team_tasks_path(@team), class: "primary_cancel" %>
+            <%= link_to t("common.cancel", default: "Cancel"),
+            team_tasks_path(@team),
+            class: "primary_cancel" %>
           <% end %>
         </footer>
       </section>

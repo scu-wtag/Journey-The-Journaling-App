@@ -36,19 +36,39 @@
 
   <div class="shell">
     <nav class="sidenav">
-      <%= link_to journal_entries_path, class: "nav-btn", title: "Dashboard" do %>
+      <% dash_path = journal_entries_path %>
+      <%= link_to dash_path,
+              class: "nav-btn#{ current_page?(dash_path) ? ' current' : '' }",
+              title: "Dashboard" do %>
         <%= nav_btn icon: :dashboard, title: "Dashboard" %>
       <% end %>
 
-      <%= link_to teams_path, class: "nav-btn", title: "Teams" do %>
+      <% teams_index = teams_path %>
+      <%= link_to teams_index,
+              class: "nav-btn#{ controller_name == 'teams' ? ' current' : '' }",
+              title: "Teams" do %>
         <%= nav_btn icon: :profile, title: "Teams" %>
       <% end %>
 
-      <%= link_to new_journal_entry_path, class: "nav-btn", title: "New Journal Entry" do %>
+      <% new_entry = new_journal_entry_path %>
+      <%= link_to new_entry,
+              class: "nav-btn#{ current_page?(new_entry) ? ' current' : '' }",
+              title: "New Journal Entry" do %>
         <%= nav_btn icon: :new, title: "New" %>
       <% end %>
 
-      <%= link_to team_tasks_path(@task.team), class: "nav-btn current", title: "Tasks" do %>
+      <% tasks_href =
+        if defined?(@task) && @task&.team
+          team_tasks_path(@task.team)
+        elsif defined?(@team) && @team.present?
+          team_tasks_path(@team)
+        else
+          tasks_path
+        end %>
+
+      <%= link_to tasks_href,
+              class: "nav-btn#{ controller_name == 'tasks' ? ' current' : '' }",
+              title: "Tasks" do %>
         <%= nav_btn icon: :tasks, title: "Tasks" %>
       <% end %>
     </nav>
