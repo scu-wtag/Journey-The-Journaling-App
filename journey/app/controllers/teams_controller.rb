@@ -3,6 +3,7 @@ class TeamsController < ApplicationController
   helper NavHelpers
 
   def index
+    authorize! :read, Team
     @teams = current_user.teams.order(:name)
   end
 
