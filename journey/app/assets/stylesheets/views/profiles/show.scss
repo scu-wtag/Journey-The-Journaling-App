@@ -5,6 +5,51 @@
 :root[data-theme="light"] .navbar__brand {
   color: #fff;
   border-color: #6d28d9;
+:root {
+  --bg: #0b1220;
+  --surface: #0e1629;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #320f4b;
+  --ring: #f269ff;
+  --accent1: #4c1d95;
+  --accent2: #9333ea;
+  --radius: 14px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --transition-fast: 80ms ease;
+  --transition-slow: 100ms ease;
+}
+
+:root[data-theme="light"] {
+  --bg: #f7f7fb;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #4b5563;
+  --border: #e5e7eb;
+  --ring: #7c3aed;
+  --accent1: #7c3aed;
+  --accent2: #a78bfa;
+}
+
+html,
+body,
+.page,
+.page__container,
+.card,
+.profile__frame {
+  transition: background-color var(--transition-slow), color var(--transition-slow), border-color var(--transition-slow);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 50% -10%, #1a102b 0%, var(--bg) 60%);
+  transition: background var(--transition-slow), color var(--transition-slow);
 }
 
 .navbar {
@@ -28,6 +73,29 @@
   font-weight: 800;
   background: var(--bg);
   color: var(--text);
+}
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: .06em;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    border: 1px solid #43146b;
+    transition: filter var(--transition-fast), color var(--transition-slow), border-color var(--transition-slow);
+  }
+}
+
+:root[data-theme="light"] .navbar {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .7), rgba(255, 255, 255, 0)), #ffffffcc;
+}
+
+:root[data-theme="light"] .navbar__brand {
+  color: #fff;
+  border-color: #6d28d9;
 }
 
 .page {

@@ -2,7 +2,7 @@ module Settings
   class PasswordsController < ApplicationController
     def update
       if Current.user.update(password_params)
-        redirect_to settings_profile_path, status: :see_other, notice: t('.success')
+        redirect_to settings_profile_path, status: :see_other, notice: t('users.password.update')
       else
         render :show, status: :unprocessable_content
       end
