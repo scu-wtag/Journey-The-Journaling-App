@@ -8,6 +8,8 @@ class Ability
 
     can :create, Team
     can :read, Team, memberships: { user_id: user.id }
+    can(:update, Team) { |team| admin_of_team?(user, team.id) }
+    can(:destroy, Team) { |team| admin_of_team?(user, team.id) }
 
     can(:manage, Membership) { |m| admin_of_team?(user, m.team_id) }
 

@@ -3,6 +3,7 @@ class TeamsController < ApplicationController
   helper NavHelpers
 
   def index
+    authorize! :read, Team
     @teams = current_user.teams.order(:name)
   end
 
@@ -12,7 +13,6 @@ class TeamsController < ApplicationController
 
     @memberships = @team.memberships.includes(:user).order('users.name ASC')
     @membership = @team.memberships.find_by(user_id: current_user.id)
-    @new_member_email = ''
 
     if defined?(Task)
       @assigned_counts =

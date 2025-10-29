@@ -1,15 +1,14 @@
 class TeamMembersController < ApplicationController
   before_action :set_team
-  before_action :require_admin!
   before_action :set_membership, only: %i(update destroy)
   before_action :guard_last_admin_on_update!, only: :update
   before_action :guard_last_admin_on_destroy!, only: :destroy
 
   def create
+    authorize! :manage_members, @team
     email = params[:email].to_s.strip.downcase
     role = Membership.roles.key?(params[:role].to_s) ? params[:role].to_s : 'member'
-
-    user = User.find_by('LOWER(email) = ?', email)
+    user = User.find_by(email: email)
     return redirect_to(@team, alert: t('teams.members.user_not_found', default: 'User not found')) unless user
 
     membership = @team.memberships.find_or_initialize_by(user_id: user.id)
@@ -22,11 +21,10 @@ class TeamMembersController < ApplicationController
   end
 
   def update
+    authorize! :manage, @membership
     role = params[:role].to_s
     unless Membership.roles.key?(role)
-      return redirect_to(@team,
-                         alert: t('teams.members.invalid_role',
-                                  default: 'Invalid role'))
+      return redirect_to(@team, alert: t('teams.members.invalid_role', default: 'Invalid role'))
     end
 
     if @membership.update(role: role)
@@ -37,6 +35,7 @@ class TeamMembersController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, @membership
     @membership.destroy
     redirect_to @team, notice: t('teams.members.removed', default: 'Member removed')
   end
@@ -50,12 +49,6 @@ class TeamMembersController < ApplicationController
 
   def set_membership
     @membership = @team.memberships.find(params[:id])
-    authorize! :manage, @membership
-  end
-
-  def require_admin!
-    allowed = Membership.exists?(team_id: @team.id, user_id: current_user.id, role: :admin)
-    redirect_to @team, alert: t('teams.members.not_authorized', default: 'Not authorized') unless allowed
   end
 
   def last_admin?
@@ -66,17 +59,13 @@ class TeamMembersController < ApplicationController
     demoting_admin = @membership.role_admin? && params[:role].to_s != 'admin'
     return unless demoting_admin && last_admin?
 
-    redirect_to(@team,
-                alert: t('teams.members.last_admin_guard',
-                         default: 'Cannot demote the last admin'))
+    redirect_to(@team, alert: t('teams.members.last_admin_guard', default: 'Cannot demote the last admin'))
   end
 
   def guard_last_admin_on_destroy!
     removing_last_admin = @membership.role_admin? && last_admin?
     return unless removing_last_admin
 
-    redirect_to(@team,
-                alert: t('teams.members.last_admin_guard',
-                         default: 'Cannot remove the last admin'))
+    redirect_to(@team, alert: t('teams.members.last_admin_guard', default: 'Cannot remove the last admin'))
   end
 end

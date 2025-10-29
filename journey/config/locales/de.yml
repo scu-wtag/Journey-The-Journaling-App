@@ -75,6 +75,14 @@ de:
       time_to: Bis
       title: Titel
       title_ph: Neuer Eintrag
+    index:
+      dashboard: Dashboard
+      empty: Darf nicht leer sein
+      new: "+"
+      no_date: Kein Datum
+      title: Journey
+    new:
+      title: Neuen Journaleintrag erstellen
     show:
       attachments: Anhänge
       back: Zurück zur Übersicht
@@ -101,6 +109,9 @@ de:
       profile_picture_alt: Profilbild
       settings_title: Einstellungen
     update:
+      failed: Diese Datei ist zu gross
+      success: Dein Profil wurde erfolgreicht aktualisiert
+      wrong_filetype: Das ist ein falscher dateityp
       failed: This file is too large
       success: Your profile was successfully updated
       wrong_filetype: Sorry this is a wrong filetype.
@@ -133,6 +144,32 @@ de:
         success: Dein Passwort wurde aktualisiert.
     show:
       update_password: Passwort aktualisieren
+  teams:
+    created: Team erstellt
+    done_today: Heute erledigte tasks
+    fields:
+      name: Teamname
+    index:
+      empty: Darf nicht leer sein
+      title: Alle teams
+    invite: Einladen
+    members:
+      add: Hinzufügen
+      added: Hinzugefügt
+      cannot_remove_self: Du kannst dich nicht selbst entfernen
+      empty: Hier ist es noch sehr leer
+      invalid_role: Diese Rolle gibt es nicht
+      kick: Entfernen
+      last_admin_guard: Du kannst den Admin nicht entfernen
+      not_authorized: Du hast die berechitigung hierzu nicht.
+      removed: Du hast dieses Teammitglied entfernt
+      role_updated: Die Rolle wurde geändert
+      user_not_found: Dieser User wurde nicht gefunden.
+    new: Neues Team
+    not_ready: Email einladungen sind noch nicht verfügbar.
+    overview: Alle Teams
+    tasks_assigned: Zugeteilte Aufgaben
+    team: Team
 
   tasks:
     assigned_to: assigned to
