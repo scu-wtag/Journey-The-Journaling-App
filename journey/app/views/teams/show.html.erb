@@ -8,6 +8,12 @@
     <div class="topbar__spacer"></div>
 
     <div class="topbar__actions">
+      <%= link_to t("common.logout", default: "Logout"),
+      logout_path(locale: I18n.locale),
+      data: {
+        turbo_method: :delete,
+      },
+      class: "btn btn-ghost btn--sm topbar__logout" %>
 
       <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
         <% if current_user&.profile&.picture&.attached? %>
