@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SessionsController, type: :controller do
+RSpec.describe SessionsController do
   let(:password) { 'SuperSecret123!' }
   let!(:user) { create(:user, email: 'test@example.com', password: password) }
   let!(:team) { create(:team) }

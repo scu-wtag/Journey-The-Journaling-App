@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Profile, type: :model do
+RSpec.describe Profile do
   describe 'associations' do
     it { is_expected.to belong_to(:user).inverse_of(:profile) }
   end
@@ -33,7 +33,7 @@ RSpec.describe Profile, type: :model do
 
   describe 'picture validations hook exists' do
     it 'defines picture_type_and_size (activate validate to enforce)' do
-      expect(Profile.private_instance_methods).to include(:picture_type_and_size)
+      expect(described_class.private_instance_methods).to include(:picture_type_and_size)
     end
   end
 end

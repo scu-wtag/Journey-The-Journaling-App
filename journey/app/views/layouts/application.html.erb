@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-theme="<%= @current_theme %>">
+<html lang="<%= I18n.locale %>" data-theme="<%= current_theme %>">
 <head>
-<title><%= content_for?(:title) ? yield(:title) : t("app.name") %></title>
+  <script>
+    (function(){
+      try {
+        var m = document.cookie.match(/(?:^|; )theme=(light|dark)(?:;|$)/);
+        if (m && m[1]) document.documentElement.setAttribute('data-theme', m[1]);
+      } catch(_) {}
+    })();
+  </script>
+
+  <title><%= content_for?(:title) ? yield(:title) : t('app.name', default: 'Journey') %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <meta name="theme" content="<%= current_theme %>">
+  <%= javascript_importmap_tags %>
+  <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
+  <%= stylesheet_link_tag "application", media: "all" %>
   <%= yield :styles %>
-  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
+  <%= stylesheet_link_tag "theme_overrides" %>
 </head>
   <body>
     <%= yield %>
   </body>
 </html>
+

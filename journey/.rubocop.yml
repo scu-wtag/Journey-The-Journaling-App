@@ -1,3 +1,7 @@
+require:
+  - rubocop-rails
+  - rubocop-erb
+
 inherit_from:
   - https://raw.githubusercontent.com/wtag/default-configs/master/rubocop-default-config-ruby2.6.yml
 

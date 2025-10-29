@@ -1,0 +1,152 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "views/journals/show", media: "all" %>
+<% end %>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand-pill"><%= t("app.name") %></div>
+    <div class="topbar__spacer"></div>
+
+    <div class="topbar__actions">
+      <%= button_to t("common.logout", default: "Logout"),
+      logout_path(locale: I18n.locale),
+      method: :delete,
+      class: "btn btn-ghost btn--sm topbar__logout" %>
+
+      <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
+        <% if current_user&.profile&.picture&.attached? %>
+          <%= image_tag current_user.profile.picture.variant(resize_to_fill: [32, 32]),
+          alt: (current_user.name.presence || "Profile"),
+          class: "avatar-img" %>
+        <% else %>
+          <svg
+            class="avatar-fallback"
+            viewBox="0 0 24 24"
+            width="32"
+            height="32"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4" fill="currentColor" opacity="0.9"/>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" opacity="0.6"/>
+          </svg>
+        <% end %>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav class="sidenav">
+      <% dash_path = journal_entries_path %>
+      <%= link_to dash_path,
+              class: "nav-btn#{ current_page?(dash_path) ? ' current' : '' }",
+              title: "Dashboard" do %>
+        <%= nav_btn icon: :dashboard, title: "Dashboard" %>
+      <% end %>
+
+      <% teams_index = teams_path %>
+      <%= link_to teams_index,
+              class: "nav-btn#{ controller_name == 'teams' ? ' current' : '' }",
+              title: "Teams" do %>
+        <%= nav_btn icon: :profile, title: "Teams" %>
+      <% end %>
+
+      <% new_entry = new_journal_entry_path %>
+      <%= link_to new_entry,
+              class: "nav-btn#{ current_page?(new_entry) ? ' current' : '' }",
+              title: "New Journal Entry" do %>
+        <%= nav_btn icon: :new, title: "New" %>
+      <% end %>
+
+      <% tasks_href =
+        if defined?(@task) && @task&.team
+          team_tasks_path(@task.team)
+        elsif defined?(@team) && @team.present?
+          team_tasks_path(@team)
+        else
+          tasks_path
+        end %>
+
+      <%= link_to tasks_href,
+              class: "nav-btn#{ controller_name == 'tasks' ? ' current' : '' }",
+              title: "Tasks" do %>
+        <%= nav_btn icon: :tasks, title: "Tasks" %>
+      <% end %>
+    </nav>
+
+    <main class="main">
+      <section class="journal">
+        <div class="entry-wrap">
+          <article class="card entry-card">
+            <header class="entry-head">
+              <h1 class="entry-title"><%= @journal_entry.title %></h1>
+              <div class="entry-meta">
+                <span><%= l(@journal_entry.entry_date, format: "%-d.%m.%Y") %></span>
+                <% if @journal_entry.time_from.present? && @journal_entry.time_to.present? %>
+                  <span>·</span>
+                  <span>
+                    <%= @journal_entry.time_from.strftime("%H:%M") %>
+                    –
+                    <%= @journal_entry.time_to.strftime("%H:%M") %>
+                  </span>
+                <% end %>
+              </div>
+            </header>
+
+            <% if @journal_entry.body.present? %>
+              <section class="entry-section">
+                <h3 class="muted"><%= t("journal.show.notes", default: "Notes") %></h3>
+                <div class="rtx"><%= @journal_entry.body %></div>
+              </section>
+            <% end %>
+
+            <% if @journal_entry.goals_for_tomorrow.present? %>
+              <section class="entry-section">
+                <h3 class="muted"><%= t("journal.show.goals_for_tomorrow", default: "Goals for tomorrow") %></h3>
+                <div class="rtx"><%= begin
+                    @journal_entry.goals_for_tomorrow.body.to_s.html_safe
+                  rescue StandardError
+                    nil
+                  end %></div>
+              </section>
+            <% end %>
+
+            <% if @journal_entry.files.attached? %>
+              <section class="entry-section files">
+                <h3 class="muted"><%= t("journal.show.attachments", default: "Attachments") %></h3>
+                <ul>
+                  <% @journal_entry.files.each do |file| %>
+                    <li>
+                      <%= link_to file.filename, url_for(file), target: "_blank", rel: "noopener" %>
+                      <span class="muted">·
+                        <%= number_to_human_size(file.byte_size) %></span>
+                    </li>
+                  <% end %>
+                </ul>
+              </section>
+            <% end %>
+
+            <footer class="entry-foot">
+              <%= link_to t("common.edit", default: "Edit"),
+              edit_journal_entry_path(@journal_entry),
+              class: "btn btn-ghost" %>
+
+              <%= button_to t("common.delete", default: "Delete"),
+              @journal_entry,
+              method: :delete,
+              data: {
+                turbo_confirm: t("common.confirm_delete", default: "Delete this entry?"),
+              },
+              class: "btn btn-danger" %>
+
+              <div class="w-spacer"></div>
+
+              <%= link_to t("journal.show.back", default: "Back"),
+              journal_entries_path,
+              class: "btn" %>
+            </footer>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

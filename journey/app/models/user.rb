@@ -1,13 +1,15 @@
 class User < ApplicationRecord
   include Clearance::User
 
+  attr_accessor :password_confirmation
+
   has_one :profile, dependent: :destroy, inverse_of: :user
   accepts_nested_attributes_for :profile, update_only: true
 
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
 
-  attr_accessor :password_confirmation
+  has_many :journal_entries, dependent: :destroy
 
   validates :name, presence: true
   validates :email,

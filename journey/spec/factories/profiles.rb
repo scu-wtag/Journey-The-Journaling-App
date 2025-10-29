@@ -10,5 +10,6 @@ FactoryBot.define do
     trait :with_profile_picture do
       picture { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/cute.png'), 'image/png') }
     end
+    birthday { Date.new(2000, 1, 1) }
   end
 end

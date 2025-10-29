@@ -1,28 +1,37 @@
 Rails.application.routes.draw do
-  resource :profile, only: %i(show edit update)
   scope '(:locale)', locale: /en|de/ do
-    resources :users, only: %i(new create)
     get '/signup', to: 'users#new', as: :sign_up
     post '/signup', to: 'users#create'
-
-    get '/sign_in', to: 'sessions#new', as: :sign_in
-    post '/sign_in', to: 'sessions#create'
-    delete '/sign_out', to: 'sessions#destroy', as: :sign_out
-
-    resource :session, only: %i(new create destroy), controller: 'sessions'
     get '/login', to: 'sessions#new', as: :login
     post '/login', to: 'sessions#create'
     delete '/logout', to: 'sessions#destroy', as: :logout
 
+    resources :users, only: %i(new create)
+
     resources :passwords, only: %i(new create), controller: 'clearance/passwords'
     resource :password, only: %i(edit update), controller: 'clearance/passwords'
-
-    resource :profile, only: %i(show update)
 
     namespace :settings do
       resource :password, only: %i(show update)
     end
 
-    root 'home#show'
+    resources :teams, only: %i(index show new create) do
+      resources :team_members, only: %i(create update destroy)
+      resources :tasks, only: %i(index new create)
+      resources :invitations, only: %i(new create), controller: 'team_invitations'
+    end
+    resources :tasks, only: %i(show edit update destroy)
+
+    resource :profile, only: %i(show update)
+
+    resources :teams, only: %i(index show new create) do
+      resources :team_members, only: %i(create update destroy)
+      resources :tasks, only: %i(index new create)
+    end
+    resources :tasks, only: %i(index show edit update destroy)
+
+    resources :journal_entries
+
+    root 'journal_entries#index'
   end
 end

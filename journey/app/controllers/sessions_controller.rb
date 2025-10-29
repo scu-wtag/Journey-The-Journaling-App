@@ -11,15 +11,10 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: email)
 
     if @user&.authenticated?(password)
-      cookies[Clearance.configuration.cookie_name] = {
-        value: @user.remember_token,
-        httponly: true,
-      }
-      session[:team_ids] = @user.respond_to?(:teams) ? @user.teams.pluck(:id) : []
+      perform_sign_in(@user)
       redirect_to url_after_create, notice: t('sessions.success', default: '')
     else
-      flash.now[:alert] = t('sessions.errors.invalid_credentials', default: '')
-      render :new, status: :unprocessable_content
+      failed_sign_in
     end
   end
 
@@ -30,6 +25,23 @@ class SessionsController < ApplicationController
   end
 
   private
+
+  def credentials_from_params
+    [
+      params.dig(:session, :email).to_s.downcase.strip,
+      params.dig(:session, :password).to_s,
+    ]
+  end
+
+  def perform_sign_in(user)
+    cookies[Clearance.configuration.cookie_name] = { value: user.remember_token, httponly: true }
+    session[:team_ids] = user.respond_to?(:teams) ? user.teams.pluck(:id) : []
+  end
+
+  def failed_sign_in
+    flash.now[:alert] = t('sessions.errors.invalid_credentials', default: '')
+    render :new, status: :unprocessable_content
+  end
 
   def url_after_create
     root_path

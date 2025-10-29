@@ -1,13 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
-  controller do
+  controller(ApplicationController) do
     def index
       head :ok
     end
   end
 
-  before { routes.draw { get 'anonymous' => 'anonymous#index' } }
+  before do
+    routes.draw do
+      get 'anonymous' => 'anonymous#index'
+    end
+  end
 
   it 'sets locale from valid params[:locale]' do
     allow(controller).to receive(:signed_in?).and_return(false)
