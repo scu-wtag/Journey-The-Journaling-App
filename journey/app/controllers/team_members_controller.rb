@@ -14,7 +14,10 @@ class TeamMembersController < ApplicationController
 
     membership = @team.memberships.find_or_initialize_by(user_id: user.id)
     membership.role = role
-    if membership.save
+
+    if membership.persisted?
+      redirect_to @team, notice: t('teams.members.already_exists', default: 'User is already a team member')
+    elsif membership.save
       redirect_to @team, notice: t('teams.members.added', default: 'Member added')
     else
       redirect_to @team, alert: membership.errors.full_messages.to_sentence

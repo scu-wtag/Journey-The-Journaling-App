@@ -8,11 +8,9 @@
     <div class="topbar__spacer"></div>
 
     <div class="topbar__actions">
-      <%= link_to t("common.logout", default: "Logout"),
+      <%= button_to t("common.logout", default: "Logout"),
       logout_path(locale: I18n.locale),
-      data: {
-        turbo_method: :delete,
-      },
+      method: :delete,
       class: "btn btn-ghost btn--sm topbar__logout" %>
 
       <%= link_to profile_path, class: "avatar-btn", title: t("common.profile", default: "Profile"), "aria-label": t("common.profile", default: "Profile") do %>
@@ -87,12 +85,9 @@
               <span class="team__label"><%= t("teams.team", default: "Team") %></span>
               <span class="team__value"><%= @team.name %></span>
             </div>
-
             <% if @membership&.role_admin? %>
               <div class="team__invite">
-                <%= link_to t("teams.invite", default: "invite"),
-                new_team_invitation_path(@team),
-                class: "chip" %>
+                <a href="#add-member" class="chip"><%= t("teams.invite", default: "Add member") %></a>
               </div>
             <% end %>
           </div>
@@ -115,7 +110,7 @@
 
           <% if @membership&.role_admin? %>
             <hr class="sep"/>
-            <h3><%= t("teams.members.add", default: "Add member by email") %></h3>
+            <h3 id="add-member"><%= t("teams.members.add", default: "Add member by email") %></h3>
             <%= form_with url: team_team_members_path(@team), method: :post, class: "row" do %>
               <%= email_field_tag :email,
               @new_member_email,
