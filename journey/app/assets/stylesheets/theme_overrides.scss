@@ -1,0 +1,34 @@
+:root[data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --card: #ffffff;
+    --bg-radial-top: transparent;
+}
+
+:root[data-theme="light"] body,
+:root[data-theme="light"] .app {
+    background: var(--bg) !important;
+}
+
+:root[data-theme="light"] .main {
+    background: var(--card) !important;
+}
+
+:root[data-theme="light"] .card,
+:root[data-theme="light"] .task-card,
+:root[data-theme="light"] .entry-card,
+:root[data-theme="light"] .entry-item {
+    background: var(--card) !important;
+}
+
+:root[data-theme="light"] .navbar {
+    background: #ffffffcc !important;
+}
+
+:root[data-theme="light"] .page {
+    background: var(--surface) !important;
+}
+
+:root[data-theme="light"] .theme-overlay {
+    display: none !important;
+}
