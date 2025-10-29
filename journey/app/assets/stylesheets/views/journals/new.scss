@@ -184,6 +184,9 @@ body {
   background: var(--input-bg);
   color: var(--text);
   outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 trix-editor.editor-notes {
@@ -193,7 +196,9 @@ trix-editor.editor-notes {
 }
 
 trix-editor {
-  pointer-events: auto;
+  display: block;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 trix-toolbar {
@@ -208,6 +213,22 @@ trix-editor a {
 
 .trix-content {
   color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.6;
+}
+
+.trix-content p,
+trix-editor p {
+  margin: 0 0 10px 0;
+}
+
+.trix-content img,
+trix-editor img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .goals-header {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_29_090137) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_29_083106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_090137) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "completed_tasks", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "task_id"
+    t.bigint "assignee_id", null: false
+    t.datetime "completed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_completed_tasks_on_assignee_id"
+    t.index ["completed_at"], name: "index_completed_tasks_on_completed_at"
+    t.index ["task_id"], name: "index_completed_tasks_on_task_id_partial", unique: true, where: "(task_id IS NOT NULL)"
+    t.index ["team_id", "assignee_id"], name: "index_completed_tasks_on_team_id_and_assignee_id"
+    t.index ["team_id"], name: "index_completed_tasks_on_team_id"
+  end
+
   create_table "journal_entries", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title", null: false
@@ -89,6 +103,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_090137) do
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "journal_entry_id"
+    t.bigint "creator_id", null: false
+    t.bigint "assignee_id"
+    t.string "title", null: false
+    t.text "notes"
+    t.integer "status", default: 0, null: false
+    t.date "due_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["due_on"], name: "index_tasks_on_due_on"
+    t.index ["journal_entry_id"], name: "index_tasks_on_journal_entry_id"
+    t.index ["status"], name: "index_tasks_on_status"
+    t.index ["team_id"], name: "index_tasks_on_team_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -121,8 +152,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_29_090137) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "completed_tasks", "tasks", on_delete: :nullify
+  add_foreign_key "completed_tasks", "teams"
+  add_foreign_key "completed_tasks", "users", column: "assignee_id"
   add_foreign_key "journal_entries", "users"
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "tasks", "journal_entries"
+  add_foreign_key "tasks", "teams"
+  add_foreign_key "tasks", "users", column: "assignee_id"
+  add_foreign_key "tasks", "users", column: "creator_id"
 end

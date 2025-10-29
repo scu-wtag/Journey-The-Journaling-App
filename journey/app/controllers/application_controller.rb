@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_theme
-    @theme || 'light'
+    @theme
   end
 
   private
@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def signed_in_safe?
-    respond_to?(:signed_in?) && signed_in?
+    signed_in?
   end
 
   def user_locale(avail)
@@ -75,9 +75,7 @@ class ApplicationController < ActionController::Base
 
   def accept_language_values
     header = request.env['HTTP_ACCEPT_LANGUAGE'].to_s
-    return [] if header.empty?
-
-    header.split(',').map { |l| l.split(';').first.strip.downcase }.compact_blank
+    header.compact_blank
   end
 
   def set_theme

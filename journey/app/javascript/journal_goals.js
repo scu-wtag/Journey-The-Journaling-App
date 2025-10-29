@@ -5,9 +5,9 @@ let goalModal, openBtn, saveBtn, goalsList, tInput, bInput;
 let goalsHidden, goalsEditor;
 
 function resolveGoalsFields() {
-    const hidden = document.querySelector('input[name="journal_entry[goals_for_tomorrow]"]');
-    const editor = hidden ? document.querySelector(`trix-editor[input="${hidden.id}"]`) : null;
-    return { hidden, editor };
+  const hidden = document.querySelector('input[name="journal_entry[goals_for_tomorrow]"]');
+  const editor = hidden ? document.querySelector(`trix-editor[input="${hidden.id}"]`) : null;
+  return { hidden, editor };
 }
 
 function readGoalsHtml() {

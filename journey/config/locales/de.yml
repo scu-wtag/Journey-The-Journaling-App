@@ -14,8 +14,21 @@ de:
               inclusion: ist kein gültiger Wert
     models:
       profile: Profil
+
+  date:
+    formats:
+      default: "%-d.%m.%Y"
+      long: "%-d. %B %Y"
+      short: "%-d.%m."
+  time:
+    formats:
+      default: "%-d.%m.%Y, %H:%M"
+      long: "%-d. %B %Y, %H:%M"
+      short: "%H:%M"
+
   app:
     name: Journey
+
   common:
     back: Zurück
     cancel: Abbrechen
@@ -26,22 +39,30 @@ de:
     profile: Profil
     save: Speichern
     view: Anzeigen
+    add: Hinzufügen
+    confirm: Bist du sicher?
+    create: Erstellen
+    new: Neu
+
   home:
     show:
       profile: Zum Profil
       subtitle: Platzhalter-Startseite. Derzeit ist nur die Registrierung im Umfang.
       title: Journey
+
   journal:
+    title: Journal
+    untitled: Ohne Titel
+    new:
+      title: Neuen Journaleintrag erstellen
     edit:
       title: Journaleintrag bearbeiten
-    errors:
-      time_to_after_time_from: muss später als die anfangszeit sein.
-    flash:
-      created: Eintrag erstellt
-      delete_failed: Eintrag konnte nicht gelöscht werden
-      deleted: Eintrag gelöscht
-      not_authorized: Nicht berechtigt
-      updated: Eintrag aktualisiert
+    index:
+      dashboard: Dashboard
+      new: "+"
+      no_date: Kein Datum
+      title: Journal
+      empty: Noch keine Einträge.
     form:
       add_goal_btn: Ziel hinzufügen
       body: Notizen
@@ -67,8 +88,15 @@ de:
       back: Zurück zur Übersicht
       goals_for_tomorrow: Ziele für morgen
       notes: Notizen
-    title: Journal
-    untitled: Ohne Titel
+    flash:
+      created: Eintrag erstellt
+      delete_failed: Eintrag konnte nicht gelöscht werden
+      deleted: Eintrag gelöscht
+      not_authorized: Nicht berechtigt
+      updated: Eintrag aktualisiert
+    errors:
+      time_to_after_time_from: muss später als die anfangszeit sein.
+
   profiles:
     language:
       english: Englisch
@@ -84,6 +112,13 @@ de:
       failed: Diese Datei ist zu gross
       success: Dein Profil wurde erfolgreicht aktualisiert
       wrong_filetype: Das ist ein falscher dateityp
+      failed: This file is too large
+      success: Your profile was successfully updated
+      wrong_filetype: Sorry this is a wrong filetype.
+      failed_de: Diese Datei ist zu gross.
+      success_de: Dein Profil wurde erfolgreich aktualisiert.
+      wrong_filetype_de: Falscher Dateityp.
+
   sessions:
     errors:
       invalid_credentials: E-Mail oder Passwort ist falsch.
@@ -102,6 +137,7 @@ de:
       link: Konto erstellen
       text: Noch kein Konto?
     success: Erfolgreich angemeldet.
+
   settings:
     passwords:
       update:
@@ -134,6 +170,70 @@ de:
     overview: Alle Teams
     tasks_assigned: Zugeteilte Aufgaben
     team: Team
+
+  tasks:
+    assigned_to: assigned to
+    assigned_to_me: Assigned to me
+    created: Task created
+    deleted: Task deleted
+    due_on: due
+    edit: Edit Task
+    empty: No tasks found.
+    my: Meine Aufgaben
+    new: Neue Aufgabe
+    related_entry: Journaleintrag
+    team_tasks: Aufgaben in %{team}
+    unassigned: Nicht zugewiesen
+    updated: Aufgabe geupdated
+    title: Aufgaben
+    fields:
+      assignee: Assignee
+      due_on: Due date
+      journal_entry: Related log entry
+      notes: Notes
+      status: Status
+      title: Title
+      files: Dateien hochladen
+    placeholders:
+      title: Kurzen, klaren Titel eingeben
+      notes: Beschreibung, Anleitung …
+    saving: Speichert…
+    team_label: Team
+    actions:
+      start: Starten
+      mark_done: Als erledigt markieren
+      back_to_todo: Zurück zu To-Do
+      reopen: Wieder öffnen
+    done_text: Diese Aufgabe ist erledigt.
+
+  teams:
+    created: Team erstellt
+    fields:
+      name: Teamname
+    invite: einladen
+    new: Neues Team
+    not_ready: Email einladungen kommen bald.
+    members:
+      cannot_remove_self: Du kannst dich nicht selbst entfernen
+      kick: Entfernen
+      last_admin_guard: Du kannst den letzten admin nicht entfernen
+      add: Mitglied hinzufügen
+      added: Mitglied hinzugefügt.
+      empty: Noch keine Mitglieder.
+      invalid_role: Ungültige Rolle.
+      not_authorized: Nicht berechtigt.
+      removed: Mitglied entfernt.
+      role_updated: Rolle aktualisiert.
+      user_not_found: Benutzer nicht gefunden.
+    overview: Übersicht
+    tasks_assigned: Zugewiesene Aufgaben
+    team: Team
+    title: Teams
+    index:
+      title: Teams
+      empty: Noch keine Teams.
+    done_today: Heute erledigt
+
   users:
     already_have_account: Schon einen Account?
     create:

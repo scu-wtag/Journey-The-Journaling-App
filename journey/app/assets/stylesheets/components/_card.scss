@@ -2,7 +2,7 @@
   margin-bottom: 20%;
   width: min(480px, 92vw);
   background:
-    linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,0)),
+    linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(0, 0, 0, 0)),
     var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -18,8 +18,14 @@
   &__info {
     font-weight: 400;
     font-size: smaller;
-    &--error  { color: #fca5a5; }
-    &--notice { color: var(--text); }
+
+    &--error {
+      color: #fca5a5;
+    }
+
+    &--notice {
+      color: var(--text);
+    }
   }
 
   &__actions {
@@ -40,26 +46,40 @@
       cursor: pointer;
       transition: transform .06s ease, filter .15s ease;
 
-      &:hover { filter: brightness(1.1); }
-      &:active { transform: translateY(1px); }
+      &:hover {
+        filter: brightness(1.1);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
     }
 
     &-link {
       color: #c084fc;
       text-decoration: none;
       font-size: 14px;
-      &:hover { text-decoration: underline; }
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
   &__note {
     margin-top: 14px;
-    &--muted { color: var(--muted); }
+
+    &--muted {
+      color: var(--muted);
+    }
 
     &-link {
       color: #c084fc;
       text-decoration: none;
-      &:hover { text-decoration: underline; }
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

@@ -11,17 +11,17 @@ RSpec.describe JournalEntry do
   describe 'time_range_valid' do
     let(:entry) { build(:journal_entry, time_from: '10:00', time_to: '09:00') }
 
-    it 'fügt Fehler hinzu, wenn time_to <= time_from' do
+    it 'adds error when time_to <= time_from' do
       expect(entry).not_to be_valid
       expect(entry.errors[:time_to]).to include('must be later than start time')
     end
 
-    it 'akzeptiert leere Zeiten' do
+    it 'accepts empty timeframes' do
       e = build(:journal_entry, time_from: nil, time_to: nil)
       expect(e).to be_valid
     end
 
-    it 'akzeptiert gültigen Bereich' do
+    it 'accepts the accepted area' do
       e = build(:journal_entry, time_from: '09:00', time_to: '17:00')
       expect(e).to be_valid
     end

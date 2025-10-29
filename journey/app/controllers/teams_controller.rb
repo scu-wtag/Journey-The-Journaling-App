@@ -15,9 +15,22 @@ class TeamsController < ApplicationController
     @membership = @team.memberships.find_by(user_id: current_user.id)
 
     if defined?(Task)
-      @assigned_counts = @team.tasks.group(:assignee_id).count
-      @done_today_counts = @team.tasks.where(status: :done, updated_at: Time.zone.today.all_day).
-                           group(:assignee_id).count
+      @assigned_counts =
+        @team.tasks.
+        where.not(status: :done).
+        where.not(assignee_id: nil).
+        group(:assignee_id).
+        count
+
+      @done_today_counts = if defined?(CompletedTask)
+                             CompletedTask.where(team: @team, completed_at: Time.zone.today.all_day).
+                               group(:assignee_id).
+                               count
+                           else
+                             @team.tasks.where(status: :done, updated_at: Time.zone.today.all_day).
+                               group(:assignee_id).
+                               count
+                           end
     else
       @assigned_counts = {}
       @done_today_counts = {}

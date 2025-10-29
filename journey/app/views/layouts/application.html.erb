@@ -16,8 +16,10 @@
   <meta name="theme" content="<%= current_theme %>">
   <%= javascript_importmap_tags %>
   <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
+  <%= stylesheet_link_tag "application", media: "all" %>
   <%= yield :styles %>
   <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
+  <%= stylesheet_link_tag "theme_overrides" %>
 </head>
   <body>
     <%= yield %>

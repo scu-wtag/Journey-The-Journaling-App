@@ -26,13 +26,6 @@ class SessionsController < ApplicationController
 
   private
 
-  def credentials_from_params
-    [
-      params.dig(:session, :email).to_s.downcase.strip,
-      params.dig(:session, :password).to_s,
-    ]
-  end
-
   def perform_sign_in(user)
     cookies[Clearance.configuration.cookie_name] = { value: user.remember_token, httponly: true }
     session[:team_ids] = user.respond_to?(:teams) ? user.teams.pluck(:id) : []
